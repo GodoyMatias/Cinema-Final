@@ -1,8 +1,8 @@
 package com.cinema.utils;
 
-import com.cinema.Rol;
 import com.cinema.controllers.AdminController;
-import com.cinema.data.gestorUsuariosJson;
+import com.cinema.data.GestorUsuariosJson;
+import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
 
 import java.util.Scanner;
@@ -17,7 +17,7 @@ public class Login {
         String email = s.nextLine();
         System.out.println("Password: ");
         String password = s.nextLine();
-        gestorUsuariosJson g = new gestorUsuariosJson();
+        GestorUsuariosJson g = new GestorUsuariosJson();
         Usuario user = g.login(email, password);
         ConsoleUtils.fakeClear();
         if (user != null) {
@@ -44,7 +44,7 @@ public class Login {
 
         Usuario newUser = new Usuario(nombre, password, email, Rol.BASE);
 
-        gestorUsuariosJson g = new gestorUsuariosJson();
+        GestorUsuariosJson g = new GestorUsuariosJson();
         boolean registrado = g.registrar(newUser);
 
         ConsoleUtils.fakeClear();

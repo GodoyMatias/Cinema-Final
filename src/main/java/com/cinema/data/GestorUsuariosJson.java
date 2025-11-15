@@ -1,6 +1,6 @@
 package com.cinema.data;
 
-import com.cinema.Rol;
+import com.cinema.models.usuarios.Rol;
 import com.cinema.persistence.OperacionesLectoEscritura;
 import com.cinema.models.usuarios.Usuario;
 import org.json.JSONArray;
@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class gestorUsuariosJson {
+public class GestorUsuariosJson {
 
     private static final String DEFAULT_FILE = "usuarios.json";
 
@@ -30,7 +30,7 @@ public class gestorUsuariosJson {
             jsonObject.put("email", u.getEmail());
             jsonObject.put("contrasena", u.getPassword());
             jsonObject.put("estado", u.getEstado());
-            jsonObject.put("rol", u.getRol() != null ? u.getRol().name() : JSONObject.NULL);
+            jsonObject.put("rol", u.getRol() != null ? u.getRol() : JSONObject.NULL);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -63,13 +63,13 @@ public class gestorUsuariosJson {
             e.printStackTrace();
         }
 
-//        // Sincronizar el contador estático de Usuario con el máximo id en el archivo
-//        int maxId = 0;
-//        for (Usuario u : lista) {
-//            if (u.getId() > maxId) maxId = u.getId();
-//        }
-//        // Mantener el mayor entre el contador actual y el maxId del archivo
-//        Usuario.setContador(Math.max(Usuario.getContador(), maxId));
+        // Sincronizar el contador estático de Usuario con el máximo id en el archivo
+        int maxId = 0;
+        for (Usuario u : lista) {
+            if (u.getId() > maxId) maxId = u.getId();
+        }
+        // Mantener el mayor entre el contador actual y el maxId del archivo
+        Usuario.setContador(Math.max(Usuario.getContador(), maxId));
 
         return lista;
     }
@@ -134,7 +134,7 @@ public class gestorUsuariosJson {
         // Añadir y persistir
         lista.add(u);
         // Asegurar contador coherente
-        //Usuario.setContador(Math.max(Usuario.getContador(), u.getId()));
+        Usuario.setContador(Math.max(Usuario.getContador(), u.getId()));
         listaToArchivo(lista);
         return true;
     }

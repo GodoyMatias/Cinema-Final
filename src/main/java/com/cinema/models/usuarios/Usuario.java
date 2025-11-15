@@ -1,9 +1,7 @@
 package com.cinema.models.usuarios;
 
-import com.cinema.Rol;
-
 public class Usuario {
-    private static int contador = 0;
+    private static int contador;
     private int id;
     private String nombre;
     private Boolean estado;
@@ -17,13 +15,21 @@ public class Usuario {
         this.estado = true; //activo por defecto
     }
 
-    public Usuario(String nombre, String password, String email, com.cinema.Rol rol) {
+    public Usuario(String nombre, String password, String email, Rol rol) {
         this.id = ++contador;
         this.nombre = nombre;
         this.estado = true;
         this.password = password;
         this.email = email;
         this.rol = rol;
+    }
+
+    public static int getContador() {
+        return contador;
+    }
+
+    public static void setContador(int contador) {
+        Usuario.contador = contador;
     }
 
     public int getId() {
@@ -66,7 +72,7 @@ public class Usuario {
         this.email = email;
     }
 
-    public com.cinema.Rol getRol() {
+    public Rol getRol() {
         return rol;
     }
 
