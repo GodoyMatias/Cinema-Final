@@ -1,4 +1,5 @@
 package com.cinema.data;
+import com.cinema.Main;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Genero;
 import com.cinema.models.contenido.Pelicula;
@@ -9,7 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GestorContenidosJSON {
     private static final String DEFAULT_FILE= "contenidos.json";
@@ -32,14 +35,14 @@ public class GestorContenidosJSON {
         return jsonObject;
     }
 
-    public JSONArray serializarLista(List<Contenido> contenido) {
+    public JSONArray serializarLista(Map<Integer, Contenido> contenido) {
         JSONArray jsonArray = new JSONArray();
         try {
-            for (Contenido p : contenido) {
-                if(p instanceof Pelicula){
-                jsonArray.put(serializar((Pelicula) p));
-                }else if (p instanceof Serie){
-                    jsonArray.put(serializar((Serie) p));
+            for (Map.Entry<Integer, Contenido> entry : contenido.entrySet()) {
+                if(entry instanceof Pelicula){
+                jsonArray.put(serializar((Pelicula) entry));
+                }else if (entry instanceof Serie){
+                    jsonArray.put(serializar((Serie) entry));
                 }
             }
         } catch (Exception e) {
@@ -48,7 +51,7 @@ public class GestorContenidosJSON {
         return jsonArray;
     }
 
-    public void listaToArchivo(List<Contenido> contenido){
+    public void listaToArchivo(Map<Integer, Contenido> contenido){
         OperacionesLectoEscritura.grabar(DEFAULT_FILE, serializarLista(contenido));
     }
 
@@ -74,12 +77,12 @@ public class GestorContenidosJSON {
         return contenido;
     }
 
-    public List<Contenido> deserializarLista(JSONArray jsonArray) {
-        List<Contenido> contenidos = new ArrayList<>();
+    public Map<Integer, Contenido> deserializarLista(JSONArray jsonArray) {
+        Map<Integer, Contenido> contenidos = new HashMap<>();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 Contenido p = deserializar(jsonArray.getJSONObject(i));
-                contenidos.add(p);
+                contenidos.put(p.getId(), p);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,9 +90,9 @@ public class GestorContenidosJSON {
         return contenidos;
     }
 
-    public List<Contenido> archivoALista() {
+    public Map<Integer, Contenido> archivoALista() {
         JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE);
-        List<Contenido> lista = new ArrayList<>();
+        Map<Integer, Contenido> lista = new HashMap<>();
         try {
             if (tokener == null) return lista; // archivo no existe -> lista vacía
             lista = deserializarLista(new JSONArray(tokener));
