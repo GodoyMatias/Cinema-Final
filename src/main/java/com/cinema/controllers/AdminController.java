@@ -15,7 +15,6 @@ public class AdminController {
         System.out.println("1- Gestion Contenido");
         System.out.println("2- Gestion Usuarios");
         System.out.println("3- Crear Administrador:");
-        System.out.println("4- Logout");
         Scanner s = new Scanner(System.in);
         int op = s.nextInt();
         s.nextLine();
@@ -25,6 +24,8 @@ public class AdminController {
                 System.out.println("1- Crear Contenido");
                 System.out.println("2- Modificar Contenido");
                 System.out.println("3- Eliminar Contenido");
+                System.out.println("4- Listar Contenidos");
+                System.out.println("5- Buscar Contenido");
                 int opContenido = s.nextInt();
                 s.nextLine();
                 switch (opContenido){
@@ -32,10 +33,17 @@ public class AdminController {
                         crearContenido(s, administrador);
                         break;
                     case 2:
-                        System.out.println("Modificar Contenido seleccionado");
+                        modificarContenido(s, administrador);
                         break;
                     case 3:
-                        System.out.println("Eliminar Contenido seleccionado");
+                        eliminarContenido(s, administrador);
+                        break;
+                    case 4:
+                        System.out.println("Lista de contenidos seleccionado");
+                        System.out.println(administrador.listarContenidos());
+                        break;
+                    case 5:
+                        buscarContenido(s, administrador);
                         break;
                     default:
                         System.out.println("Opcion invalida");
@@ -77,9 +85,6 @@ public class AdminController {
             case 3:
                 crearAdminitrador(s, administrador);
                 break;
-            case 4:
-                System.out.println("Logout seleccionado");
-                break;
             default:
                 System.out.println("Opcion invalida");
                 break;
@@ -98,6 +103,8 @@ public class AdminController {
         Usuario newAdmin = new Administrador(nombre, password, email, Rol.ADMINISTRADOR);
         administrador.crearUsuario(newAdmin);
     }
+
+    // ABMCL Usuario
 
     public static void crearUsuario(Scanner s, Administrador administrador){
         System.out.println("Crear Usuario seleccionado");
@@ -144,6 +151,8 @@ public class AdminController {
         Usuario usuarioBuscado = administrador.leerUsuario(id);
         System.out.println(usuarioBuscado.toString());
     }
+
+    // ABMCL Contenido
 
     public static void crearContenido(Scanner s, Administrador administrador){
         System.out.println("Crear Contenido seleccionado");
@@ -210,5 +219,56 @@ public class AdminController {
         int atributo = s.nextInt();
         s.nextLine();
         return atributo;
+    }
+
+    public static void modificarContenido(Scanner s, Administrador administrador){
+        System.out.println("Modificar Contenido seleccionado");
+        System.out.println("Ingrese el id del contenido a modificar:");
+        int id = s.nextInt();
+        s.nextLine();
+        System.out.println("Ingrese los nuevos datos:");
+        System.out.println("Titulo: ");
+        String titulo = s.nextLine();
+        System.out.println("Año: ");
+        int anio = s.nextInt();
+        s.nextLine();
+        System.out.println("Director: ");
+        String director = s.nextLine();
+        Genero genero = pedirGenero(s);
+        System.out.println();
+        Contenido contenidoExistente = administrador.leerContenido(id);
+        if (contenidoExistente instanceof Pelicula) {
+            double duracion = pedirDuracion(s);
+            Contenido peliculaModificada = new Pelicula(titulo, genero, anio, director, duracion);
+            peliculaModificada.setId(id);
+            administrador.actualizarContenido(peliculaModificada);
+        } else if (contenidoExistente instanceof Serie) {
+            System.out.println("Temporadas: ");
+            int temporadas = pedirAtributosSerie(s);
+            System.out.println("Episodios: ");
+            int episodios = pedirAtributosSerie(s);
+            Contenido serieModificada = new Serie(titulo, genero, anio, director, temporadas, episodios);
+            serieModificada.setId(id);
+            administrador.actualizarContenido(serieModificada);
+        } else {
+            System.out.println("Tipo de contenido no reconocido.");
+        }
+    }
+
+    public static void eliminarContenido(Scanner s, Administrador administrador){
+        System.out.println("Eliminar Contenido seleccionado");
+        System.out.println("Ingrese el id del contenido a eliminar:");
+        int id = s.nextInt();
+        s.nextLine();
+        administrador.eliminarContenido(id);
+    }
+
+    public static void buscarContenido(Scanner s, Administrador administrador){
+        System.out.println("Buscar Contenido seleccionado");
+        System.out.println("Ingrese el id del contenido a buscar:");
+        int id = s.nextInt();
+        s.nextLine();
+        Contenido contenidoBuscado = administrador.leerContenido(id);
+        System.out.println(contenidoBuscado.toString());
     }
 }

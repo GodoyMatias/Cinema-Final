@@ -1,11 +1,16 @@
 package com.cinema;
 
+import com.cinema.data.GestorContenidosJSON;
+import com.cinema.models.contenido.Contenido;
+import com.cinema.models.contenido.Pelicula;
 import com.cinema.utils.Login;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         System.out.println("UTN Cinema");
         System.out.println("1-  Login");
         System.out.println("2-  Register");
@@ -16,7 +21,7 @@ public class Main {
                 System.out.println("Login selected");
                 Login.auth();
                 break;
-            case "2":
+                case "2":
                 System.out.println("Register selected");
                 Login.register();
                 break;

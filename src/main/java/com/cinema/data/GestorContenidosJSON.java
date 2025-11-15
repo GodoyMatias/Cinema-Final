@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GestorContenidosJSON {
-    private static final String DEFAULT_FILE= "contenidos.json";
+    private static final String DEFAULT_FILE_CONTENIDO= "contenidos.json";
 
     public JSONObject serializar(Pelicula p) {
         JSONObject jsonObject = null;
@@ -39,10 +39,11 @@ public class GestorContenidosJSON {
         JSONArray jsonArray = new JSONArray();
         try {
             for (Map.Entry<Integer, Contenido> entry : contenido.entrySet()) {
-                if(entry instanceof Pelicula){
-                jsonArray.put(serializar((Pelicula) entry));
-                }else if (entry instanceof Serie){
-                    jsonArray.put(serializar((Serie) entry));
+                Contenido c = entry.getValue();
+                if(c instanceof Pelicula){
+                jsonArray.put(serializar((Pelicula) c));
+                }else if (c instanceof Serie){
+                    jsonArray.put(serializar((Serie) c));
                 }
             }
         } catch (Exception e) {
@@ -52,25 +53,29 @@ public class GestorContenidosJSON {
     }
 
     public void listaToArchivo(Map<Integer, Contenido> contenido){
-        OperacionesLectoEscritura.grabar(DEFAULT_FILE, serializarLista(contenido));
+        OperacionesLectoEscritura.grabar(DEFAULT_FILE_CONTENIDO, serializarLista(contenido));
     }
 
     public Contenido deserializar(JSONObject jsonObject) {
         Contenido contenido = null;
         try {
+            if (jsonObject.has("duracion")) {
+                contenido = new Pelicula();
+                ((Pelicula)contenido).setDuracion(jsonObject.getInt("duracion"));
+            } else {
+                contenido = new Serie();
+                ((Serie)contenido).setEpisodios(jsonObject.getInt("episodios"));
+                ((Serie)contenido).setTemporadas(jsonObject.getInt("temporadas"));
+            }
+
             contenido.setId(jsonObject.getInt("id"));
             contenido.setTitulo(jsonObject.getString("titulo"));
-            contenido.setGenero(jsonObject.getEnum(Genero.class, "genero"));
+            contenido.setGenero(Genero.valueOf(jsonObject.getString("genero")));
             contenido.setAnio(jsonObject.getInt("anio"));
             contenido.setDirector(jsonObject.getString("director"));
             contenido.setEstado(jsonObject.getBoolean("estado"));
             contenido.setResenias(GestorReseniaJSON.deserializarLista(jsonObject.getJSONArray("resenias")));
-            if(contenido instanceof Pelicula){
-                ((Pelicula) contenido).setDuracion(jsonObject.getInt("duracion"));
-            }else if (contenido instanceof Serie){
-                ((Serie) contenido).setEpisodios(jsonObject.getInt("episodios"));
-                ((Serie) contenido).setTemporadas(jsonObject.getInt("temporadas"));
-            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -91,7 +96,7 @@ public class GestorContenidosJSON {
     }
 
     public Map<Integer, Contenido> archivoALista() {
-        JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE);
+        JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE_CONTENIDO);
         Map<Integer, Contenido> lista = new HashMap<>();
         try {
             if (tokener == null) return lista; // archivo no existe -> lista vacía
