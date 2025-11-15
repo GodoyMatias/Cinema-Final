@@ -12,11 +12,7 @@ import java.io.*;
 
         public static void grabar(String nombreArchivo, JSONArray jsonArray) {
             try {
-                File f = new File(nombreArchivo);
-                if (f.getParentFile() != null && !f.getParentFile().exists()) {
-                    f.getParentFile().mkdirs();
-                }
-                FileWriter fileWriter = new FileWriter(f);
+                FileWriter fileWriter = new FileWriter(nombreArchivo);
                 fileWriter.write(jsonArray.toString(4));
                 fileWriter.close();
             } catch (IOException e) {
@@ -31,7 +27,7 @@ import java.io.*;
             try {
                 tokener = new JSONTokener(new FileReader(nombreArchivo));
             } catch (FileNotFoundException e) {
-                // archivo no existe -> flujo normal, devolver null
+                e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

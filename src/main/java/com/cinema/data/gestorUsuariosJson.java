@@ -13,7 +13,7 @@ import java.util.Collection;
 
 public class gestorUsuariosJson {
 
-    private static final String DEFAULT_FILE = "UTN-Cinema/src/main/resources/data/usuarios.json";
+    private static final String DEFAULT_FILE = "usuarios.json";
 
     // Método genérico para aceptar cualquier colección de usuarios
     public <C extends Collection<Usuario>> void listaToArchivo(C lista) {
