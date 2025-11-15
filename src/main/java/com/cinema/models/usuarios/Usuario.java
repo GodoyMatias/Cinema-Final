@@ -2,9 +2,6 @@ package com.cinema.models.usuarios;
 
 import com.cinema.Rol;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 public class Usuario {
     private static int contador = 0;
     private int id;
@@ -12,7 +9,7 @@ public class Usuario {
     private Boolean estado;
     private String password;
     private String email;
-    private com.cinema.Rol rol;
+    private Rol rol;
 
     public Usuario() {
         contador ++;

@@ -1,6 +1,7 @@
 package com.cinema.utils;
 
 import com.cinema.Rol;
+import com.cinema.controllers.AdminController;
 import com.cinema.data.gestorUsuariosJson;
 import com.cinema.models.usuarios.Usuario;
 
@@ -21,6 +22,9 @@ public class Login {
         ConsoleUtils.fakeClear();
         if (user != null) {
             System.out.println("Login successful! Welcome " + user.getNombre());
+            if(user.getRol() == Rol.ADMINISTRADOR){
+                AdminController.loginAdmin(user);
+            }
         } else {
             System.out.println("Login failed: invalid email or password.");
             }

@@ -25,7 +25,6 @@ public class gestorUsuariosJson {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject();
-            // Guardar atributos esenciales
             jsonObject.put("id", u.getId());
             jsonObject.put("nombre", u.getNombre());
             jsonObject.put("email", u.getEmail());

@@ -1,0 +1,8 @@
+[{
+    "estado": true,
+    "contrasena": "1234",
+    "id": 1,
+    "nombre": "tizi",
+    "email": "tizi@gmail.com",
+    "rol": "ADMINISTRADOR"
+}]
