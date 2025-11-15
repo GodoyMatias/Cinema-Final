@@ -4,6 +4,7 @@ import com.cinema.interfaces.ABMCL;
 import com.cinema.service.UsuarioService;
 
 import java.util.List;
+import java.util.Set;
 
 public class Administrador extends Usuario  {
     UsuarioService usuarioService = new UsuarioService();
@@ -15,27 +16,18 @@ public class Administrador extends Usuario  {
     }
 
     public boolean crearUsuario(Usuario u){
-        if(u != null){
-            usuarioService.crear(u);
-            return true;
-        }
-        return false;
+        return usuarioService.crear(u);
     }
     public Usuario leerUsuario(int id){
         return usuarioService.leer(id);
     }
     public boolean actualizarUsuario(Usuario u){
-        if (u != null){
-            usuarioService.actualizar(u);
-            return true;
-        }
-        return false;
+         return usuarioService.actualizar(u);
     }
     public boolean eliminarUsuario(int id){
-        usuarioService.eliminar(id);
-        return usuarioService.leer(id).getEstado() == false;
+        return usuarioService.eliminar(id);
     }
-    public List<Usuario> listarUsuarios() {
+    public Set<Usuario> listarUsuarios() {
         return usuarioService.listar();
     }
 }

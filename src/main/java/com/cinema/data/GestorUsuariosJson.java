@@ -10,6 +10,7 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class GestorUsuariosJson {
 
@@ -53,9 +54,9 @@ public class GestorUsuariosJson {
 
     // DESERIALIZAR
 
-    public ArrayList<Usuario> archivoALista() {
+    public HashSet<Usuario> archivoALista() {
         JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE);
-        ArrayList<Usuario> lista = new ArrayList<>();
+        HashSet<Usuario> lista = new HashSet<>();
         try {
             if (tokener == null) return lista; // archivo no existe -> lista vacía
             lista = deserializarLista(new JSONArray(tokener));
@@ -96,8 +97,8 @@ public class GestorUsuariosJson {
         return u;
     }
 
-    public ArrayList<Usuario> deserializarLista (JSONArray jsonArray) {
-        ArrayList<Usuario> lista = new ArrayList<>();
+    public HashSet<Usuario> deserializarLista (JSONArray jsonArray) {
+        HashSet<Usuario> lista = new HashSet<>();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 Usuario u = deserializar(jsonArray.getJSONObject(i));
@@ -115,7 +116,7 @@ public class GestorUsuariosJson {
     public boolean existePorEmail(String email) {
         if (email == null) return false;
         String target = email.trim().toLowerCase();
-        ArrayList<Usuario> lista = archivoALista();
+        HashSet<Usuario> lista = archivoALista();
         for (Usuario u : lista) {
             if (u.getEmail() != null && u.getEmail().trim().toLowerCase().equals(target)) return true;
         }
@@ -124,7 +125,7 @@ public class GestorUsuariosJson {
 
     public boolean registrar(Usuario u) {
         if (u == null || u.getEmail() == null) return false;
-        ArrayList<Usuario> lista = archivoALista();
+        HashSet<Usuario> lista = archivoALista();
         String target = u.getEmail().trim().toLowerCase();
         for (Usuario x : lista) {
             if (x.getEmail() != null && x.getEmail().trim().toLowerCase().equals(target)) {
@@ -139,7 +140,7 @@ public class GestorUsuariosJson {
         return true;
     }
 
-    public ArrayList<Usuario> listarUsuarios() {
+    public HashSet<Usuario> listarUsuarios() {
         return archivoALista();
     }
 
@@ -147,7 +148,7 @@ public class GestorUsuariosJson {
         if (email == null || password == null) return null;
         String targetEmail = email.trim().toLowerCase();
         String targetPassword = password; // considerar hashing en producción
-        ArrayList<Usuario> lista = archivoALista();
+        HashSet<Usuario> lista = archivoALista();
         for (Usuario u : lista) {
             if (u.getEmail() != null && u.getEmail().trim().toLowerCase().equals(targetEmail)
                     && u.getPassword() != null && u.getPassword().equals(targetPassword)) {
