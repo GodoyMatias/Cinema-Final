@@ -66,7 +66,6 @@ public class UsuarioService implements ABMCL<Usuario> {
 
     @Override
     public Set<Usuario> listar() {
-        System.out.println("Listar usuarios");
         return usuarios;
     }
 }

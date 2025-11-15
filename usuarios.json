@@ -1,18 +1,18 @@
 [
     {
         "estado": true,
+        "contrasena": "admin",
+        "id": 11,
+        "nombre": "Nicolas",
+        "email": "nicolass@gmail.com",
+        "rol": "ADMINISTRADOR"
+    },
+    {
+        "estado": true,
         "contrasena": "12334",
         "id": 2,
         "nombre": "nicolas",
         "email": "nico@mail.com",
-        "rol": "BASE"
-    },
-    {
-        "estado": false,
-        "contrasena": "1234",
-        "id": 6,
-        "nombre": "usuario",
-        "email": "usuario@mail.com",
         "rol": "BASE"
     },
     {
@@ -22,5 +22,13 @@
         "nombre": "tizi",
         "email": "tizi@gmail.com",
         "rol": "ADMINISTRADOR"
+    },
+    {
+        "estado": true,
+        "contrasena": "hola",
+        "id": 6,
+        "nombre": "Hola",
+        "email": "hola@mail.com",
+        "rol": "BASE"
     }
 ]

@@ -1,9 +1,6 @@
 package com.cinema.models.usuarios;
-
-import com.cinema.interfaces.ABMCL;
 import com.cinema.service.UsuarioService;
 
-import java.util.List;
 import java.util.Set;
 
 public class Administrador extends Usuario  {

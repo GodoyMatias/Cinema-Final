@@ -3,15 +3,15 @@ import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
 
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class AdminController {
-    public static void loginAdmin(Usuario u) {
+    public static void adminPanel() {
         Administrador administrador = new Administrador();
         System.out.println("1- Gestion Contenido");
         System.out.println("2- Gestion Usuarios");
-        System.out.println("3- Logout");
+        System.out.println("3- Crear Administrador:");
+        System.out.println("4- Logout");
         Scanner s = new Scanner(System.in);
         int op = s.nextInt();
         s.nextLine();
@@ -69,7 +69,30 @@ public class AdminController {
                         System.out.println("Opcion invalida");
                         break;
                 }
+                break;
+            case 3:
+                crearAdminitrador(s, administrador);
+                break;
+            case 4:
+                System.out.println("Logout seleccionado");
+                break;
+            default:
+                System.out.println("Opcion invalida");
+                break;
         }
+    }
+
+    private static void crearAdminitrador(Scanner s, Administrador administrador) {
+        System.out.println("Crear Administrador seleccionado");
+        System.out.println("Please enter details to register new administrator");
+        System.out.println("Name: ");
+        String nombre = s.nextLine();
+        System.out.println("Email: ");
+        String email = s.nextLine();
+        System.out.println("Password: ");
+        String password = s.nextLine();
+        Usuario newAdmin = new Administrador(nombre, password, email, Rol.ADMINISTRADOR);
+        administrador.crearUsuario(newAdmin);
     }
 
     public static void crearUsuario(Scanner s, Administrador administrador){
