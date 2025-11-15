@@ -10,10 +10,12 @@ public class Pelicula extends Contenido{
     public Pelicula(String titulo, Genero genero, int anio, String director, double duracion) {
         super(titulo, genero, anio, director);
         this.duracion = duracion;
+        this.tipo = Tipo.PELICULA;
     }
 
     public Pelicula(){
         super();
+        this.tipo = Tipo.PELICULA;
     }
 
     public double getDuracion() {
@@ -34,6 +36,7 @@ public class Pelicula extends Contenido{
                 ", director='" + director + '\'' +
                 ", estado=" + estado +
                 ", resenias=" + resenias +
+                ", tipo=" + tipo +
                 '}';
     }
 

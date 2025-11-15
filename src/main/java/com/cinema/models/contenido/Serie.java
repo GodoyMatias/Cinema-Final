@@ -11,10 +11,12 @@ public class Serie extends Contenido{
         super(titulo, genero, anio, director);
         this.temporadas = temporadas;
         this.episodios = episodios;
+        this.tipo = Tipo.SERIE;
     }
 
     public Serie(){
         super();
+        this.tipo = Tipo.SERIE;
     }
 
     public int getTemporadas() {
@@ -44,6 +46,7 @@ public class Serie extends Contenido{
                 ", director='" + director + '\'' +
                 ", estado=" + estado +
                 ", resenias=" + resenias +
+                ", tipo=" + tipo +
                 '}';
     }
 

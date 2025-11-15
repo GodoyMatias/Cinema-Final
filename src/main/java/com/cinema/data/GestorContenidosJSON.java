@@ -1,9 +1,6 @@
 package com.cinema.data;
 import com.cinema.Main;
-import com.cinema.models.contenido.Contenido;
-import com.cinema.models.contenido.Genero;
-import com.cinema.models.contenido.Pelicula;
-import com.cinema.models.contenido.Serie;
+import com.cinema.models.contenido.*;
 import com.cinema.persistence.OperacionesLectoEscritura;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +26,7 @@ public class GestorContenidosJSON {
             jsonObject.put("duracion", p.getDuracion());
             jsonObject.put("estado", p.isEstado());
             jsonObject.put("resenias", GestorReseniaJSON.serializarLista(p.getResenias()));
+            jsonObject.put("tipo", p.getTipo());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -39,11 +37,10 @@ public class GestorContenidosJSON {
         JSONArray jsonArray = new JSONArray();
         try {
             for (Map.Entry<Integer, Contenido> entry : contenido.entrySet()) {
-                Contenido c = entry.getValue();
-                if(c instanceof Pelicula){
-                jsonArray.put(serializar((Pelicula) c));
-                }else if (c instanceof Serie){
-                    jsonArray.put(serializar((Serie) c));
+                if(entry.getValue().getTipo() == Tipo.PELICULA){
+                jsonArray.put(serializar((Pelicula) entry.getValue()));
+                }else if (entry.getValue().getTipo() == Tipo.SERIE){
+                    jsonArray.put(serializar((Serie) entry.getValue()));
                 }
             }
         } catch (Exception e) {

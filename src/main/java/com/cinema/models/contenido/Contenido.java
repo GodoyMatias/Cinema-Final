@@ -1,6 +1,7 @@
 package com.cinema.models.contenido;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public abstract class Contenido {
     protected String director;
     protected boolean estado;
     protected List<Resenia> resenias;
+    protected Tipo tipo;
 
     public Contenido() {
         contador++;
@@ -28,7 +30,7 @@ public abstract class Contenido {
         this.anio = anio;
         this.director = director;
         this.estado = true;
-        resenias = new ArrayList<>();
+        resenias = new LinkedList<>();
     }
 
     // setters y getters
@@ -88,7 +90,27 @@ public abstract class Contenido {
         this.resenias = resenias;
     }
 
+    public static int getContador() {
+        return contador;
+    }
+
+    public static void setContador(int contador) {
+        Contenido.contador = contador;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
     // metodos
+    public void agregarResenia(Resenia resenia) {
+        this.resenias.add(resenia);
+    }
+
     public double promedioResenas() {
         if (resenias.isEmpty()) return 0;
         double total = 0;
@@ -108,6 +130,7 @@ public abstract class Contenido {
                 ", director='" + director + '\'' +
                 ", estado=" + estado +
                 ", resenias=" + resenias +
+                ", tipo=" + tipo +
                 '}';
     }
 

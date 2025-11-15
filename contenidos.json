@@ -1,1 +1,24 @@
-[]
+[
+    {
+        "estado": true,
+        "tipo": "PELICULA",
+        "director": "Crhistopher Nolan",
+        "genero": "CIENCIA_FICCION",
+        "titulo": "Inception",
+        "duracion": 2,
+        "resenias": [],
+        "id": 1,
+        "anio": 2010
+    },
+    {
+        "estado": true,
+        "temporadas": 6,
+        "director": "Un chabon",
+        "genero": "CIENCIA_FICCION",
+        "titulo": "Game Of Thrones",
+        "episodios": 70,
+        "resenias": [],
+        "id": 2,
+        "anio": 2010
+    }
+]
