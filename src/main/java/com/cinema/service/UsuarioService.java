@@ -7,65 +7,102 @@ import com.cinema.models.usuarios.Usuario;
 import java.util.Set;
 
 public class UsuarioService implements ABMCL<Usuario> {
-    private Set<Usuario> usuarios;
-    private GestorUsuariosJson gestorUsuariosJson = new GestorUsuariosJson();
+
+    private final Set<Usuario> usuarios;
+    private final GestorUsuariosJson gestorUsuariosJson = new GestorUsuariosJson();
+
     public UsuarioService() {
-        usuarios = gestorUsuariosJson.archivoALista();
+        this.usuarios = gestorUsuariosJson.archivoALista();
     }
 
+    // ============================================================
+    // CREAR
+    // ============================================================
+
     @Override
-    public boolean crear(Usuario c) {
-        GestorUsuariosJson g = new GestorUsuariosJson();
-        boolean registrado = g.registrar(c);
-        if(registrado){
-            System.out.println("Usuario creado: " + c.getNombre());
-            return true;
+    public boolean crear(Usuario usuario) {
+        GestorUsuariosJson gestor = new GestorUsuariosJson();
+        boolean registrado = gestor.registrar(usuario);
+
+        if (registrado) {
+            System.out.println("Usuario creado: " + usuario.getNombre());
         } else {
-            System.out.println("Error al crear usuario: " + c.getNombre());
-            return false;
+            System.out.println("Error al crear usuario: " + usuario.getNombre());
         }
+
+        return registrado;
     }
+
+    // ============================================================
+    // LEER
+    // ============================================================
 
     @Override
     public Usuario leer(int id) {
         System.out.println("Leer usuario con ID: " + id);
-        for (Usuario u : usuarios) {
-            if (u.getId() == id) {
-                return u;
-            }
-        }
-        return null;
+        return usuarios.stream()
+                .filter(u -> u.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
+    // ============================================================
+    // ACTUALIZAR
+    // ============================================================
+
     @Override
-    public boolean actualizar(Usuario c) { // a verificar
-        for (Usuario u : usuarios) {
-            if (u.getId() == c.getId()) {
-                usuarios.remove(u);
-                usuarios.add(c);
-                gestorUsuariosJson.listaToArchivo(usuarios);
-                System.out.println("Usuario actualizado: " + c.getNombre());
-                return true;
-            }
+    public boolean actualizar(Usuario usuarioActualizado) {
+        Usuario usuarioExistente = buscarPorId(usuarioActualizado.getId());
+
+        if (usuarioExistente == null) {
+            return false;
         }
-        return false;
+
+        usuarios.remove(usuarioExistente);
+        usuarios.add(usuarioActualizado);
+
+        gestorUsuariosJson.listaToArchivo(usuarios);
+        System.out.println("Usuario actualizado: " + usuarioActualizado.getNombre());
+
+        return true;
     }
+
+    // ============================================================
+    // ELIMINAR (lógico, no físico)
+    // ============================================================
 
     @Override
     public boolean eliminar(int id) {
-        for (Usuario u : usuarios) {
-            if (u.getId() == id) {
-                u.setEstado(false);
-                gestorUsuariosJson.listaToArchivo(usuarios);
-                System.out.println("Usuario eliminado con ID: " + id);
-                return true;
-            }
+        Usuario usuario = buscarPorId(id);
+
+        if (usuario == null) {
+            return false;
         }
-        return false;
+
+        usuario.setEstado(false);
+        gestorUsuariosJson.listaToArchivo(usuarios);
+
+        System.out.println("Usuario eliminado con ID: " + id);
+        return true;
     }
+
+    // ============================================================
+    // LISTAR
+    // ============================================================
 
     @Override
     public Set<Usuario> listar() {
         return usuarios;
+    }
+
+    // ============================================================
+    // MÉTODO AUXILIAR
+    // ============================================================
+
+    private Usuario buscarPorId(int id) {
+        return usuarios.stream()
+                .filter(u -> u.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }

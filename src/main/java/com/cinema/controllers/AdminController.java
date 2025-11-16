@@ -1,201 +1,215 @@
 package com.cinema.controllers;
-import com.cinema.models.contenido.Contenido;
-import com.cinema.models.contenido.Genero;
-import com.cinema.models.contenido.Pelicula;
-import com.cinema.models.contenido.Serie;
+
+import com.cinema.models.contenido.*;
 import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
+import com.cinema.utils.Colores;
 
 import java.util.Scanner;
 
 public class AdminController {
+
+    // ============================================================
+    // PANEL PRINCIPAL
+    // ============================================================
     public static void adminPanel() {
         Administrador administrador = new Administrador();
-        System.out.println("1- Gestion Contenido");
-        System.out.println("2- Gestion Usuarios");
-        System.out.println("3- Crear Administrador:");
         Scanner s = new Scanner(System.in);
-        int op = s.nextInt();
-        s.nextLine();
-        switch (op){
-            case 1:
-                System.out.println("Gestion Contenido seleccionado");
-                System.out.println("1- Crear Contenido");
-                System.out.println("2- Modificar Contenido");
-                System.out.println("3- Eliminar Contenido");
-                System.out.println("4- Listar Contenidos");
-                System.out.println("5- Buscar Contenido");
-                int opContenido = s.nextInt();
-                s.nextLine();
-                switch (opContenido){
-                    case 1:
-                        crearContenido(s, administrador);
-                        break;
-                    case 2:
-                        modificarContenido(s, administrador);
-                        break;
-                    case 3:
-                        eliminarContenido(s, administrador);
-                        break;
-                    case 4:
-                        System.out.println("Lista de contenidos seleccionado");
-                        System.out.println(administrador.listarContenidos());
-                        break;
-                    case 5:
-                        buscarContenido(s, administrador);
-                        break;
-                    default:
-                        System.out.println("Opcion invalida");
-                        break;
+
+        while (true) { // Bucle para que el menú se repita
+            mostrarMenuPrincipal();
+            int opcion = leerEntero(s);
+
+            switch (opcion) {
+                case 1 -> gestionarContenido(s, administrador);
+                case 2 -> gestionarUsuarios(s, administrador);
+                case 3 -> crearAdministrador(s, administrador);
+                case 0 -> {
+                    System.out.println(Colores.VERDE + "Saliendo del panel administrador..." + Colores.RESET);
+                    return; // Sale del adminPanel y termina la aplicación
                 }
-                break;
-            case 2:
-                System.out.println("Gestion Usuarios seleccionado");
-                System.out.println("1- Crear Usuario");
-                System.out.println("2- Modificar Usuario");
-                System.out.println("3- Eliminar Usuario");
-                System.out.println("4- Listar Usuarios");
-                System.out.println("5- Buscar Usuario");
-                System.out.println("Seleccione una opcion:");
-                int opUsuario = s.nextInt();
-                s.nextLine();
-                switch (opUsuario) {
-                    case 1:
-                        crearUsuario(s, administrador);
-                        break;
-                    case 2:
-                        modificarUsuario(s, administrador);
-                        break;
-                    case 3:
-                        eliminarUsuairo(s, administrador);
-                        break;
-                    case 4:
-                        System.out.println("Listar Usuarios seleccionado");
-                        System.out.println(administrador.listarUsuarios());
-                        break;
-                    case 5:
-                        leerUsuario(s, administrador);
-                        break;
-                    default:
-                        System.out.println("Opcion invalida");
-                        break;
-                }
-                break;
-            case 3:
-                crearAdminitrador(s, administrador);
-                break;
-            default:
-                System.out.println("Opcion invalida");
-                break;
+                default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+            }
         }
     }
 
-    private static void crearAdminitrador(Scanner s, Administrador administrador) {
-        System.out.println("Crear Administrador seleccionado");
-        System.out.println("Please enter details to register new administrator");
-        System.out.println("Name: ");
-        String nombre = s.nextLine();
-        System.out.println("Email: ");
-        String email = s.nextLine();
-        System.out.println("Password: ");
-        String password = s.nextLine();
-        Usuario newAdmin = new Administrador(nombre, password, email, Rol.ADMINISTRADOR);
+    private static void mostrarMenuPrincipal() {
+        System.out.println(Colores.CYAN + Colores.NEGRITA + "=== PANEL ADMINISTRADOR ===" + Colores.RESET);
+        System.out.println(Colores.AMARILLO + "1- Gestión Contenido" + Colores.RESET);
+        System.out.println(Colores.AMARILLO + "2- Gestión Usuarios" + Colores.RESET);
+        System.out.println(Colores.AMARILLO + "3- Crear Administrador" + Colores.RESET);
+        System.out.println(Colores.AMARILLO + "0- Salir" + Colores.RESET); // Nueva opción
+    }
+
+
+    private static int leerEntero(Scanner s) {
+        int valor = s.nextInt();
+        s.nextLine();
+        return valor;
+    }
+
+    // ============================================================
+    // GESTIÓN DE CONTENIDOS
+    // ============================================================
+
+    private static void gestionarContenido(Scanner s, Administrador administrador) {
+        System.out.println(Colores.AZUL + "Gestión Contenido seleccionado" + Colores.RESET);
+        mostrarMenuContenido();
+
+        int opcionContenido = leerEntero(s);
+
+        switch (opcionContenido) {
+            case 1 -> crearContenido(s, administrador);
+            case 2 -> modificarContenido(s, administrador);
+            case 3 -> eliminarContenido(s, administrador);
+            case 4 -> System.out.println(Colores.VERDE + administrador.listarContenidos() + Colores.RESET);
+            case 5 -> buscarContenido(s, administrador);
+            default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+        }
+    }
+
+    private static void mostrarMenuContenido() {
+        System.out.println(Colores.CYAN + "--- Contenido ---" + Colores.RESET);
+        System.out.println("1- Crear Contenido");
+        System.out.println("2- Modificar Contenido");
+        System.out.println("3- Eliminar Contenido");
+        System.out.println("4- Listar Contenidos");
+        System.out.println("5- Buscar Contenido");
+    }
+
+    // ============================================================
+    // GESTIÓN DE USUARIOS
+    // ============================================================
+
+    private static void gestionarUsuarios(Scanner s, Administrador administrador) {
+        System.out.println(Colores.AZUL + "Gestión Usuarios seleccionado" + Colores.RESET);
+        mostrarMenuUsuarios();
+
+        int opcionUsuario = leerEntero(s);
+
+        switch (opcionUsuario) {
+            case 1 -> crearUsuario(s, administrador);
+            case 2 -> modificarUsuario(s, administrador);
+            case 3 -> eliminarUsuario(s, administrador);
+            case 4 -> System.out.println(Colores.VERDE + administrador.listarUsuarios() + Colores.RESET);
+            case 5 -> leerUsuario(s, administrador);
+            default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+        }
+    }
+
+    private static void mostrarMenuUsuarios() {
+        System.out.println(Colores.CYAN + "--- Usuarios ---" + Colores.RESET);
+        System.out.println("1- Crear Usuario");
+        System.out.println("2- Modificar Usuario");
+        System.out.println("3- Eliminar Usuario");
+        System.out.println("4- Listar Usuarios");
+        System.out.println("5- Buscar Usuario");
+        System.out.println("Seleccione una opción:");
+    }
+
+    // ============================================================
+    // CREAR ADMINISTRADOR
+    // ============================================================
+
+    private static void crearAdministrador(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Crear Administrador seleccionado" + Colores.RESET);
+        Usuario newAdmin = crearUsuarioDesdeInput(s, Rol.ADMINISTRADOR);
         administrador.crearUsuario(newAdmin);
     }
 
-    // ABMCL Usuario
+    // ============================================================
+    // ABM USUARIO
+    // ============================================================
 
-    public static void crearUsuario(Scanner s, Administrador administrador){
-        System.out.println("Crear Usuario seleccionado");
-        System.out.println("Please enter your details to register");
+    public static void crearUsuario(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Crear Usuario seleccionado" + Colores.RESET);
+        Usuario newUser = crearUsuarioDesdeInput(s, Rol.BASE);
+        administrador.crearUsuario(newUser);
+    }
+
+    private static Usuario crearUsuarioDesdeInput(Scanner s, Rol rol) {
         System.out.println("Name: ");
         String nombre = s.nextLine();
         System.out.println("Email: ");
         String email = s.nextLine();
         System.out.println("Password: ");
         String password = s.nextLine();
-        Usuario newUser = new Usuario(nombre, password, email, Rol.BASE);
-        administrador.crearUsuario(newUser);
+
+        return (rol == Rol.ADMINISTRADOR)
+                ? new Administrador(nombre, password, email, rol)
+                : new Usuario(nombre, password, email, rol);
     }
 
     public static void modificarUsuario(Scanner s, Administrador administrador) {
-        System.out.println("Modificar Usuario seleccionado");
+        System.out.println(Colores.MAGENTA + "Modificar Usuario seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del usuario a modificar:");
-        int id = s.nextInt();
-        s.nextLine();
-        System.out.println("Ingrese el nuevo nombre:");
-        String nuevoNombre = s.nextLine();
-        System.out.println("Ingrese el nuevo email:");
-        String nuevoEmail = s.nextLine();
-        System.out.println("Ingrese el nuevo password:");
-        String nuevoPassword = s.nextLine();
-        Usuario usuarioModificado = new Usuario(nuevoNombre, nuevoPassword, nuevoEmail, Rol.BASE);
+        int id = leerEntero(s);
+
+        Usuario usuarioModificado = crearUsuarioDesdeInput(s, Rol.BASE);
         usuarioModificado.setId(id);
+
         administrador.actualizarUsuario(usuarioModificado);
     }
 
-    public static void eliminarUsuairo(Scanner s, Administrador administrador){
-        System.out.println("Eliminar Usuario seleccionado");
+    public static void eliminarUsuario(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Eliminar Usuario seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del usuario a eliminar:");
-        int id = s.nextInt();
-        s.nextLine();
+        int id = leerEntero(s);
         administrador.eliminarUsuario(id);
     }
 
-    public static void leerUsuario(Scanner s, Administrador administrador){
-        System.out.println("Buscar Usuario seleccionado");
-        System.out.println("Ingrese el id del usuario a buscar:");
-        int id = s.nextInt();
-        s.nextLine();
-        Usuario usuarioBuscado = administrador.leerUsuario(id);
-        System.out.println(usuarioBuscado.toString());
+    public static void leerUsuario(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Buscar Usuario seleccionado" + Colores.RESET);
+        System.out.println("Ingrese el id del usuario:");
+        int id = leerEntero(s);
+        System.out.println(administrador.leerUsuario(id));
     }
 
-    // ABMCL Contenido
+    // ============================================================
+    // ABM CONTENIDO
+    // ============================================================
 
-    public static void crearContenido(Scanner s, Administrador administrador){
-        System.out.println("Crear Contenido seleccionado");
-        System.out.println("1- Crear Pelicula");
+    public static void crearContenido(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Crear Contenido seleccionado" + Colores.RESET);
+        System.out.println("1- Crear Película");
         System.out.println("2- Crear Serie");
-        int opContenido = s.nextInt();
-        s.nextLine();
-        System.out.println("Ingrese los datos:");
-        System.out.println("Titulo: ");
+
+        int opcion = leerEntero(s);
+
+        System.out.println("Título:");
         String titulo = s.nextLine();
-        System.out.println("Año: ");
-        int anio = s.nextInt();
-        s.nextLine();
-        System.out.println("Director: ");
+
+        System.out.println("Año:");
+        int anio = leerEntero(s);
+
+        System.out.println("Director:");
         String director = s.nextLine();
+
         Genero genero = pedirGenero(s);
-        System.out.println();
-        switch (opContenido) {
-            case 1:
+
+        switch (opcion) {
+            case 1 -> {
                 double duracion = pedirDuracion(s);
-                Contenido pelicula = new Pelicula(titulo, genero, anio, director, duracion);
-                administrador.crearContenido(pelicula);
-                break;
-            case 2:
-                System.out.println("Temporadas: ");
+                administrador.crearContenido(new Pelicula(titulo, genero, anio, director, duracion));
+            }
+            case 2 -> {
                 int temporadas = pedirAtributosSerie(s);
-                System.out.println("Episodios: ");
                 int episodios = pedirAtributosSerie(s);
-                Contenido serie = new Serie(titulo, genero, anio, director, temporadas, episodios);
-                administrador.crearContenido(serie);
-                break;
-            default:
-                System.out.println("Opcion invalida");
-                break;
+                administrador.crearContenido(new Serie(titulo, genero, anio, director, temporadas, episodios));
+            }
+            default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
         }
     }
 
-    public static double pedirDuracion(Scanner s){
-        System.out.println("Duracion: ");
-        return s.nextDouble();
+    public static double pedirDuracion(Scanner s) {
+        System.out.println("Duración:");
+        double duracion = s.nextDouble();
+        s.nextLine();
+        return duracion;
     }
 
-    public static Genero pedirGenero(Scanner sc) {
+    public static Genero pedirGenero(Scanner s) {
         Genero[] generos = Genero.values();
 
         while (true) {
@@ -205,70 +219,75 @@ public class AdminController {
             }
 
             try {
-                int opcion = Integer.parseInt(sc.nextLine());
+                int opcion = Integer.parseInt(s.nextLine());
                 if (opcion >= 1 && opcion <= generos.length) {
                     return generos[opcion - 1];
                 }
             } catch (NumberFormatException ignored) {}
 
-            System.out.println("Opción inválida. Intente nuevamente.");
+            System.out.println(Colores.ROJO + "Opción inválida. Intente nuevamente." + Colores.RESET);
         }
     }
 
-    public static int pedirAtributosSerie(Scanner s){
+    public static int pedirAtributosSerie(Scanner s) {
         int atributo = s.nextInt();
         s.nextLine();
         return atributo;
     }
 
-    public static void modificarContenido(Scanner s, Administrador administrador){
-        System.out.println("Modificar Contenido seleccionado");
+    public static void modificarContenido(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Modificar Contenido seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del contenido a modificar:");
-        int id = s.nextInt();
-        s.nextLine();
-        System.out.println("Ingrese los nuevos datos:");
-        System.out.println("Titulo: ");
+
+        int id = leerEntero(s);
+
+        System.out.println("Título:");
         String titulo = s.nextLine();
-        System.out.println("Año: ");
-        int anio = s.nextInt();
-        s.nextLine();
-        System.out.println("Director: ");
+
+        System.out.println("Año:");
+        int anio = leerEntero(s);
+
+        System.out.println("Director:");
         String director = s.nextLine();
+
         Genero genero = pedirGenero(s);
-        System.out.println();
-        Contenido contenidoExistente = administrador.leerContenido(id);
-        if (contenidoExistente instanceof Pelicula) {
+
+        Contenido existente = administrador.leerContenido(id);
+
+        if (existente instanceof Pelicula) {
             double duracion = pedirDuracion(s);
-            Contenido peliculaModificada = new Pelicula(titulo, genero, anio, director, duracion);
-            peliculaModificada.setId(id);
-            administrador.actualizarContenido(peliculaModificada);
-        } else if (contenidoExistente instanceof Serie) {
-            System.out.println("Temporadas: ");
+            Pelicula nueva = new Pelicula(titulo, genero, anio, director, duracion);
+            nueva.setId(id);
+            administrador.actualizarContenido(nueva);
+
+        } else if (existente instanceof Serie) {
             int temporadas = pedirAtributosSerie(s);
-            System.out.println("Episodios: ");
             int episodios = pedirAtributosSerie(s);
-            Contenido serieModificada = new Serie(titulo, genero, anio, director, temporadas, episodios);
-            serieModificada.setId(id);
-            administrador.actualizarContenido(serieModificada);
+            Serie nueva = new Serie(titulo, genero, anio, director, temporadas, episodios);
+            nueva.setId(id);
+            administrador.actualizarContenido(nueva);
+
         } else {
-            System.out.println("Tipo de contenido no reconocido.");
+            System.out.println(Colores.ROJO + "Tipo de contenido no reconocido." + Colores.RESET);
         }
     }
 
-    public static void eliminarContenido(Scanner s, Administrador administrador){
-        System.out.println("Eliminar Contenido seleccionado");
-        System.out.println("Ingrese el id del contenido a eliminar:");
-        int id = s.nextInt();
-        s.nextLine();
+
+    // ============================================================
+    // MÉTODOS AUXILIARES CONTENIDO
+    // ============================================================
+
+    public static void eliminarContenido(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Eliminar Contenido seleccionado" + Colores.RESET);
+        System.out.println("Ingrese el id del contenido:");
+        int id = leerEntero(s);
         administrador.eliminarContenido(id);
     }
 
-    public static void buscarContenido(Scanner s, Administrador administrador){
-        System.out.println("Buscar Contenido seleccionado");
-        System.out.println("Ingrese el id del contenido a buscar:");
-        int id = s.nextInt();
-        s.nextLine();
-        Contenido contenidoBuscado = administrador.leerContenido(id);
-        System.out.println(contenidoBuscado.toString());
+    public static void buscarContenido(Scanner s, Administrador administrador) {
+        System.out.println(Colores.MAGENTA + "Buscar Contenido seleccionado" + Colores.RESET);
+        System.out.println("Ingrese el id:");
+        int id = leerEntero(s);
+        System.out.println(administrador.leerContenido(id));
     }
 }

@@ -1,125 +1,170 @@
 package com.cinema.data;
-import com.cinema.Main;
+
 import com.cinema.models.contenido.*;
 import com.cinema.persistence.OperacionesLectoEscritura;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GestorContenidosJSON {
-    private static final String DEFAULT_FILE_CONTENIDO= "contenidos.json";
+
+    private static final String DEFAULT_FILE_CONTENIDO = "contenidos.json";
+
+    // ============================================================
+    // SERIALIZACIÓN PELÍCULA
+    // ============================================================
 
     public JSONObject serializar(Pelicula p) {
-        JSONObject jsonObject = null;
+        JSONObject json = new JSONObject();
         try {
-            jsonObject = new JSONObject();
-            jsonObject.put("id", p.getId());
-            jsonObject.put("titulo", p.getTitulo());
-            jsonObject.put("genero", p.getGenero() != null ? p.getGenero().name() : JSONObject.NULL);
-            jsonObject.put("anio", p.getAnio());
-            jsonObject.put("director", p.getDirector());
-            jsonObject.put("duracion", p.getDuracion());
-            jsonObject.put("estado", p.isEstado());
-            jsonObject.put("resenias", GestorReseniaJSON.serializarLista(p.getResenias()));
-            jsonObject.put("tipo", p.getTipo());
+            json.put("id", p.getId());
+            json.put("titulo", p.getTitulo());
+            json.put("genero", p.getGenero() != null ? p.getGenero().name() : JSONObject.NULL);
+            json.put("anio", p.getAnio());
+            json.put("director", p.getDirector());
+            json.put("duracion", p.getDuracion());
+            json.put("estado", p.isEstado());
+            json.put("resenias", GestorReseniaJSON.serializarLista(p.getResenias()));
+            json.put("tipo", p.getTipo());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return json;
     }
 
-    public JSONArray serializarLista(Map<Integer, Contenido> contenido) {
-        JSONArray jsonArray = new JSONArray();
+    // ============================================================
+    // SERIALIZACIÓN SERIE
+    // ============================================================
+
+    public JSONObject serializar(Serie s) {
+        JSONObject json = new JSONObject();
         try {
-            for (Map.Entry<Integer, Contenido> entry : contenido.entrySet()) {
-                if(entry.getValue().getTipo() == Tipo.PELICULA){
-                jsonArray.put(serializar((Pelicula) entry.getValue()));
-                }else if (entry.getValue().getTipo() == Tipo.SERIE){
-                    jsonArray.put(serializar((Serie) entry.getValue()));
+            json.put("id", s.getId());
+            json.put("titulo", s.getTitulo());
+            json.put("genero", s.getGenero() != null ? s.getGenero().name() : JSONObject.NULL);
+            json.put("anio", s.getAnio());
+            json.put("director", s.getDirector());
+            json.put("episodios", s.getEpisodios());
+            json.put("temporadas", s.getTemporadas());
+            json.put("estado", s.isEstado());
+            json.put("resenias", GestorReseniaJSON.serializarLista(s.getResenias()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    // ============================================================
+    // LISTA → JSON
+    // ============================================================
+
+    public JSONArray serializarLista(Map<Integer, Contenido> contenidoMap) {
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            for (Contenido contenido : contenidoMap.values()) {
+
+                if (contenido.getTipo() == Tipo.PELICULA) {
+                    jsonArray.put(serializar((Pelicula) contenido));
+                } else if (contenido.getTipo() == Tipo.SERIE) {
+                    jsonArray.put(serializar((Serie) contenido));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return jsonArray;
     }
 
-    public void listaToArchivo(Map<Integer, Contenido> contenido){
-        OperacionesLectoEscritura.grabar(DEFAULT_FILE_CONTENIDO, serializarLista(contenido));
+    // ============================================================
+    // GUARDAR ARCHIVO
+    // ============================================================
+
+    public void listaToArchivo(Map<Integer, Contenido> contenidoMap) {
+        JSONArray array = serializarLista(contenidoMap);
+        OperacionesLectoEscritura.grabar(DEFAULT_FILE_CONTENIDO, array);
     }
 
-    public Contenido deserializar(JSONObject jsonObject) {
-        Contenido contenido = null;
-        try {
-            if (jsonObject.has("duracion")) {
-                contenido = new Pelicula();
-                ((Pelicula)contenido).setDuracion(jsonObject.getInt("duracion"));
-            } else {
-                contenido = new Serie();
-                ((Serie)contenido).setEpisodios(jsonObject.getInt("episodios"));
-                ((Serie)contenido).setTemporadas(jsonObject.getInt("temporadas"));
-            }
+    // ============================================================
+    // JSON → OBJETO
+    // ============================================================
 
-            contenido.setId(jsonObject.getInt("id"));
-            contenido.setTitulo(jsonObject.getString("titulo"));
-            contenido.setGenero(Genero.valueOf(jsonObject.getString("genero")));
-            contenido.setAnio(jsonObject.getInt("anio"));
-            contenido.setDirector(jsonObject.getString("director"));
-            contenido.setEstado(jsonObject.getBoolean("estado"));
-            contenido.setResenias(GestorReseniaJSON.deserializarLista(jsonObject.getJSONArray("resenias")));
+    public Contenido deserializar(JSONObject json) {
+        Contenido contenido = null;
+
+        try {
+            boolean esPelicula = json.has("duracion");
+
+            contenido = esPelicula ? new Pelicula() : new Serie();
+
+            contenido.setId(json.getInt("id"));
+            contenido.setTitulo(json.getString("titulo"));
+            contenido.setGenero(Genero.valueOf(json.getString("genero")));
+            contenido.setAnio(json.getInt("anio"));
+            contenido.setDirector(json.getString("director"));
+            contenido.setEstado(json.getBoolean("estado"));
+            contenido.setResenias(GestorReseniaJSON.deserializarLista(json.getJSONArray("resenias")));
+
+            if (esPelicula) {
+                ((Pelicula) contenido).setDuracion(json.getInt("duracion"));
+            } else {
+                ((Serie) contenido).setEpisodios(json.getInt("episodios"));
+                ((Serie) contenido).setTemporadas(json.getInt("temporadas"));
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return contenido;
     }
 
-    public Map<Integer, Contenido> deserializarLista(JSONArray jsonArray) {
+    // ============================================================
+    // JSON → MAP
+    // ============================================================
+
+    public Map<Integer, Contenido> deserializarLista(JSONArray array) {
         Map<Integer, Contenido> contenidos = new HashMap<>();
+
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Contenido p = deserializar(jsonArray.getJSONObject(i));
-                contenidos.put(p.getId(), p);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject json = array.getJSONObject(i);
+                Contenido contenido = deserializar(json);
+                contenidos.put(contenido.getId(), contenido);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return contenidos;
     }
 
+    // ============================================================
+    // ARCHIVO → MAP
+    // ============================================================
+
     public Map<Integer, Contenido> archivoALista() {
         JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE_CONTENIDO);
-        Map<Integer, Contenido> lista = new HashMap<>();
-        try {
-            if (tokener == null) return lista; // archivo no existe -> lista vacía
-            lista = deserializarLista(new JSONArray(tokener));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
+        Map<Integer, Contenido> contenidos = new HashMap<>();
 
-    public JSONObject serializar(Serie p) {
-        JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject();
-            jsonObject.put("id", p.getId());
-            jsonObject.put("titulo", p.getTitulo());
-            jsonObject.put("genero", p.getGenero() != null ? p.getGenero().name() : JSONObject.NULL);
-            jsonObject.put("anio", p.getAnio());
-            jsonObject.put("director", p.getDirector());
-            jsonObject.put("episodios", p.getEpisodios());
-            jsonObject.put("temporadas", p.getTemporadas());
-            jsonObject.put("estado", p.isEstado());
-            jsonObject.put("resenias", GestorReseniaJSON.serializarLista(p.getResenias()));
+            if (tokener == null) {
+                return contenidos;
+            }
+
+            JSONArray array = new JSONArray(tokener);
+            contenidos = deserializarLista(array);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
+
+        return contenidos;
     }
 }

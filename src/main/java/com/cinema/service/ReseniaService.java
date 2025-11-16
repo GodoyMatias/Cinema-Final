@@ -9,40 +9,55 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class ReseniaService implements ABMCL<Resenia>{
-    private List<Resenia> resenias;
-    private Map<Integer, Contenido> contenidos;
-    private GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
+public class ReseniaService implements ABMCL<Resenia> {
+
+    private final List<Resenia> resenias;
+    private final Map<Integer, Contenido> contenidos;
+    private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
 
     public ReseniaService(int idContenido) {
         this.contenidos = gestorContenidosJSON.archivoALista();
         this.resenias = contenidos.get(idContenido).getResenias();
     }
 
-    public void persistencia(Resenia c){
-        Contenido contenido = contenidos.get(c.getIdContenido());
+    // ============================================================
+    // PERSISTENCIA
+    // ============================================================
+
+    private void persistencia(Resenia resenia) {
+        Contenido contenido = contenidos.get(resenia.getIdContenido());
         contenido.setResenias(resenias);
         contenidos.put(contenido.getId(), contenido);
         gestorContenidosJSON.listaToArchivo(contenidos);
     }
 
+    // ============================================================
+    // CREAR
+    // ============================================================
+
     @Override
-    public boolean crear(Resenia c) {
-        resenias.add(c);
-        persistencia(c);
+    public boolean crear(Resenia resenia) {
+        resenias.add(resenia);
+        persistencia(resenia);
         return true;
     }
 
-    /// este fue gemini, yo no se :)
+    // ============================================================
+    // BUSCAR POR USUARIO
+    // ============================================================
+
     public Resenia buscarPorUsuario(int idUsuario) {
         for (Resenia r : resenias) {
-            // Asumiendo que tu clase Resenia tiene un getter para el id del usuario
             if (r.getIdUsuario() == idUsuario) {
                 return r;
             }
         }
-        return null; // No se encontró
+        return null;
     }
+
+    // ============================================================
+    // LEER
+    // ============================================================
 
     @Override
     public Resenia leer(int id) {
@@ -54,40 +69,28 @@ public class ReseniaService implements ABMCL<Resenia>{
         return null;
     }
 
-//    @Override
-//    public boolean actualizar(Resenia c) {
-//        for (Resenia r : resenias) {
-//            if (r.getId() == c.getId()) {
-//                resenias.remove(r);
-//                r.setEstrellas(c.getEstrellas());
-//                r.setComentario(c.getComentario());
-//                resenias.add(r);
-//                persistencia(r);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-@Override
-public boolean actualizar(Resenia c) {
-    // 'c' es el objeto que viene del controlador (reseniaExistente en nuestra solución)
-    for (Resenia r : resenias) {
-        // 'r' es el objeto que vive en la lista 'resenias'
+    // ============================================================
+    // ACTUALIZAR
+    // ============================================================
 
-        // Compara por el ID único de la reseña
-        if (r.getId() == c.getId()) {
+    @Override
+    public boolean actualizar(Resenia nueva) {
+        for (Resenia existente : resenias) {
+            if (existente.getId() == nueva.getId()) {
 
-            // Actualiza el objeto 'r' (en la lista) con los datos de 'c'
-            r.setEstrellas(c.getEstrellas());
-            r.setComentario(c.getComentario());
+                existente.setEstrellas(nueva.getEstrellas());
+                existente.setComentario(nueva.getComentario());
 
-            // Llama a persistencia con el objeto 'r' actualizado
-            persistencia(r);
-            return true; // ¡Éxito!
+                persistencia(existente);
+                return true;
+            }
         }
+        return false;
     }
-    return false; // No se encontró el objeto para actualizar
-}
+
+    // ============================================================
+    // ELIMINAR (borrado lógico)
+    // ============================================================
 
     @Override
     public boolean eliminar(int id) {
@@ -102,6 +105,10 @@ public boolean actualizar(Resenia c) {
         }
         return false;
     }
+
+    // ============================================================
+    // LISTAR
+    // ============================================================
 
     @Override
     public Collection<Resenia> listar() {

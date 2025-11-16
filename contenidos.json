@@ -2,20 +2,13 @@
     {
         "estado": true,
         "tipo": "PELICULA",
-        "director": "Crhistopher Nolan",
-        "genero": "CIENCIA_FICCION",
-        "titulo": "Inception",
-        "duracion": 2,
-        "resenias": [{
-            "calificacion": 3,
-            "estado": true,
-            "id": 1,
-            "comentario": "hola mundo!",
-            "usuarioId": 2,
-            "contenidoId": 1
-        }],
+        "director": "qsy",
+        "genero": "COMEDIA",
+        "titulo": "Nuevas",
+        "duracion": 80,
+        "resenias": [],
         "id": 1,
-        "anio": 2010
+        "anio": 2000
     },
     {
         "estado": true,
@@ -34,5 +27,16 @@
         }],
         "id": 2,
         "anio": 2010
+    },
+    {
+        "estado": true,
+        "temporadas": 1,
+        "director": "ODDDDD",
+        "genero": "ROMANCE",
+        "titulo": "Cococo",
+        "episodios": 2,
+        "resenias": [],
+        "id": 3,
+        "anio": 20010
     }
 ]
