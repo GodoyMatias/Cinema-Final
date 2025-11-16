@@ -35,8 +35,37 @@
         "genero": "ROMANCE",
         "titulo": "Cococo",
         "episodios": 2,
-        "resenias": [],
+        "resenias": [{
+            "calificacion": 6,
+            "estado": true,
+            "id": 4,
+            "comentario": "Muy mala pelicula",
+            "usuarioId": 14,
+            "contenidoId": 3
+        }],
         "id": 3,
         "anio": 20010
+    },
+    {
+        "estado": true,
+        "temporadas": 1,
+        "director": "Vincent",
+        "genero": "ACCION",
+        "titulo": "Better call Saul",
+        "episodios": 2,
+        "resenias": [],
+        "id": 4,
+        "anio": 2014
+    },
+    {
+        "estado": true,
+        "temporadas": 6,
+        "director": "Knigth",
+        "genero": "ACCION",
+        "titulo": "Peaky Blinders",
+        "episodios": 36,
+        "resenias": [],
+        "id": 5,
+        "anio": 2010
     }
 ]

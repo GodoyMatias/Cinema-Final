@@ -1,34 +1,10 @@
 [
     {
         "estado": true,
-        "contrasena": "admin",
-        "id": 1,
-        "nombre": "Nicolas",
-        "email": "nicolas@gmail.com",
-        "rol": "ADMINISTRADOR"
-    },
-    {
-        "estado": true,
-        "contrasena": "12334",
-        "id": 2,
-        "nombre": "nicolas",
-        "email": "nico@mail.com",
-        "rol": "BASE"
-    },
-    {
-        "estado": true,
-        "contrasena": "1234",
-        "id": 3,
-        "nombre": "hola2@gmail.com",
-        "email": "hola2@gmail.com",
-        "rol": "BASE"
-    },
-    {
-        "estado": true,
-        "contrasena": "1234",
-        "id": 4,
-        "nombre": "hola@hola.com",
-        "email": "hola@hola.com",
+        "contrasena": "123",
+        "id": 14,
+        "nombre": "Matias",
+        "email": "mati@gmail.com",
         "rol": "BASE"
     },
     {
@@ -41,10 +17,42 @@
     },
     {
         "estado": true,
+        "contrasena": "12334",
+        "id": 2,
+        "nombre": "nicolas",
+        "email": "nico@mail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
+        "contrasena": "admin",
+        "id": 1,
+        "nombre": "Nicolas",
+        "email": "nicolas@gmail.com",
+        "rol": "ADMINISTRADOR"
+    },
+    {
+        "estado": false,
+        "contrasena": "123",
+        "id": 3,
+        "nombre": "Riquelme",
+        "email": "riquelme@gmail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": false,
         "contrasena": "hola",
         "id": 6,
         "nombre": "Hola",
         "email": "hola@mail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
+        "contrasena": "1234",
+        "id": 4,
+        "nombre": "hola@hola.com",
+        "email": "hola@hola.com",
         "rol": "BASE"
     }
 ]

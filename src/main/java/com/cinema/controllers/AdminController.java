@@ -194,7 +194,9 @@ public class AdminController {
                 administrador.crearContenido(new Pelicula(titulo, genero, anio, director, duracion));
             }
             case 2 -> {
+                System.out.println("Ingrese temporadas:");
                 int temporadas = pedirAtributosSerie(s);
+                System.out.println("Ingrese episodios:");
                 int episodios = pedirAtributosSerie(s);
                 administrador.crearContenido(new Serie(titulo, genero, anio, director, temporadas, episodios));
             }

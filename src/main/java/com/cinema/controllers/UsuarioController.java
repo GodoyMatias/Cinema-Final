@@ -16,23 +16,56 @@ public class UsuarioController {
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
     // ============================================================
 
+//    public static void usuarioPanel(Usuario user) {
+//        UsuarioService usuarioService = new UsuarioService();
+//        ContendioService contendioService = new ContendioService();
+//
+//        mostrarEncabezadoUsuario(user);
+//        mostrarMenuUsuario();
+//
+//        Scanner s = new Scanner(System.in);
+//        int opcion = leerEntero(s);
+//
+//        switch (opcion) {
+//            case 1 -> mostrarPerfil(user);
+//            case 2 -> editarPerfil(s, user, usuarioService);
+//            case 3 -> eliminarPerfil(user, usuarioService);
+//            case 4 -> opcionesDeContenido(s, contendioService, user.getId());
+//            case 5 -> verPlaylists();
+//            default -> System.out.println("Opción inválida");
+//        }
+//    }
+
     public static void usuarioPanel(Usuario user) {
         UsuarioService usuarioService = new UsuarioService();
         ContendioService contendioService = new ContendioService();
 
-        mostrarEncabezadoUsuario(user);
-        mostrarMenuUsuario();
-
         Scanner s = new Scanner(System.in);
-        int opcion = leerEntero(s);
 
-        switch (opcion) {
-            case 1 -> mostrarPerfil(user);
-            case 2 -> editarPerfil(s, user, usuarioService);
-            case 3 -> eliminarPerfil(user);
-            case 4 -> opcionesDeContenido(s, contendioService, user.getId());
-            case 5 -> verPlaylists();
-            default -> System.out.println("Opción inválida");
+        while (true) {
+            mostrarEncabezadoUsuario(user);
+            mostrarMenuUsuario();
+
+            int opcion = leerEntero(s);
+
+            switch (opcion) {
+                case 1 -> mostrarPerfil(user);
+                case 2 -> editarPerfil(s, user, usuarioService);
+                case 3 -> {
+                    eliminarPerfil(user, usuarioService);
+                    return; // si borró el perfil, salimos del panel
+                }
+                case 4 -> opcionesDeContenido(s, contendioService, user.getId());
+                case 5 -> verPlaylists();
+                case 0 -> {
+                    System.out.println("Saliendo del panel...");
+                    return; // rompe el while y vuelve al menú anterior
+                }
+                default -> System.out.println("Opción inválida");
+            }
+
+            System.out.println("\nPresione Enter para continuar...");
+            s.nextLine(); // pausa para que vea el resultado
         }
     }
 
@@ -77,9 +110,9 @@ public class UsuarioController {
         System.out.println(user);
     }
 
-    private static void eliminarPerfil(Usuario user) {
+    private static void eliminarPerfil(Usuario user, UsuarioService usuarioService) {
         System.out.println("Eliminar Perfil seleccionado");
-        user.setEstado(false);
+        usuarioService.eliminar(user.getId());
         System.out.println("Perfil eliminado. Lo sentimos verte ir, " + user.getNombre());
     }
 

@@ -21,7 +21,7 @@ public class Login {
         GestorUsuariosJson g = new GestorUsuariosJson();
         Usuario user = g.login(email, password);
         ConsoleUtils.fakeClear();
-        if (user != null) {
+        if (user != null && user.getEstado() == true) {
             System.out.println("Login successful! Welcome " + user.getNombre());
             if(user.getRol() == Rol.ADMINISTRADOR){
                 AdminController.adminPanel();
