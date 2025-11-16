@@ -1,5 +1,7 @@
 package com.cinema.controllers;
 
+import com.cinema.data.GestorContenidosJSON;
+import com.cinema.data.GestorUsuariosJson;
 import com.cinema.models.contenido.*;
 import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;

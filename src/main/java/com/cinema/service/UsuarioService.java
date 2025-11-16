@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class UsuarioService implements ABMCL<Usuario> {
 
-    private final HashSet<Usuario> usuarios;
+    private HashSet<Usuario> usuarios;
     private final GestorUsuariosJson gestoraUsuariosJson = new GestorUsuariosJson();
 
     public UsuarioService() {
@@ -40,6 +40,7 @@ public class UsuarioService implements ABMCL<Usuario> {
 
     @Override
     public Usuario consulta(String id) {
+        usuarios = gestoraUsuariosJson.archivoALista();
         System.out.println("Leer usuario con ID: " + id);
         return usuarios.stream()
                 .filter(u -> u.getId().equals(id))
@@ -53,6 +54,7 @@ public class UsuarioService implements ABMCL<Usuario> {
 
     @Override
     public boolean modificar(Usuario usuarioActualizado) {
+        usuarios = gestoraUsuariosJson.archivoALista();
         Usuario usuarioExistente = buscarPorId(usuarioActualizado.getId());
 
         if (usuarioExistente == null) {
@@ -74,6 +76,7 @@ public class UsuarioService implements ABMCL<Usuario> {
 
     @Override
     public boolean baja(String id) {
+        usuarios = gestoraUsuariosJson.archivoALista();
         Usuario usuario = buscarPorId(id);
 
         if (usuario == null) {
@@ -93,6 +96,7 @@ public class UsuarioService implements ABMCL<Usuario> {
 
     @Override
     public Set<Usuario> listar() {
+        usuarios = gestoraUsuariosJson.archivoALista();
         return usuarios;
     }
 
@@ -101,10 +105,14 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     private Usuario buscarPorId(String id) {
+        usuarios = gestoraUsuariosJson.archivoALista();
         return usuarios.stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
-}
 
+    public HashSet<Usuario> actualizarUsuarios() {
+        return gestoraUsuariosJson.archivoALista();
+    }
+}

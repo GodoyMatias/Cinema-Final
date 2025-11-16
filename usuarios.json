@@ -1,6 +1,22 @@
 [
     {
         "estado": true,
+        "contrasena": "123",
+        "id": "1f4ecec4-5a63-4b45-9eaf-068eac6edd56",
+        "nombre": "user",
+        "email": "user@gmail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
+        "contrasena": "hola",
+        "id": "ca407cd0-31b0-404a-b8ea-2e0ff2cc5456",
+        "nombre": "hola",
+        "email": "hola@hola.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
         "contrasena": "admin",
         "id": "9a9c381a-f93c-4f6e-841c-e150f887d43b",
         "nombre": "admin",
