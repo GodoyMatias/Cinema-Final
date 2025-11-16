@@ -1,34 +1,26 @@
 [
     {
         "estado": true,
-        "contrasena": "123",
-        "id": "1f4ecec4-5a63-4b45-9eaf-068eac6edd56",
-        "nombre": "user",
-        "email": "user@gmail.com",
+        "contrasena": "cinema",
+        "id": "519a1a2f-9ee9-4efe-9388-c64d472c08ec",
+        "nombre": "Nicolas",
+        "email": "nicolas@cinema.com",
         "rol": "BASE"
     },
     {
         "estado": true,
-        "contrasena": "hola",
-        "id": "ca407cd0-31b0-404a-b8ea-2e0ff2cc5456",
-        "nombre": "hola",
-        "email": "hola@hola.com",
+        "contrasena": "cinema",
+        "id": "997f6f03-9696-4175-8aea-2c7d7932ac06",
+        "nombre": "Mateo",
+        "email": "mateo@cinema.com",
         "rol": "BASE"
     },
     {
         "estado": true,
         "contrasena": "admin",
-        "id": "9a9c381a-f93c-4f6e-841c-e150f887d43b",
-        "nombre": "admin",
+        "id": "c4df0381-a992-4617-86e9-0f67d747d5c9",
+        "nombre": "ADMIN",
         "email": "admin@admin.com",
-        "rol": "ADMINISTRADOR"
-    },
-    {
-        "estado": true,
-        "contrasena": "admin",
-        "id": "aa5e05dd-c914-47ea-aad9-b87d46d0ef1e",
-        "nombre": "nico",
-        "email": "nico@admin.com",
         "rol": "ADMINISTRADOR"
     }
 ]

@@ -1,5 +1,7 @@
 package com.cinema.models.contenido;
 
+import com.cinema.utils.Colores;
+
 import java.util.Objects;
 
 public class Pelicula extends Contenido{
@@ -30,17 +32,16 @@ public class Pelicula extends Contenido{
 
     @Override
     public String toString() {
-        return "Pelicula{" +
-                "id=" + id + '\n' +
-                "duracion=" + duracion +
-                " titulo='" + titulo + '\'' +
-                " genero=" + genero +
-                " anio=" + anio +
-                " director='" + director + '\'' +
-                " estado=" + estado + '\n'+
-                " tipo=" + tipo +
-                " resenias=" + resenias +
-                '}'+ '\n' +'\n';
+        return  "    id=  " + id + '\n' +
+                "    tipo= " + tipo +
+                "    titulo= " + titulo + '\'' +
+                "    genero= " + genero +
+                "    director= " + director + '\'' +
+                "    duracion= " + duracion +
+                "    anio= " + anio +
+                Colores.AZUL +  "    estado= " + estado + Colores.RESET + '\n' +
+                "    resenias= " + resenias + '\n' +
+                "--------------------------------" + '\n';
     }
 
     @Override

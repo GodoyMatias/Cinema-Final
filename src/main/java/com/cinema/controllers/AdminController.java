@@ -19,7 +19,7 @@ public class AdminController {
         Administrador administrador = new Administrador();
         Scanner s = new Scanner(System.in);
 
-        while (true) { // Bucle para que el menú se repita
+        while (true) { // Bucle principal
             mostrarMenuPrincipal();
             int opcion = leerEntero(s);
 
@@ -29,7 +29,7 @@ public class AdminController {
                 case 3 -> crearAdministrador(s, administrador);
                 case 0 -> {
                     System.out.println(Colores.VERDE + "Saliendo del panel administrador..." + Colores.RESET);
-                    return; // Sale del adminPanel y termina la aplicación
+                    return;
                 }
                 default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
             }
@@ -41,9 +41,8 @@ public class AdminController {
         System.out.println(Colores.AMARILLO + "1- Gestión Contenido" + Colores.RESET);
         System.out.println(Colores.AMARILLO + "2- Gestión Usuarios" + Colores.RESET);
         System.out.println(Colores.AMARILLO + "3- Crear Administrador" + Colores.RESET);
-        System.out.println(Colores.AMARILLO + "0- Salir" + Colores.RESET); // Nueva opción
+        System.out.println(Colores.AMARILLO + "0- Salir" + Colores.RESET);
     }
-
 
     private static int leerEntero(Scanner s) {
         int valor = s.nextInt();
@@ -60,18 +59,23 @@ public class AdminController {
     // ============================================================
 
     private static void gestionarContenido(Scanner s, Administrador administrador) {
-        System.out.println(Colores.AZUL + "Gestión Contenido seleccionado" + Colores.RESET);
-        mostrarMenuContenido();
+        while (true) {  // <-- AHORA ES UN MENÚ QUE NO SALE AUTOMÁTICAMENTE
+            System.out.println(Colores.AZUL + "Gestión Contenido seleccionado" + Colores.RESET);
+            mostrarMenuContenido();
 
-        int opcionContenido = leerEntero(s);
+            int opcionContenido = leerEntero(s);
 
-        switch (opcionContenido) {
-            case 1 -> crearContenido(s, administrador);
-            case 2 -> modificarContenido(s, administrador);
-            case 3 -> eliminarContenido(s, administrador);
-            case 4 -> System.out.println(Colores.VERDE + administrador.listarContenidos() + Colores.RESET);
-            case 5 -> buscarContenido(s, administrador);
-            default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+            switch (opcionContenido) {
+                case 1 -> crearContenido(s, administrador);
+                case 2 -> modificarContenido(s, administrador);
+                case 3 -> eliminarContenido(s, administrador);
+                case 4 -> administrador.listarContenidos();
+                case 5 -> buscarContenido(s, administrador);
+                case 0 -> {
+                    return; // volver al menú principal
+                }
+                default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+            }
         }
     }
 
@@ -82,6 +86,7 @@ public class AdminController {
         System.out.println("3- Eliminar Contenido");
         System.out.println("4- Listar Contenidos");
         System.out.println("5- Buscar Contenido");
+        System.out.println("0- Volver");
     }
 
     // ============================================================
@@ -89,18 +94,23 @@ public class AdminController {
     // ============================================================
 
     private static void gestionarUsuarios(Scanner s, Administrador administrador) {
-        System.out.println(Colores.AZUL + "Gestión Usuarios seleccionado" + Colores.RESET);
-        mostrarMenuUsuarios();
+        while (true) { // <-- AHORA ES UN MENÚ QUE NO SALE AUTOMÁTICAMENTE
+            System.out.println(Colores.AZUL + "Gestión Usuarios seleccionado" + Colores.RESET);
+            mostrarMenuUsuarios();
 
-        int opcionUsuario = leerEntero(s);
+            int opcionUsuario = leerEntero(s);
 
-        switch (opcionUsuario) {
-            case 1 -> crearUsuario(s, administrador);
-            case 2 -> modificarUsuario(s, administrador);
-            case 3 -> eliminarUsuario(s, administrador);
-            case 4 -> System.out.println(Colores.VERDE + administrador.listarUsuarios() + Colores.RESET);
-            case 5 -> leerUsuario(s, administrador);
-            default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+            switch (opcionUsuario) {
+                case 1 -> crearUsuario(s, administrador);
+                case 2 -> modificarUsuario(s, administrador);
+                case 3 -> eliminarUsuario(s, administrador);
+                case 4 -> System.out.println(Colores.VERDE + administrador.listarUsuarios() + Colores.RESET);
+                case 5 -> leerUsuario(s, administrador);
+                case 0 -> {
+                    return; // volver al menú principal
+                }
+                default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
+            }
         }
     }
 
@@ -111,6 +121,7 @@ public class AdminController {
         System.out.println("3- Eliminar Usuario");
         System.out.println("4- Listar Usuarios");
         System.out.println("5- Buscar Usuario");
+        System.out.println("0- Volver");
         System.out.println("Seleccione una opción:");
     }
 
@@ -149,6 +160,8 @@ public class AdminController {
 
     public static void modificarUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Modificar Usuario seleccionado" + Colores.RESET);
+        /// Listar los usuarios uno a uno
+        administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario a modificar:");
         String id = leerString(s);
 
@@ -259,7 +272,7 @@ public class AdminController {
 
     public static void modificarContenido(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Modificar Contenido seleccionado" + Colores.RESET);
-        System.out.println(administrador.listarContenidos());
+        administrador.listarContenidos();
         System.out.println("Ingrese el id del contenido a modificar:");
 
         String id = leerString(s);
@@ -295,15 +308,17 @@ public class AdminController {
         }
     }
 
-
     // ============================================================
     // MÉTODOS AUXILIARES CONTENIDO
     // ============================================================
 
     public static void eliminarContenido(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Eliminar Contenido seleccionado" + Colores.RESET);
+        administrador.listarContenidos();
         System.out.println("Ingrese el id del contenido:");
         String id = leerString(s);
+        System.out.println(Colores.VERDE + "Contenido eliminado exitosamente." + Colores.RESET);
+        System.out.println( Colores.VERDE + administrador.leerContenido(id).getTitulo() + " ha sido eliminado." + Colores.RESET);
         administrador.eliminarContenido(id);
     }
 

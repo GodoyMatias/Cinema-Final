@@ -1,5 +1,8 @@
 package com.cinema.models.usuarios;
 
+import com.cinema.utils.Colores;
+
+import java.awt.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -88,13 +91,13 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "{" + '\n' +
-                " id=" + id + '\n' +
-                " nombre='" + nombre + '\n' +
-                " estado=" + estado + '\n' +
-                " password='" + password + '\n' +
-                " email='" + email + '\n' +
-                " rol=" + rol + '\n' +
-                '}' + '\n';
+        return "---------------------------" + '\n' +
+                " id= " + Colores.VERDE + id + '\n' + Colores.RESET +
+                " nombre= " + nombre + '\n' +
+                Colores.AZUL + " estado= " + estado + '\n' + Colores.RESET +
+                " password= " + password + '\n' +
+                " email= " + email + '\n' +
+                " rol= " + rol + '\n' +
+                "---------------------------" + '\n';
     }
 }

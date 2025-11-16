@@ -64,7 +64,8 @@ public class Administrador extends Usuario  {
         return false;
     }
 
-    public Collection<Contenido> listarContenidos() {
-        return contendioService.listar();
+    public void listarContenidos() {
+        /// /listar uno a uno los elementos de la coleccion
+         contendioService.listar().forEach(System.out::println);
     }
 }

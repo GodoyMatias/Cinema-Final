@@ -1,3 +1,46 @@
 [
-
+    {
+        "estado": true,
+        "tipo": "PELICULA",
+        "director": "dir02",
+        "genero": "ANIMACION",
+        "titulo": "matrix 02",
+        "duracion": 99,
+        "resenias": [],
+        "id": "c0e18fe5-c29e-4671-90c0-153b92eaed7a",
+        "anio": 2002
+    },
+    {
+        "estado": true,
+        "tipo": "PELICULA",
+        "director": "YOLO",
+        "genero": "ACCION",
+        "titulo": "pelicula02020",
+        "duracion": 2030,
+        "resenias": [],
+        "id": "f62f98f8-65d1-418d-abb2-bae5ac8e85c2",
+        "anio": 1000
+    },
+    {
+        "estado": false,
+        "tipo": "PELICULA",
+        "director": "dir02",
+        "genero": "ACCION",
+        "titulo": "Pelicula02",
+        "duracion": 200,
+        "resenias": [],
+        "id": "b9b81ab8-39c8-45d0-bff4-77bbdb84d1d5",
+        "anio": 2
+    },
+    {
+        "estado": true,
+        "temporadas": 99,
+        "director": "dir01",
+        "genero": "ACCION",
+        "titulo": "Serie 01",
+        "episodios": 21,
+        "resenias": [],
+        "id": "3587bafd-06cd-4f45-bd38-1a42e6d103fe",
+        "anio": 1
+    }
 ]

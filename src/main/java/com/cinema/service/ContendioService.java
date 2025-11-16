@@ -81,6 +81,7 @@ public class ContendioService implements ABMCL<Contenido> {
 
     @Override
     public Collection<Contenido> listar() {
+        /// /TODO: mostrar solo los activos
         return contenidos.values();
     }
 
