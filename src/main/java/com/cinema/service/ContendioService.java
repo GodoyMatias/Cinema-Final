@@ -98,4 +98,11 @@ public class ContendioService implements ABMCL<Contenido> {
     private void guardarCambios() {
         gestorContenidosJSON.listaToArchivo(contenidos);
     }
+
+    @Override
+    public String toString() {
+        return "ContendioService{" +
+                "contenidos=" + contenidos +
+                '}';
+    }
 }

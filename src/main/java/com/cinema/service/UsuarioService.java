@@ -61,8 +61,11 @@ public class UsuarioService implements ABMCL<Usuario> {
             return false;
         }
 
-        usuarios.remove(usuarioExistente);
-        usuarios.add(usuarioActualizado);
+        usuarioExistente.setNombre(usuarioActualizado.getNombre());
+        usuarioExistente.setPassword(usuarioActualizado.getPassword());
+        usuarioExistente.setEmail(usuarioActualizado.getEmail());
+        usuarioExistente.setRol(usuarioActualizado.getRol());
+        usuarioExistente.setEstado(usuarioActualizado.getEstado());
 
         gestoraUsuariosJson.listaToArchivo(usuarios);
         System.out.println("Usuario actualizado: " + usuarioActualizado.getNombre());
@@ -112,7 +115,4 @@ public class UsuarioService implements ABMCL<Usuario> {
                 .orElse(null);
     }
 
-    public HashSet<Usuario> actualizarUsuarios() {
-        return gestoraUsuariosJson.archivoALista();
-    }
 }
