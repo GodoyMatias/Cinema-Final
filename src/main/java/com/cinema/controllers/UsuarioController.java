@@ -84,7 +84,8 @@ public class UsuarioController {
                 2- Editar Perfil
                 3- Eliminar Perfil
                 4- Ver Contenido Disponible
-                5- Ver Playlists
+                5- Ver Playlists -----------------------(Funcionalidad a implementar)------------------------------
+                0- Salir
                 Seleccione una opción:
                 """);
     }
@@ -93,7 +94,7 @@ public class UsuarioController {
         System.out.println("""
                 Opciones de Contenido:
                 1- Reproducir
-                2- Agregar a Playlist
+                2- Agregar a Playlist -----------------------(Funcionalidad a implementar)------------------------------
                 3- Agregar reseña
                 4- Editar reseña
                 5- Eliminar reseña
@@ -185,7 +186,7 @@ public class UsuarioController {
 
             case 4 -> editarResenia(s, idUsuario, reseniaService);
 
-            case 5 -> System.out.println("Eliminar reseña seleccionado");
+            case 5 -> eliminarResenia(idUsuario, reseniaService);
 
             default -> System.out.println("Opción inválida");
         }
@@ -243,6 +244,25 @@ public class UsuarioController {
             System.out.println("Reseña actualizada correctamente.");
         } else {
             System.err.println("No se pudo actualizar la reseña.");
+        }
+    }
+
+    public static void eliminarResenia(int idUsuario, ReseniaService reseniaService) {
+        System.out.println("Eliminar reseña seleccionado");
+
+        Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);
+
+        if (reseniaExistente == null) {
+            System.err.println("No puedes eliminar una reseña que no has creado.");
+            return;
+        }
+
+        boolean eliminado = reseniaService.eliminar(reseniaExistente.getId());
+
+        if (eliminado) {
+            System.out.println("Reseña eliminada correctamente.");
+        } else {
+            System.err.println("No se pudo eliminar la reseña.");
         }
     }
 

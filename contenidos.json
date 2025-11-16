@@ -35,14 +35,24 @@
         "genero": "ROMANCE",
         "titulo": "Cococo",
         "episodios": 2,
-        "resenias": [{
-            "calificacion": 6,
-            "estado": true,
-            "id": 4,
-            "comentario": "Muy mala pelicula",
-            "usuarioId": 14,
-            "contenidoId": 3
-        }],
+        "resenias": [
+            {
+                "calificacion": 6,
+                "estado": false,
+                "id": 4,
+                "comentario": "Muy mala pelicula",
+                "usuarioId": 14,
+                "contenidoId": 3
+            },
+            {
+                "calificacion": 8,
+                "estado": true,
+                "id": 5,
+                "comentario": "Terrible pelicula",
+                "usuarioId": 2,
+                "contenidoId": 3
+            }
+        ],
         "id": 3,
         "anio": 20010
     },
@@ -67,5 +77,49 @@
         "resenias": [],
         "id": 5,
         "anio": 2010
+    },
+    {
+        "estado": true,
+        "tipo": "PELICULA",
+        "director": "Tarantino",
+        "genero": "ACCION",
+        "titulo": "Bastardos sin gloria",
+        "duracion": 2,
+        "resenias": [],
+        "id": 6,
+        "anio": 2008
+    },
+    {
+        "estado": false,
+        "tipo": "PELICULA",
+        "director": "",
+        "genero": "CIENCIA_FICCION",
+        "titulo": "Avatar",
+        "duracion": 3,
+        "resenias": [],
+        "id": 7,
+        "anio": 2010
+    },
+    {
+        "estado": true,
+        "tipo": "PELICULA",
+        "director": "Wasowski",
+        "genero": "CIENCIA_FICCION",
+        "titulo": "Matrix Reload",
+        "duracion": 2,
+        "resenias": [],
+        "id": 8,
+        "anio": 2001
+    },
+    {
+        "estado": true,
+        "temporadas": 6,
+        "director": "Vincent",
+        "genero": "ACCION",
+        "titulo": "Breaking Bad",
+        "episodios": 100,
+        "resenias": [],
+        "id": 9,
+        "anio": 2006
     }
 ]

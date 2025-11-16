@@ -40,15 +40,15 @@ public class Serie extends Contenido{
         return "Serie{" +
                 "id=" + id + '\n' +
                 "temporadas=" + temporadas +
-                ", episodios=" + episodios +
-                ", titulo='" + titulo + '\'' +
-                ", genero=" + genero +
-                ", anio=" + anio +
-                ", director='" + director + '\'' +
-                ", estado=" + estado +
-                ", resenias=" + resenias +
-                ", tipo=" + tipo +
-                '}';
+                " episodios=" + episodios +
+                " titulo='" + titulo + '\'' +
+                " genero=" + genero +
+                " anio=" + anio +
+                " director='" + director + '\'' +
+                " estado=" + estado +
+                " tipo=" + tipo +
+                " resenias=" + resenias +
+                '}' + '\n'+ '\n';
     }
 
     @Override

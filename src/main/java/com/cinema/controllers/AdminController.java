@@ -191,14 +191,28 @@ public class AdminController {
         switch (opcion) {
             case 1 -> {
                 double duracion = pedirDuracion(s);
-                administrador.crearContenido(new Pelicula(titulo, genero, anio, director, duracion));
+                Pelicula nuevaPelicula = new Pelicula(titulo, genero, anio, director, duracion);
+                boolean isGuardado = administrador.crearContenido(nuevaPelicula);
+                if (isGuardado) {
+                    System.out.println(Colores.VERDE + "Película creada exitosamente." + Colores.RESET);
+                    System.out.println(nuevaPelicula);
+                } else {
+                    System.out.println(Colores.ROJO + "Error al crear la película." + Colores.RESET);
+                }
             }
             case 2 -> {
                 System.out.println("Ingrese temporadas:");
                 int temporadas = pedirAtributosSerie(s);
                 System.out.println("Ingrese episodios:");
                 int episodios = pedirAtributosSerie(s);
-                administrador.crearContenido(new Serie(titulo, genero, anio, director, temporadas, episodios));
+                Serie nuevaSerie = new Serie(titulo, genero, anio, director, temporadas, episodios);
+                boolean isGuardado = administrador.crearContenido(nuevaSerie);
+                if (isGuardado) {
+                    System.out.println(Colores.VERDE + "Serie creada exitosamente." + Colores.RESET);
+                    System.out.println(nuevaSerie);
+                } else {
+                    System.out.println(Colores.ROJO + "Error al crear la serie." + Colores.RESET);
+                }
             }
             default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);
         }
@@ -239,6 +253,7 @@ public class AdminController {
 
     public static void modificarContenido(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Modificar Contenido seleccionado" + Colores.RESET);
+        System.out.println(administrador.listarContenidos());
         System.out.println("Ingrese el id del contenido a modificar:");
 
         int id = leerEntero(s);

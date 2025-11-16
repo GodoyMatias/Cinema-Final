@@ -33,14 +33,14 @@ public class Pelicula extends Contenido{
         return "Pelicula{" +
                 "id=" + id + '\n' +
                 "duracion=" + duracion +
-                ", titulo='" + titulo + '\'' +
-                ", genero=" + genero +
-                ", anio=" + anio +
-                ", director='" + director + '\'' +
-                ", estado=" + estado +
-                ", resenias=" + resenias +
-                ", tipo=" + tipo +
-                '}';
+                " titulo='" + titulo + '\'' +
+                " genero=" + genero +
+                " anio=" + anio +
+                " director='" + director + '\'' +
+                " estado=" + estado + '\n'+
+                " tipo=" + tipo +
+                " resenias=" + resenias +
+                '}'+ '\n' +'\n';
     }
 
     @Override
