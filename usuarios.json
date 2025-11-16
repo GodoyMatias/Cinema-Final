@@ -9,10 +9,10 @@
     },
     {
         "estado": true,
-        "contrasena": "123",
+        "contrasena": "cinema",
         "id": "997f6f03-9696-4175-8aea-2c7d7932ac06",
-        "nombre": "mateo m",
-        "email": "matem@gmail.com",
+        "nombre": "mateo",
+        "email": "mateo@cinema.com",
         "rol": "BASE"
     },
     {
@@ -22,5 +22,13 @@
         "nombre": "ADMIN",
         "email": "admin@admin.com",
         "rol": "ADMINISTRADOR"
+    },
+    {
+        "estado": true,
+        "contrasena": "admin",
+        "id": "35d3eb16-132b-4afa-9dc8-fe9f5b1d6d9d",
+        "nombre": "mati",
+        "email": "mati@admin.com",
+        "rol": "BASE"
     }
 ]

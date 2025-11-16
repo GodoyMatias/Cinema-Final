@@ -91,10 +91,12 @@ public class Usuario {
 
     @Override
     public String toString() {
+        /// SI estado = true, mostrar en verde, sino en rojo
+        /// SI estado = true, mostrar en verde, sino en rojo
         return "---------------------------" + '\n' +
-                " id= " + Colores.VERDE + id + '\n' + Colores.RESET +
+                " id= " + Colores.AZUL + id + '\n' + Colores.RESET +
                 " nombre= " + nombre + '\n' +
-                Colores.AZUL + " estado= " + estado + '\n' + Colores.RESET +
+                " estado= " + (estado ? Colores.VERDE + true + Colores.RESET : Colores.ROJO + false + Colores.RESET) + '\n' +
                 " password= " + password + '\n' +
                 " email= " + email + '\n' +
                 " rol= " + rol + '\n' +

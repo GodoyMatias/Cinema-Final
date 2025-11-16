@@ -104,7 +104,7 @@ public class AdminController {
                 case 1 -> crearUsuario(s, administrador);
                 case 2 -> modificarUsuario(s, administrador);
                 case 3 -> eliminarUsuario(s, administrador);
-                case 4 -> System.out.println(Colores.VERDE + administrador.listarUsuarios() + Colores.RESET);
+                case 4 -> administrador.listarUsuarios().forEach( System.out::println );
                 case 5 -> leerUsuario(s, administrador);
                 case 0 -> {
                     return; // volver al menú principal
@@ -173,6 +173,8 @@ public class AdminController {
 
     public static void eliminarUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Eliminar Usuario seleccionado" + Colores.RESET);
+        /// Listar los usuarios uno a uno
+        administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario a baja:");
         String id = leerString(s);
         administrador.eliminarUsuario(id);
@@ -180,6 +182,8 @@ public class AdminController {
 
     public static void leerUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Buscar Usuario seleccionado" + Colores.RESET);
+        /// Listar los usuarios uno a uno
+        administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario:");
         String id = leerString(s);
         System.out.println(administrador.leerUsuario(id));
