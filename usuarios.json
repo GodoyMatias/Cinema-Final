@@ -25,10 +25,10 @@
     },
     {
         "estado": true,
-        "contrasena": "admin",
+        "contrasena": "123",
         "id": "35d3eb16-132b-4afa-9dc8-fe9f5b1d6d9d",
         "nombre": "mati",
-        "email": "mati@admin.com",
-        "rol": "BASE"
+        "email": "mati@gmail.com",
+        "rol": "ADMINISTRADOR"
     }
 ]

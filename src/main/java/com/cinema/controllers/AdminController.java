@@ -165,7 +165,7 @@ public class AdminController {
         /// Listar los usuarios uno a uno
         administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario a modificar:");
-        String id = leerString(s);
+        String id = s.nextLine();
 
         System.out.println("Ingrese el nuevo rol del usuario (1- ADMINISTRADOR, 2- BASE):");
         int rolInput = leerEntero(s);
