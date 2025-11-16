@@ -1,13 +1,10 @@
 package com.cinema.models.contenido;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Contenido {
-    private static int contador = 0;
-    private int id;
+    private static int contador;
+    protected int id;
     protected String titulo;
     protected Genero genero;
     protected int anio;
@@ -98,26 +95,9 @@ public abstract class Contenido {
         Contenido.contador = contador;
     }
 
+
     public Tipo getTipo() {
         return tipo;
-    }
-
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
-
-    // metodos
-    public void agregarResenia(Resenia resenia) {
-        this.resenias.add(resenia);
-    }
-
-    public double promedioResenas() {
-        if (resenias.isEmpty()) return 0;
-        double total = 0;
-        for (Resenia c : resenias) {
-            total += c.getEstrellas();
-        }
-        return total / resenias.size();
     }
 
     @Override

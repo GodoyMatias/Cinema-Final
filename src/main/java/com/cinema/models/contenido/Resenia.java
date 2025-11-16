@@ -14,6 +14,9 @@ public class Resenia {
 
     // Constructor vacío
     public Resenia() {
+        contador++;
+        this.id = contador;
+        this.estado = true;
     }
 
     // Constructor con comentario

@@ -41,8 +41,7 @@ public class UsuarioController {
                 System.out.println("Perfil eliminado. Lo sentimos verte ir, " + user.getNombre());
                 break;
             case 4:
-                System.out.println("Ver Contenido Disponible seleccionado");
-                verContenidoDisponible(contendioService);
+                opcionesDeContenido(s, contendioService, user.getId());
                 break;
             case 5:
                 System.out.println("Ver Playlists seleccionado");
@@ -92,6 +91,7 @@ public class UsuarioController {
 
     private static void opcionesDeContenido(Scanner s, ContendioService contendioService, int idUsuario) {
         Contenido contenido = seleccionarContenido(s, contendioService);
+        ReseniaService reseniaService = new ReseniaService(contenido.getId());
         System.out.println("Opciones de Contenido:");
         System.out.println("1- Reproducir");
         System.out.println("2- Agregar a Playlist");
@@ -112,10 +112,23 @@ public class UsuarioController {
                 agregarResenia(s, idUsuario, contenido);
                 break;
             case 4:
-                System.out.println("Editar reseña seleccionado (funcionalidad en desarrollo)");
+                System.out.println("Editar reseña seleccionado ");
+                System.out.println("Ingrese la nueva cantidad de estrellas: ");
+                int estrellas = s.nextInt();
+                s.nextLine();
+                System.out.println("Ingrese su nuevo comentario: ");
+                String comentario = s.nextLine();
+                System.out.println("ID Usuario: " + idUsuario);
+                System.out.println("ID Contenido: " + contenido.getId());
+                System.out.println("Estrellas: " + estrellas);
+                System.out.println("Comentario: " + comentario);
+                Resenia resenia = new Resenia(idUsuario, contenido.getId(), estrellas, new StringBuilder(comentario));
+                resenia.setId(contenido.getId());
+                System.err.println(resenia);
+                reseniaService.actualizar(resenia);
                 break;
             case 5:
-                System.out.println("Eliminar reseña seleccionado (funcionalidad en desarrollo)");
+                System.out.println("Eliminar reseña seleccionado");
                 break;
             default:
                 System.out.println("Opcion invalida");

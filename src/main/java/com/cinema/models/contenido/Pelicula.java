@@ -13,6 +13,8 @@ public class Pelicula extends Contenido{
         this.tipo = Tipo.PELICULA;
     }
 
+
+
     public Pelicula(){
         super();
         this.tipo = Tipo.PELICULA;
@@ -29,6 +31,7 @@ public class Pelicula extends Contenido{
     @Override
     public String toString() {
         return "Pelicula{" +
+                "id=" + id + '\n' +
                 "duracion=" + duracion +
                 ", titulo='" + titulo + '\'' +
                 ", genero=" + genero +

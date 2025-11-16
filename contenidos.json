@@ -6,7 +6,14 @@
         "genero": "CIENCIA_FICCION",
         "titulo": "Inception",
         "duracion": 2,
-        "resenias": [],
+        "resenias": [{
+            "calificacion": 3,
+            "estado": true,
+            "id": 1,
+            "comentario": "hola mundo!",
+            "usuarioId": 2,
+            "contenidoId": 1
+        }],
         "id": 1,
         "anio": 2010
     },
@@ -17,7 +24,14 @@
         "genero": "CIENCIA_FICCION",
         "titulo": "Game Of Thrones",
         "episodios": 70,
-        "resenias": [],
+        "resenias": [{
+            "calificacion": 5,
+            "estado": true,
+            "id": 3,
+            "comentario": "Hola mundo 2!",
+            "usuarioId": 2,
+            "contenidoId": 2
+        }],
         "id": 2,
         "anio": 2010
     }

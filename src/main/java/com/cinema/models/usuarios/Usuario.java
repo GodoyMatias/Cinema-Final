@@ -1,7 +1,7 @@
 package com.cinema.models.usuarios;
 
 public class Usuario {
-    private static int contador = 0; ////////////////////////////////////////////////
+    private static int contador; ////////////////////////////////////////////////
     private int id;
     private String nombre;
     private Boolean estado;

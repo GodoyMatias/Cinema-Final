@@ -26,7 +26,7 @@ public class Main {
                 Login.register();
                 break;
             case "3":
-                System.out.println("Goodbye!");
+                System.out.println("Gracias por aprobarnos :) !");
                 break;
             default:
                 System.out.println("Invalid option");

@@ -38,6 +38,7 @@ public class Serie extends Contenido{
     @Override
     public String toString() {
         return "Serie{" +
+                "id=" + id + '\n' +
                 "temporadas=" + temporadas +
                 ", episodios=" + episodios +
                 ", titulo='" + titulo + '\'' +
