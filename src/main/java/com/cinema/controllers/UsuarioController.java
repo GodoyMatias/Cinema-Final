@@ -113,7 +113,7 @@ public class UsuarioController {
 
     private static void eliminarPerfil(Usuario user, UsuarioService usuarioService) {
         System.out.println("Eliminar Perfil seleccionado");
-        usuarioService.eliminar(user.getId());
+        usuarioService.baja(user.getId());
         System.out.println("Perfil eliminado. Lo sentimos verte ir, " + user.getNombre());
     }
 
@@ -141,7 +141,7 @@ public class UsuarioController {
         Usuario usuarioActualizado = new Usuario(nuevoNombre, nuevaContrasena, nuevoEmail, user.getRol());
         usuarioActualizado.setId(user.getId());
 
-        usuarioService.actualizar(usuarioActualizado);
+        usuarioService.modificar(usuarioActualizado);
     }
 
     // ============================================================
@@ -163,7 +163,7 @@ public class UsuarioController {
 
         ConsoleUtils.fakeClear();
 
-        Contenido contenido = servicio.leer(contenidoId);
+        Contenido contenido = servicio.consulta(contenidoId);
         System.out.println(contenido);
 
         return contenido;
@@ -216,7 +216,7 @@ public class UsuarioController {
         Resenia resenia = new Resenia(idUsuario, contenido.getId(), estrellas, new StringBuilder(comentario));
         ReseniaService service = new ReseniaService(contenido.getId());
 
-        service.crear(resenia);
+        service.alta(resenia);
     }
 
     private static void editarResenia(Scanner s, int idUsuario, ReseniaService reseniaService) {
@@ -238,12 +238,12 @@ public class UsuarioController {
         reseniaExistente.setEstrellas(estrellas);
         reseniaExistente.setComentario(new StringBuilder(comentario));
 
-        boolean actualizado = reseniaService.actualizar(reseniaExistente);
+        boolean actualizado = reseniaService.modificar(reseniaExistente);
 
         if (actualizado) {
             System.out.println("Reseña actualizada correctamente.");
         } else {
-            System.err.println("No se pudo actualizar la reseña.");
+            System.err.println("No se pudo modificar la reseña.");
         }
     }
 
@@ -253,16 +253,16 @@ public class UsuarioController {
         Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);
 
         if (reseniaExistente == null) {
-            System.err.println("No puedes eliminar una reseña que no has creado.");
+            System.err.println("No puedes baja una reseña que no has creado.");
             return;
         }
 
-        boolean eliminado = reseniaService.eliminar(reseniaExistente.getId());
+        boolean eliminado = reseniaService.baja(reseniaExistente.getId());
 
         if (eliminado) {
             System.out.println("Reseña eliminada correctamente.");
         } else {
-            System.err.println("No se pudo eliminar la reseña.");
+            System.err.println("No se pudo baja la reseña.");
         }
     }
 

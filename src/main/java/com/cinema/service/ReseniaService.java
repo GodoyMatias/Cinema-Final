@@ -36,7 +36,7 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public boolean crear(Resenia resenia) {
+    public boolean alta(Resenia resenia) {
         resenias.add(resenia);
         persistencia(resenia);
         return true;
@@ -60,7 +60,7 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public Resenia leer(int id) {
+    public Resenia consulta(int id) {
         for (Resenia r : resenias) {
             if (r.getId() == id) {
                 return r;
@@ -74,7 +74,7 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public boolean actualizar(Resenia nueva) {
+    public boolean modificar(Resenia nueva) {
         for (Resenia existente : resenias) {
             if (existente.getId() == nueva.getId()) {
 
@@ -93,7 +93,7 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public boolean eliminar(int id) {
+    public boolean baja(int id) {
         for (Resenia r : resenias) {
             if (r.getId() == id) {
                 resenias.remove(r);

@@ -1,18 +1,20 @@
 package com.cinema.service;
 
+import com.cinema.controllers.RegisterController;
 import com.cinema.data.GestorUsuariosJson;
 import com.cinema.interfaces.ABMCL;
 import com.cinema.models.usuarios.Usuario;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UsuarioService implements ABMCL<Usuario> {
 
-    private final Set<Usuario> usuarios;
-    private final GestorUsuariosJson gestorUsuariosJson = new GestorUsuariosJson();
+    private final HashSet<Usuario> usuarios;
+    private final GestorUsuariosJson gestoraUsuariosJson = new GestorUsuariosJson();
 
     public UsuarioService() {
-        this.usuarios = gestorUsuariosJson.archivoALista();
+        this.usuarios = gestoraUsuariosJson.archivoALista();
     }
 
     // ============================================================
@@ -20,14 +22,13 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public boolean crear(Usuario usuario) {
-        GestorUsuariosJson gestor = new GestorUsuariosJson();
-        boolean registrado = gestor.registrar(usuario);
+    public boolean alta(Usuario usuario) {
+        boolean registrado = RegisterController.registrar(usuario, gestoraUsuariosJson);
 
         if (registrado) {
             System.out.println("Usuario creado: " + usuario.getNombre());
         } else {
-            System.out.println("Error al crear usuario: " + usuario.getNombre());
+            System.out.println("Error al alta usuario: " + usuario.getNombre());
         }
 
         return registrado;
@@ -38,7 +39,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public Usuario leer(int id) {
+    public Usuario consulta(int id) {
         System.out.println("Leer usuario con ID: " + id);
         return usuarios.stream()
                 .filter(u -> u.getId() == id)
@@ -51,7 +52,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public boolean actualizar(Usuario usuarioActualizado) {
+    public boolean modificar(Usuario usuarioActualizado) {
         Usuario usuarioExistente = buscarPorId(usuarioActualizado.getId());
 
         if (usuarioExistente == null) {
@@ -61,7 +62,7 @@ public class UsuarioService implements ABMCL<Usuario> {
         usuarios.remove(usuarioExistente);
         usuarios.add(usuarioActualizado);
 
-        gestorUsuariosJson.listaToArchivo(usuarios);
+        gestoraUsuariosJson.listaToArchivo(usuarios);
         System.out.println("Usuario actualizado: " + usuarioActualizado.getNombre());
 
         return true;
@@ -72,7 +73,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public boolean eliminar(int id) {
+    public boolean baja(int id) {
         Usuario usuario = buscarPorId(id);
 
         if (usuario == null) {
@@ -80,7 +81,7 @@ public class UsuarioService implements ABMCL<Usuario> {
         }
 
         usuario.setEstado(false);
-        gestorUsuariosJson.listaToArchivo(usuarios);
+        gestoraUsuariosJson.listaToArchivo(usuarios);
 
         System.out.println("Usuario eliminado con ID: " + id);
         return true;

@@ -154,7 +154,7 @@ public class AdminController {
 
     public static void eliminarUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Eliminar Usuario seleccionado" + Colores.RESET);
-        System.out.println("Ingrese el id del usuario a eliminar:");
+        System.out.println("Ingrese el id del usuario a baja:");
         int id = leerEntero(s);
         administrador.eliminarUsuario(id);
     }
@@ -197,7 +197,7 @@ public class AdminController {
                     System.out.println(Colores.VERDE + "Película creada exitosamente." + Colores.RESET);
                     System.out.println(nuevaPelicula);
                 } else {
-                    System.out.println(Colores.ROJO + "Error al crear la película." + Colores.RESET);
+                    System.out.println(Colores.ROJO + "Error al alta la película." + Colores.RESET);
                 }
             }
             case 2 -> {
@@ -211,7 +211,7 @@ public class AdminController {
                     System.out.println(Colores.VERDE + "Serie creada exitosamente." + Colores.RESET);
                     System.out.println(nuevaSerie);
                 } else {
-                    System.out.println(Colores.ROJO + "Error al crear la serie." + Colores.RESET);
+                    System.out.println(Colores.ROJO + "Error al alta la serie." + Colores.RESET);
                 }
             }
             default -> System.out.println(Colores.ROJO + "Opción inválida" + Colores.RESET);

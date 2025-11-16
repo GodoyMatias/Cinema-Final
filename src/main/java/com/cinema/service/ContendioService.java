@@ -22,7 +22,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public boolean crear(Contenido contenido) {
+    public boolean alta(Contenido contenido) {
         if (contenidos.containsKey(contenido.getId())) {
             return false;
         }
@@ -38,7 +38,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public Contenido leer(int id) throws ContenidoNoEncontradoException {
+    public Contenido consulta(int id) throws ContenidoNoEncontradoException {
         validarExistencia(id);
         return contenidos.get(id);
     }
@@ -48,7 +48,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public boolean actualizar(Contenido contenido) throws ContenidoNoEncontradoException {
+    public boolean modificar(Contenido contenido) throws ContenidoNoEncontradoException {
         validarExistencia(contenido.getId());
 
         contenidos.put(contenido.getId(), contenido);
@@ -62,7 +62,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public boolean eliminar(int id) throws ContenidoNoEncontradoException {
+    public boolean baja(int id) throws ContenidoNoEncontradoException {
         validarExistencia(id);
 
         Contenido contenido = contenidos.get(id);

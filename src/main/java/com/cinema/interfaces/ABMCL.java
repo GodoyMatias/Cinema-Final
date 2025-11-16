@@ -1,12 +1,11 @@
 package com.cinema.interfaces;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ABMCL<T> {
-    boolean crear(T c);
-    T leer(int id);
-    boolean actualizar(T c);
-    boolean eliminar(int id);
+    boolean alta(T c);
+    boolean baja(int id);
+    boolean modificar(T c);
+    T consulta(int id);
     Collection<T> listar();
 }

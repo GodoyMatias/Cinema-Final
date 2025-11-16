@@ -75,7 +75,7 @@ public class GestorContenidosJSON {
                     jsonArray.put(serializar((Serie) contenido));
                 }
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

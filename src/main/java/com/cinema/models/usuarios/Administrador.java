@@ -18,28 +18,28 @@ public class Administrador extends Usuario  {
     }
 
     public boolean crearUsuario(Usuario u){
-        return usuarioService.crear(u);
+        return usuarioService.alta(u);
     }
     public Usuario leerUsuario(int id){
-        return usuarioService.leer(id);
+        return usuarioService.consulta(id);
     }
     public boolean actualizarUsuario(Usuario u){
-         return usuarioService.actualizar(u);
+         return usuarioService.modificar(u);
     }
     public boolean eliminarUsuario(int id){
-        return usuarioService.eliminar(id);
+        return usuarioService.baja(id);
     }
     public Set<Usuario> listarUsuarios() {
         return usuarioService.listar();
     }
 
     public boolean crearContenido(Contenido c){
-        return contendioService.crear(c);
+        return contendioService.alta(c);
     }
 
     public Contenido leerContenido(int id){
         try {
-            return contendioService.leer(id);
+            return contendioService.consulta(id);
         } catch (ContenidoNoEncontradoException e) {
             e.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class Administrador extends Usuario  {
 
     public boolean actualizarContenido(Contenido c){
         try {
-            return contendioService.actualizar(c);
+            return contendioService.modificar(c);
         } catch (ContenidoNoEncontradoException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class Administrador extends Usuario  {
 
     public boolean eliminarContenido(int id){
         try {
-            return contendioService.eliminar(id);
+            return contendioService.baja(id);
         } catch (ContenidoNoEncontradoException e) {
             e.printStackTrace();
         }

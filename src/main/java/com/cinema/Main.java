@@ -1,5 +1,8 @@
 package com.cinema;
-import com.cinema.utils.Login;
+import com.cinema.controllers.LoginController;
+import com.cinema.controllers.RegisterController;
+import com.cinema.utils.Colores;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,22 +11,21 @@ public class Main {
         Scanner s = new Scanner(System.in);
 
         while (true) {
+
             System.out.println("UTN Cinema");
-            System.out.println("1- Login");
-            System.out.println("2- Register");
-            System.out.println("3- Exit");
+            System.out.println("1- Iniciar Sesión");
+            System.out.println("2- Registrar Usuario");
+            System.out.println("3- Salir");
 
             String opcion = s.nextLine();
 
             switch (opcion) {
                 case "1":
-                    System.out.println("Login selected");
-                    Login.auth();
+                    LoginController.loginAuth();
                     break;
 
                 case "2":
-                    System.out.println("Register selected");
-                    Login.register();
+                    RegisterController.menuRegistrar();
                     break;
 
                 case "3":
@@ -31,7 +33,7 @@ public class Main {
                     return; // Sale del programa sin romper nada
 
                 default:
-                    System.out.println("Invalid option");
+                    System.out.println("Opción no válida. Intente de nuevo.");
                     break;
             }
 
