@@ -1,8 +1,10 @@
 package com.cinema.controllers;
 
 import com.cinema.data.GestorUsuariosJson;
+import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
+import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
 import com.cinema.utils.ConsoleUtils;
 
@@ -10,8 +12,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 public class RegisterController {
-
-
+    private static final UsuarioService usuarioService = new UsuarioService();
 
     public static void menuRegistrar() {
         Scanner s = new Scanner(System.in);
@@ -24,13 +25,18 @@ public class RegisterController {
         String nombre = s.nextLine();
         System.out.println("Email: ");
         String email = s.nextLine();
+        try {
+            usuarioService.verificarEmail(email);
+        } catch (EmailNoValidoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
         System.out.println("Password: ");
         String password = s.nextLine();
 
         Usuario newUser = new Usuario(nombre, password, email, Rol.BASE);
-
-        GestorUsuariosJson g = new GestorUsuariosJson();
-        boolean registrado = registrar(newUser, g);
+        boolean registrado = usuarioService.alta(newUser);
 
         ConsoleUtils.fakeClear();
         if (registrado) {
@@ -40,7 +46,9 @@ public class RegisterController {
         }
     }
 
+    /*
     public static boolean registrar(Usuario u, GestorUsuariosJson g) {
+
         if (u == null || u.getEmail() == null) return false;
         HashSet<Usuario> lista = g.archivoALista();
         String target = u.getEmail().trim().toLowerCase();
@@ -50,9 +58,8 @@ public class RegisterController {
             }
         }
         // Añadir y persistir
-        lista.add(u);
-        g.listaToArchivo(lista);
-        return true;
-    }
 
+        return usuarioService.alta(u);
+    }
+    */
 }
