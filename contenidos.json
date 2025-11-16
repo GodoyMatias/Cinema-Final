@@ -25,10 +25,10 @@
         "titulo": "Game Of Thrones",
         "episodios": 70,
         "resenias": [{
-            "calificacion": 5,
+            "calificacion": 9,
             "estado": true,
             "id": 3,
-            "comentario": "Hola mundo 2!",
+            "comentario": "Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "usuarioId": 2,
             "contenidoId": 2
         }],

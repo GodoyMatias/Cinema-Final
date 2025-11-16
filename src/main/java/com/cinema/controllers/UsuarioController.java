@@ -111,21 +111,55 @@ public class UsuarioController {
             case 3:
                 agregarResenia(s, idUsuario, contenido);
                 break;
+//            case 4:
+//                System.out.println("Editar reseña seleccionado ");
+//                System.out.println("Ingrese la nueva cantidad de estrellas: ");
+//                int estrellas = s.nextInt();
+//                s.nextLine();
+//                System.out.println("Ingrese su nuevo comentario: ");
+//                String comentario = s.nextLine();
+//                System.out.println("ID Usuario: " + idUsuario);
+//                System.out.println("ID Contenido: " + contenido.getId());
+//                System.out.println("Estrellas: " + estrellas);
+//                System.out.println("Comentario: " + comentario);
+//                Resenia resenia = new Resenia(idUsuario, contenido.getId(), estrellas, new StringBuilder(comentario));
+//                resenia.setId(contenido.getId());
+//                System.err.println(resenia);
+//                reseniaService.actualizar(resenia);
+//                break;
+            // case 4 en opcionesDeContenido
+            /// / este tambien fue gemini
             case 4:
                 System.out.println("Editar reseña seleccionado ");
+
+                // Primero, busca la reseña existente
+                // (Asumiendo que 'idUsuario' está disponible en este método)
+                Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);
+
+                if (reseniaExistente == null) {
+                    System.err.println("No puedes editar una reseña que no has creado.");
+                    break; // Sale del switch
+                }
+
+                // Si existe, pide los nuevos datos
                 System.out.println("Ingrese la nueva cantidad de estrellas: ");
                 int estrellas = s.nextInt();
                 s.nextLine();
                 System.out.println("Ingrese su nuevo comentario: ");
                 String comentario = s.nextLine();
-                System.out.println("ID Usuario: " + idUsuario);
-                System.out.println("ID Contenido: " + contenido.getId());
-                System.out.println("Estrellas: " + estrellas);
-                System.out.println("Comentario: " + comentario);
-                Resenia resenia = new Resenia(idUsuario, contenido.getId(), estrellas, new StringBuilder(comentario));
-                resenia.setId(contenido.getId());
-                System.err.println(resenia);
-                reseniaService.actualizar(resenia);
+
+                // Actualiza el objeto que SÍ está en la lista
+                reseniaExistente.setEstrellas(estrellas);
+                reseniaExistente.setComentario(new StringBuilder(comentario)); // O el tipo que use setComentario
+
+                // Ahora sí, llama a actualizar con el objeto correcto y su ID original
+                boolean actualizado = reseniaService.actualizar(reseniaExistente);
+
+                if (actualizado) {
+                    System.out.println("Reseña actualizada correctamente.");
+                } else {
+                    System.err.println("No se pudo actualizar la reseña.");
+                }
                 break;
             case 5:
                 System.out.println("Eliminar reseña seleccionado");

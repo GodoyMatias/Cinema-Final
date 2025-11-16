@@ -33,6 +33,17 @@ public class ReseniaService implements ABMCL<Resenia>{
         return true;
     }
 
+    /// este fue gemini, yo no se :)
+    public Resenia buscarPorUsuario(int idUsuario) {
+        for (Resenia r : resenias) {
+            // Asumiendo que tu clase Resenia tiene un getter para el id del usuario
+            if (r.getIdUsuario() == idUsuario) {
+                return r;
+            }
+        }
+        return null; // No se encontró
+    }
+
     @Override
     public Resenia leer(int id) {
         for (Resenia r : resenias) {
@@ -43,20 +54,40 @@ public class ReseniaService implements ABMCL<Resenia>{
         return null;
     }
 
-    @Override
-    public boolean actualizar(Resenia c) {
-        for (Resenia r : resenias) {
-            if (r.getId() == c.getId()) {
-                resenias.remove(r);
-                r.setEstrellas(c.getEstrellas());
-                r.setComentario(c.getComentario());
-                resenias.add(r);
-                persistencia(r);
-                return true;
-            }
+//    @Override
+//    public boolean actualizar(Resenia c) {
+//        for (Resenia r : resenias) {
+//            if (r.getId() == c.getId()) {
+//                resenias.remove(r);
+//                r.setEstrellas(c.getEstrellas());
+//                r.setComentario(c.getComentario());
+//                resenias.add(r);
+//                persistencia(r);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+@Override
+public boolean actualizar(Resenia c) {
+    // 'c' es el objeto que viene del controlador (reseniaExistente en nuestra solución)
+    for (Resenia r : resenias) {
+        // 'r' es el objeto que vive en la lista 'resenias'
+
+        // Compara por el ID único de la reseña
+        if (r.getId() == c.getId()) {
+
+            // Actualiza el objeto 'r' (en la lista) con los datos de 'c'
+            r.setEstrellas(c.getEstrellas());
+            r.setComentario(c.getComentario());
+
+            // Llama a persistencia con el objeto 'r' actualizado
+            persistencia(r);
+            return true; // ¡Éxito!
         }
-        return false;
     }
+    return false; // No se encontró el objeto para actualizar
+}
 
     @Override
     public boolean eliminar(int id) {
