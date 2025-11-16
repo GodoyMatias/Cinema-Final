@@ -153,6 +153,8 @@ public class AdminController {
         System.out.println("Password: ");
         String password = s.nextLine();
 
+
+
         return (rol == Rol.ADMINISTRADOR)
                 ? new Administrador(nombre, password, email, rol)
                 : new Usuario(nombre, password, email, rol);
@@ -165,7 +167,10 @@ public class AdminController {
         System.out.println("Ingrese el id del usuario a modificar:");
         String id = leerString(s);
 
-        Usuario usuarioModificado = crearUsuarioDesdeInput(s, Rol.BASE);
+        System.out.println("Ingrese el nuevo rol del usuario (1- ADMINISTRADOR, 2- BASE):");
+        int rolInput = leerEntero(s);
+        Rol nuevoRol = (rolInput == 1) ? Rol.ADMINISTRADOR : Rol.BASE;
+        Usuario usuarioModificado = crearUsuarioDesdeInput(s, nuevoRol);
         usuarioModificado.setId(id);
 
         administrador.actualizarUsuario(usuarioModificado);
