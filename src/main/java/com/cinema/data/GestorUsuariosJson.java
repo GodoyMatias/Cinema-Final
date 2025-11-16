@@ -64,21 +64,13 @@ public class GestorUsuariosJson {
             e.printStackTrace();
         }
 
-        // Sincronizar el contador estático de Usuario con el máximo id en el archivo
-        int maxId = 0;
-        for (Usuario u : lista) {
-            if (u.getId() > maxId) maxId = u.getId();
-        }
-        // Mantener el mayor entre el contador actual y el maxId del archivo
-        Usuario.setContador(Math.max(Usuario.getContador(), maxId));
-
         return lista;
     }
 
     public Usuario deserializar (JSONObject jsonObject) {
         Usuario u = new Usuario();
         try {
-            if (jsonObject.has("id") && !jsonObject.isNull("id")) u.setId(jsonObject.getInt("id"));
+            if (jsonObject.has("id") && !jsonObject.isNull("id")) u.setId(jsonObject.getString("id"));
             if (jsonObject.has("nombre") && !jsonObject.isNull("nombre")) u.setNombre(jsonObject.getString("nombre"));
             if (jsonObject.has("email") && !jsonObject.isNull("email")) u.setEmail(jsonObject.getString("email"));
             if (jsonObject.has("contrasena") && !jsonObject.isNull("contrasena")) u.setPassword(jsonObject.getString("contrasena"));

@@ -63,7 +63,7 @@ public class GestorContenidosJSON {
     // LISTA → JSON
     // ============================================================
 
-    public JSONArray serializarLista(Map<Integer, Contenido> contenidoMap) {
+    public JSONArray serializarLista(Map<String, Contenido> contenidoMap) {
         JSONArray jsonArray = new JSONArray();
 
         try {
@@ -86,7 +86,7 @@ public class GestorContenidosJSON {
     // GUARDAR ARCHIVO
     // ============================================================
 
-    public void listaToArchivo(Map<Integer, Contenido> contenidoMap) {
+    public void listaToArchivo(Map<String, Contenido> contenidoMap) {
         JSONArray array = serializarLista(contenidoMap);
         OperacionesLectoEscritura.grabar(DEFAULT_FILE_CONTENIDO, array);
     }
@@ -103,7 +103,7 @@ public class GestorContenidosJSON {
 
             contenido = esPelicula ? new Pelicula() : new Serie();
 
-            contenido.setId(json.getInt("id"));
+            contenido.setId(json.getString("id"));
             contenido.setTitulo(json.getString("titulo"));
             contenido.setGenero(Genero.valueOf(json.getString("genero")));
             contenido.setAnio(json.getInt("anio"));
@@ -129,8 +129,8 @@ public class GestorContenidosJSON {
     // JSON → MAP
     // ============================================================
 
-    public Map<Integer, Contenido> deserializarLista(JSONArray array) {
-        Map<Integer, Contenido> contenidos = new HashMap<>();
+    public Map<String, Contenido> deserializarLista(JSONArray array) {
+        Map<String, Contenido> contenidos = new HashMap<>();
 
         try {
             for (int i = 0; i < array.length(); i++) {
@@ -149,9 +149,9 @@ public class GestorContenidosJSON {
     // ARCHIVO → MAP
     // ============================================================
 
-    public Map<Integer, Contenido> archivoALista() {
+    public Map<String, Contenido> archivoALista() {
         JSONTokener tokener = OperacionesLectoEscritura.leer(DEFAULT_FILE_CONTENIDO);
-        Map<Integer, Contenido> contenidos = new HashMap<>();
+        Map<String, Contenido> contenidos = new HashMap<>();
 
         try {
             if (tokener == null) {

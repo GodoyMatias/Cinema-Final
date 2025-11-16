@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ContendioService implements ABMCL<Contenido> {
 
-    private final Map<Integer, Contenido> contenidos;
+    private final Map<String, Contenido> contenidos;
     private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
 
     public ContendioService() {
@@ -38,7 +38,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public Contenido consulta(int id) throws ContenidoNoEncontradoException {
+    public Contenido consulta(String id) throws ContenidoNoEncontradoException {
         validarExistencia(id);
         return contenidos.get(id);
     }
@@ -62,7 +62,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // ============================================================
 
     @Override
-    public boolean baja(int id) throws ContenidoNoEncontradoException {
+    public boolean baja(String id) throws ContenidoNoEncontradoException {
         validarExistencia(id);
 
         Contenido contenido = contenidos.get(id);
@@ -88,7 +88,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // MÉTODOS AUXILIARES
     // ============================================================
 
-    private void validarExistencia(int id) throws ContenidoNoEncontradoException {
+    private void validarExistencia(String id) throws ContenidoNoEncontradoException {
         if (!contenidos.containsKey(id)) {
             throw new ContenidoNoEncontradoException("El contenido con ID " + id + " no existe.");
         }

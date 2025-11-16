@@ -49,6 +49,10 @@ public class AdminController {
         return valor;
     }
 
+    private static String leerString(Scanner s) {
+        return s.nextLine();
+    }
+
     // ============================================================
     // GESTIÓN DE CONTENIDOS
     // ============================================================
@@ -144,7 +148,7 @@ public class AdminController {
     public static void modificarUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Modificar Usuario seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del usuario a modificar:");
-        int id = leerEntero(s);
+        String id = leerString(s);
 
         Usuario usuarioModificado = crearUsuarioDesdeInput(s, Rol.BASE);
         usuarioModificado.setId(id);
@@ -155,14 +159,14 @@ public class AdminController {
     public static void eliminarUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Eliminar Usuario seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del usuario a baja:");
-        int id = leerEntero(s);
+        String id = leerString(s);
         administrador.eliminarUsuario(id);
     }
 
     public static void leerUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Buscar Usuario seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del usuario:");
-        int id = leerEntero(s);
+        String id = leerString(s);
         System.out.println(administrador.leerUsuario(id));
     }
 
@@ -256,7 +260,7 @@ public class AdminController {
         System.out.println(administrador.listarContenidos());
         System.out.println("Ingrese el id del contenido a modificar:");
 
-        int id = leerEntero(s);
+        String id = leerString(s);
 
         System.out.println("Título:");
         String titulo = s.nextLine();
@@ -297,14 +301,14 @@ public class AdminController {
     public static void eliminarContenido(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Eliminar Contenido seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id del contenido:");
-        int id = leerEntero(s);
+        String id = leerString(s);
         administrador.eliminarContenido(id);
     }
 
     public static void buscarContenido(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Buscar Contenido seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id:");
-        int id = leerEntero(s);
+        String id = leerString(s);
         System.out.println(administrador.leerContenido(id));
     }
 }

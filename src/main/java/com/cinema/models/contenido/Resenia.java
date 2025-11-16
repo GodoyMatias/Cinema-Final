@@ -1,28 +1,26 @@
 package com.cinema.models.contenido;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Resenia {
     //Atributos
-    private static int contador = 0;
-    private int id;
-    private int idUsuario;
-    private int idContenido;
+    private String id;
+    private String idUsuario;
+    private String idContenido;
     private int estrellas;
     private StringBuilder comentario;
     private boolean estado;
 
     // Constructor vacío
     public Resenia() {
-        contador++;
-        this.id = contador;
+        this.id = UUID.randomUUID().toString();
         this.estado = true;
     }
 
     // Constructor con comentario
-    public Resenia(int idUsuario,int idContenido, int estrellas, StringBuilder comentario) {
-        contador ++;
-        this.id = contador;
+    public Resenia(String idUsuario,String idContenido, int estrellas, StringBuilder comentario) {
+        this.id = UUID.randomUUID().toString();
         this.idUsuario = idUsuario;
         this.idContenido = idContenido;
         this.estrellas = estrellas;
@@ -30,35 +28,27 @@ public class Resenia {
         this.estado = true;
     }
 
-    public static int getContador() {
-        return contador;
-    }
-
-    public static void setContador(int contador) {
-        Resenia.contador = contador;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdContenido() { //Agregue get y set idContenido
+    public String getIdContenido() { //Agregue get y set idContenido
         return idContenido;
     }
 
-    public void setIdContenido(int idContenido) {
+    public void setIdContenido(String idContenido) {
         this.idContenido = idContenido;
     }
 
@@ -88,14 +78,15 @@ public class Resenia {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resenia resenia = (Resenia) o;
-        return id == resenia.id && idUsuario == resenia.idUsuario && idContenido == resenia.idContenido && estrellas == resenia.estrellas && estado == resenia.estado && Objects.equals(comentario, resenia.comentario);
+        return Objects.equals(id, resenia.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idUsuario, idContenido, estrellas, comentario, estado);
+        return Objects.hash(id);
     }
 
     @Override

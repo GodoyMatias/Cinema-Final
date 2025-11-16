@@ -159,7 +159,7 @@ public class UsuarioController {
         verContenidoDisponible(servicio);
 
         System.out.println("Ingrese el ID del contenido que desea ver:");
-        int contenidoId = leerEntero(s);
+        String contenidoId = s.nextLine();
 
         ConsoleUtils.fakeClear();
 
@@ -169,8 +169,12 @@ public class UsuarioController {
         return contenido;
     }
 
-    private static void opcionesDeContenido(Scanner s, ContendioService servicio, int idUsuario) {
+    private static void opcionesDeContenido(Scanner s, ContendioService servicio, String idUsuario) {
         Contenido contenido = seleccionarContenido(s, servicio);
+        if (contenido == null) {
+            System.out.println("Contenido no encontrado.");
+            return;
+        }
         ReseniaService reseniaService = new ReseniaService(contenido.getId());
 
         mostrarMenuContenido();
@@ -204,7 +208,7 @@ public class UsuarioController {
     // RESEÑAS
     // ============================================================
 
-    private static void agregarResenia(Scanner s, int idUsuario, Contenido contenido) {
+    private static void agregarResenia(Scanner s, String idUsuario, Contenido contenido) {
         System.out.println("Agregar reseña seleccionado");
 
         System.out.println("Ingrese la cantidad de estrellas:");
@@ -219,7 +223,7 @@ public class UsuarioController {
         service.alta(resenia);
     }
 
-    private static void editarResenia(Scanner s, int idUsuario, ReseniaService reseniaService) {
+    private static void editarResenia(Scanner s, String idUsuario, ReseniaService reseniaService) {
         System.out.println("Editar reseña seleccionado");
 
         Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);
@@ -247,7 +251,7 @@ public class UsuarioController {
         }
     }
 
-    public static void eliminarResenia(int idUsuario, ReseniaService reseniaService) {
+    public static void eliminarResenia(String idUsuario, ReseniaService reseniaService) {
         System.out.println("Eliminar reseña seleccionado");
 
         Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);

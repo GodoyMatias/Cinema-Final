@@ -39,10 +39,10 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public Usuario consulta(int id) {
+    public Usuario consulta(String id) {
         System.out.println("Leer usuario con ID: " + id);
         return usuarios.stream()
-                .filter(u -> u.getId() == id)
+                .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -73,7 +73,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public boolean baja(int id) {
+    public boolean baja(String id) {
         Usuario usuario = buscarPorId(id);
 
         if (usuario == null) {
@@ -100,10 +100,11 @@ public class UsuarioService implements ABMCL<Usuario> {
     // MÉTODO AUXILIAR
     // ============================================================
 
-    private Usuario buscarPorId(int id) {
+    private Usuario buscarPorId(String id) {
         return usuarios.stream()
-                .filter(u -> u.getId() == id)
+                .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 }
+

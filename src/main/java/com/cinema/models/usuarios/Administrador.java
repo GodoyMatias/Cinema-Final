@@ -20,13 +20,13 @@ public class Administrador extends Usuario  {
     public boolean crearUsuario(Usuario u){
         return usuarioService.alta(u);
     }
-    public Usuario leerUsuario(int id){
+    public Usuario leerUsuario(String id){
         return usuarioService.consulta(id);
     }
     public boolean actualizarUsuario(Usuario u){
          return usuarioService.modificar(u);
     }
-    public boolean eliminarUsuario(int id){
+    public boolean eliminarUsuario(String id){
         return usuarioService.baja(id);
     }
     public Set<Usuario> listarUsuarios() {
@@ -37,7 +37,7 @@ public class Administrador extends Usuario  {
         return contendioService.alta(c);
     }
 
-    public Contenido leerContenido(int id){
+    public Contenido leerContenido(String id){
         try {
             return contendioService.consulta(id);
         } catch (ContenidoNoEncontradoException e) {
@@ -55,7 +55,7 @@ public class Administrador extends Usuario  {
         return false;
     }
 
-    public boolean eliminarContenido(int id){
+    public boolean eliminarContenido(String id){
         try {
             return contendioService.baja(id);
         } catch (ContenidoNoEncontradoException e) {

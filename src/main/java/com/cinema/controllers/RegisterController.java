@@ -51,8 +51,6 @@ public class RegisterController {
         }
         // Añadir y persistir
         lista.add(u);
-        // Asegurar contador coherente
-        Usuario.setContador(Math.max(Usuario.getContador(), u.getId()));
         g.listaToArchivo(lista);
         return true;
     }

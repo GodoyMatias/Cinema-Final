@@ -41,9 +41,9 @@ public class GestorReseniaJSON {
         Resenia resenia = null;
         try {
             resenia = new Resenia();
-            resenia.setId(jsonObject.getInt("id"));
-            resenia.setIdUsuario(jsonObject.getInt("usuarioId"));
-            resenia.setIdContenido(jsonObject.getInt("contenidoId"));
+            resenia.setId(jsonObject.getString("id"));
+            resenia.setIdUsuario(jsonObject.getString("usuarioId"));
+            resenia.setIdContenido(jsonObject.getString("contenidoId"));
             resenia.setEstrellas(jsonObject.getInt("calificacion"));
             resenia.setComentario(new StringBuilder(jsonObject.getString("comentario")));
             resenia.setEstado(jsonObject.getBoolean("estado"));

@@ -11,10 +11,10 @@ import java.io.*;
         // SERIALIZAR
 
         public static void grabar(String nombreArchivo, JSONArray jsonArray) {
-            try {
-                FileWriter fileWriter = new FileWriter(nombreArchivo);
-                fileWriter.write(jsonArray.toString(4));
-                fileWriter.close();
+            if (jsonArray == null) jsonArray = new JSONArray();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+                writer.write(jsonArray.toString(4));
+                writer.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

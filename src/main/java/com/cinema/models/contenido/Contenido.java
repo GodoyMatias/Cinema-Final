@@ -3,8 +3,7 @@ package com.cinema.models.contenido;
 import java.util.*;
 
 public abstract class Contenido {
-    private static int contador;
-    protected int id;
+    protected String id;
     protected String titulo;
     protected Genero genero;
     protected int anio;
@@ -14,14 +13,12 @@ public abstract class Contenido {
     protected Tipo tipo;
 
     public Contenido() {
-        contador++;
-        this.id = contador;
+        this.id = UUID.randomUUID().toString();
         this.estado = true;
     }
 
     public Contenido(String titulo, Genero genero, int anio, String director) {
-        contador++;
-        this.id = contador;
+        this.id = UUID.randomUUID().toString();
         this.titulo = titulo;
         this.genero = genero;
         this.anio = anio;
@@ -31,11 +28,11 @@ public abstract class Contenido {
     }
 
     // setters y getters
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -87,15 +84,6 @@ public abstract class Contenido {
         this.resenias = resenias;
     }
 
-    public static int getContador() {
-        return contador;
-    }
-
-    public static void setContador(int contador) {
-        Contenido.contador = contador;
-    }
-
-
     public Tipo getTipo() {
         return tipo;
     }
@@ -116,13 +104,14 @@ public abstract class Contenido {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contenido contenido = (Contenido) o;
-        return id == contenido.id && anio == contenido.anio && estado == contenido.estado && Objects.equals(titulo, contenido.titulo) && genero == contenido.genero && Objects.equals(director, contenido.director) && Objects.equals(resenias, contenido.resenias);
+        return Objects.equals(id, contenido.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titulo, genero, anio, director, estado, resenias);
+        return Objects.hash(id);
     }
 }

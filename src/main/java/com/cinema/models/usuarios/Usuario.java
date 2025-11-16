@@ -1,8 +1,10 @@
 package com.cinema.models.usuarios;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Usuario {
-    private static int contador; ////////////////////////////////////////////////
-    private int id;
+    private String id;
     private String nombre;
     private Boolean estado;
     private String password;
@@ -10,13 +12,12 @@ public class Usuario {
     private Rol rol;
 
     public Usuario() {
-        contador ++;
-        this.id = contador;
+        this.id = UUID.randomUUID().toString();
         this.estado = true; //activo por defecto
     }
 
     public Usuario(String nombre, String password, String email, Rol rol) {
-        this.id = ++contador;
+        this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
         this.estado = true;
         this.password = password;
@@ -24,19 +25,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public static int getContador() {
-        return contador;
-    }
-
-    public static void setContador(int contador) {
-        Usuario.contador = contador;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,6 +71,19 @@ public class Usuario {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

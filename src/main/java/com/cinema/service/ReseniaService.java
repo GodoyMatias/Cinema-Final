@@ -8,14 +8,15 @@ import com.cinema.models.contenido.Resenia;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ReseniaService implements ABMCL<Resenia> {
 
     private final List<Resenia> resenias;
-    private final Map<Integer, Contenido> contenidos;
+    private final Map<String, Contenido> contenidos;
     private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
 
-    public ReseniaService(int idContenido) {
+    public ReseniaService(String idContenido) {
         this.contenidos = gestorContenidosJSON.archivoALista();
         this.resenias = contenidos.get(idContenido).getResenias();
     }
@@ -46,9 +47,9 @@ public class ReseniaService implements ABMCL<Resenia> {
     // BUSCAR POR USUARIO
     // ============================================================
 
-    public Resenia buscarPorUsuario(int idUsuario) {
+    public Resenia buscarPorUsuario(String idUsuario) {
         for (Resenia r : resenias) {
-            if (r.getIdUsuario() == idUsuario) {
+            if (r.getIdUsuario().equals(idUsuario)) {
                 return r;
             }
         }
@@ -60,9 +61,9 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public Resenia consulta(int id) {
+    public Resenia consulta(String id) {
         for (Resenia r : resenias) {
-            if (r.getId() == id) {
+            if (r.getId().equals(id)) {
                 return r;
             }
         }
@@ -76,7 +77,7 @@ public class ReseniaService implements ABMCL<Resenia> {
     @Override
     public boolean modificar(Resenia nueva) {
         for (Resenia existente : resenias) {
-            if (existente.getId() == nueva.getId()) {
+            if (Objects.equals(existente.getId(), nueva.getId())) {
 
                 existente.setEstrellas(nueva.getEstrellas());
                 existente.setComentario(nueva.getComentario());
@@ -93,9 +94,9 @@ public class ReseniaService implements ABMCL<Resenia> {
     // ============================================================
 
     @Override
-    public boolean baja(int id) {
+    public boolean baja(String id) {
         for (Resenia r : resenias) {
-            if (r.getId() == id) {
+            if (r.getId().equals(id)) {
                 resenias.remove(r);
                 r.setEstado(false);
                 resenias.add(r);
