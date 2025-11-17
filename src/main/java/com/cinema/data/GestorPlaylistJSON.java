@@ -17,6 +17,7 @@ public class GestorPlaylistJSON {
         try {
             jsonObject = new JSONObject();
             jsonObject.put("id", playlist.getId());
+            jsonObject.put("idUsuario", playlist.getIdUsuario());
             jsonObject.put("nombre", playlist.getNombre());
             jsonObject.put("estado", playlist.isEstado());
             jsonObject.put("contenidos", gestorContenidoJSON.serializarLista(playlist.getContenidos()));
@@ -49,6 +50,7 @@ public class GestorPlaylistJSON {
         try {
             playlist = new Playlist();
             playlist.setId(jsonObject.getString("id"));
+            playlist.setIdUsuario(jsonObject.getString("idUsuario"));
             playlist.setNombre(jsonObject.getString("nombre"));
             playlist.setEstado(jsonObject.getBoolean("estado"));
             playlist.setContenidos(gestorContenidoJSON.deserializarLista(jsonObject.getJSONArray("contenidos")));

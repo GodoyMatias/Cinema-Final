@@ -1,6 +1,7 @@
 [
     {
         "estado": true,
+        "playlists": null,
         "contrasena": "123",
         "id": "519a1a2f-9ee9-4efe-9388-c64d472c08ec",
         "nombre": "Nicolas",
@@ -9,6 +10,7 @@
     },
     {
         "estado": true,
+        "playlists": null,
         "contrasena": "123",
         "id": "997f6f03-9696-4175-8aea-2c7d7932ac06",
         "nombre": "mateo",
@@ -17,6 +19,22 @@
     },
     {
         "estado": true,
+        "playlists": [{
+            "estado": true,
+            "contenidos": [],
+            "idUsuario": "53b45472-49a2-463f-a3c7-4f441db6532f",
+            "id": "736bd1b4-d550-4bd9-b9c4-60126b2d124d",
+            "nombre": "p1"
+        }],
+        "contrasena": "1234",
+        "id": "53b45472-49a2-463f-a3c7-4f441db6532f",
+        "nombre": "user",
+        "email": "user@gmail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
+        "playlists": null,
         "contrasena": "admin",
         "id": "c4df0381-a992-4617-86e9-0f67d747d5c9",
         "nombre": "ADMIN",
@@ -25,6 +43,7 @@
     },
     {
         "estado": true,
+        "playlists": null,
         "contrasena": "123",
         "id": "35d3eb16-132b-4afa-9dc8-fe9f5b1d6d9d",
         "nombre": "mati",

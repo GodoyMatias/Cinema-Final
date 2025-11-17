@@ -1,9 +1,11 @@
 package com.cinema.service;
 
 import com.cinema.data.GestorUsuarioJSON;
+import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.exceptions.PlaylistNoEncontradaException;
 import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.interfaces.ABMCL;
+import com.cinema.models.contenido.Contenido;
 import com.cinema.models.playlist.Playlist;
 import com.cinema.models.usuarios.Usuario;
 
@@ -11,8 +13,8 @@ import java.util.*;
 
 public class PlaylistService implements ABMCL<Playlist> {
 
-    private final HashSet<Usuario> usuarios;   // igual que pediste
-    private final HashSet<Playlist> playlists;     // referencia directa a las playlists del usuario
+    private final HashSet<Usuario> usuarios;
+    private final HashSet<Playlist> playlists;
     private final GestorUsuarioJSON gestorUsuarioJSON = new GestorUsuarioJSON();
 
     private Usuario usuario; // usuario dueño de las playlists
@@ -40,7 +42,7 @@ public class PlaylistService implements ABMCL<Playlist> {
     }
 
     // ============================================================
-    // PERSISTENCIA (idéntico patrón que ReseniaService)
+    // PERSISTENCIA
     // ============================================================
 
     private void persistencia() {
@@ -130,18 +132,25 @@ public class PlaylistService implements ABMCL<Playlist> {
     }
 
     public void validarPlaylistActivas(Usuario usuario) throws PlaylistNoEncontradaException {
-        if (usuario.getPlaylists().stream().noneMatch(Playlist::isEstado)) {
-            throw  new PlaylistNoEncontradaException("No tienes playlists activas. No hay nada que mostrar.");
+
+        Collection<Playlist> playlistsUsuario = usuario.getPlaylists();
+        if (playlistsUsuario == null || playlistsUsuario.isEmpty() || playlistsUsuario.stream().noneMatch(Playlist::isEstado)) {
+            throw new PlaylistNoEncontradaException("No tienes playlists activas. No hay nada que mostrar.");
         }
     }
 
-    public void validarExistenciaPlaylist(String id) throws PlaylistNoEncontradaException {
+
+    public void validarExistenciaPlaylist(String idPlaylist) throws PlaylistNoEncontradaException {
         boolean existe = playlists.stream()
-                .anyMatch(p -> p.getId().equals(id) && p.isEstado());
+                .anyMatch(p -> p.getId().equals(idPlaylist) && p.isEstado());
 
         if (!existe) {
-            throw new PlaylistNoEncontradaException("La playlist con ID " + id + " no existe o está desactivada.");
+            throw new PlaylistNoEncontradaException("La playlist con ID " + idPlaylist + " no existe o está desactivada.");
         }
+    }
+
+    public boolean validarContenidoEnPlaylist(Playlist playlist, Contenido contenido) {
+        return playlist.getContenidos().containsKey(contenido.getId());
     }
 
 }

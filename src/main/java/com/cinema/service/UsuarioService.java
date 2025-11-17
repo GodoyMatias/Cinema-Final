@@ -7,6 +7,7 @@ import com.cinema.interfaces.ABMCL;
 import com.cinema.models.usuarios.Usuario;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class UsuarioService implements ABMCL<Usuario> {
@@ -77,14 +78,19 @@ public class UsuarioService implements ABMCL<Usuario> {
 
         usuarioExistente.setNombre(usuarioActualizado.getNombre());
         usuarioExistente.setPassword(usuarioActualizado.getPassword());
-        usuarioExistente.setEmail(usuarioActualizado.getEmail());
-        try {
-            verificarEmail(usuarioActualizado.getEmail());
-        } catch (EmailNoValidoException e) {
-            System.err.println(e.getMessage());
-            return false;
+        // verifica si el email es valido, solo si se modificó
+        if (!Objects.equals(usuarioActualizado.getEmail(), usuarioExistente.getEmail())) {
+            try {
+                verificarEmail(usuarioActualizado.getEmail());
+            } catch (EmailNoValidoException e) {
+                System.err.println(e.getMessage());
+                return false;
+            }
+
+            usuarioExistente.setEmail(usuarioActualizado.getEmail());
         }
         usuarioExistente.setRol(usuarioActualizado.getRol());
+        usuarioExistente.setPlaylists(usuarioActualizado.getPlaylists());
         usuarioExistente.setEstado(usuarioActualizado.getEstado());
 
         usuarios.add(usuarioExistente);

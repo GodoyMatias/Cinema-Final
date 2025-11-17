@@ -1,6 +1,7 @@
 package com.cinema.models.playlist;
 
 import com.cinema.models.contenido.Contenido;
+import com.cinema.models.usuarios.Usuario;
 import com.cinema.utils.Colores;
 
 import java.util.*;
@@ -13,8 +14,9 @@ public class Playlist {
     private Map<String, Contenido> contenidos;
     private boolean estado;
 
-    public Playlist(String nombre) {
+    public Playlist(String nombre, Usuario usuario) {
         this.id = UUID.randomUUID().toString();
+        this.idUsuario = usuario.getId();
         this.nombre = nombre;
         this.contenidos = new HashMap<>();
         this.estado = true;

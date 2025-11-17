@@ -48,7 +48,10 @@ public class UsuarioController {
                     return; // si borró el perfil, salimos del panel
                 }
                 case 4 -> opcionesDeContenido(s, contendioService, user.getId());
-                case 5 -> verPlaylists(user);
+                case 5 -> crearPlaylist(s, user);
+                case 6 -> eliminarPlaylist(s, user);
+                case 7 -> editarPlaylist(s, user);
+                case 8 -> verPlaylists(user);
                 case 0 -> {
                     System.out.println("Saliendo del panel...");
                     return; // rompe el while y vuelve al menú anterior
@@ -76,7 +79,10 @@ public class UsuarioController {
                 2- Editar Perfil
                 3- Eliminar Perfil
                 4- Ver Contenido Disponible
-                5- Ver Playlists
+                5- Crear Playlist
+                6- Eliminar Playlist
+                7- Editar Playlist
+                8- Ver mis Playlists
                 0- Salir
                 Seleccione una opción:
                 """);
@@ -86,12 +92,13 @@ public class UsuarioController {
         System.out.println("""
                 Opciones de Contenido:
                 1- Reproducir
-                2- Agregar a Playlist -----------------------(Funcionalidad a implementar)------------------------------
-                3- Agregar reseña
-                4- Editar reseña
-                5- Eliminar reseña
-                6- Ver mi reseña
-                7- Ver todas las reseñas
+                2- Agregar a Playlist
+                3- Eliminar de Playlist
+                4- Agregar reseña
+                5- Editar reseña
+                6- Eliminar reseña
+                7- Ver mi reseña
+                8- Ver todas las reseñas
                 0- Volver al panel de usuario
                 Seleccione una opción:
                 """);
@@ -110,6 +117,122 @@ public class UsuarioController {
         System.out.println("Eliminar Perfil seleccionado");
         usuarioService.baja(user.getId());
         System.out.println("Perfil eliminado. Lo sentimos verte ir, " + user.getNombre());
+    }
+
+    private static void crearPlaylist(Scanner s, Usuario usuario) {
+        System.out.println("Crear Playlist seleccionado");
+
+        System.out.println("Ingrese el nombre de la nueva playlist:");
+        String nombrePlaylist = s.nextLine();
+        Playlist nuevaPlaylist = new Playlist(nombrePlaylist, usuario);
+        // agregar la playlist al usuario activo
+        usuario.getPlaylists().add(nuevaPlaylist);
+        usuarioService.modificar(usuario);
+
+        System.out.println("¿Desea agregar contenidos a la playlist? (s/n):");
+        String respuesta = s.nextLine();
+
+        if (respuesta.equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Ingrese el ID del contenido a agregar:");
+                String idContenido = s.nextLine();
+                try {
+                    contenidoService.validarExistencia(idContenido);
+                } catch (ContenidoNoEncontradoException e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido));
+
+                System.out.println("¿Desea agregar otro contenido? (s/n):");
+                respuesta = s.nextLine();
+            } while (respuesta.equalsIgnoreCase("s"));
+
+        }
+    }
+
+    private static void eliminarPlaylist(Scanner s, Usuario usuario) {
+        try {
+            playlistService.validarPlaylistActivas(usuario);
+        } catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        System.out.println("Eliminar Playlist seleccionado");
+        System.out.println("Ingrese el ID de la playlist a eliminar:");
+        String idPlaylist = s.nextLine();
+        try {
+            playlistService.validarExistenciaPlaylist(idPlaylist);
+        }
+        catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        playlistService.baja(idPlaylist);
+
+    }
+
+    private static void editarPlaylist(Scanner s, Usuario usuario) {
+        try {
+            playlistService.validarPlaylistActivas(usuario);
+        } catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        System.out.println("Editar Playlist seleccionado");
+        System.out.println("Ingrese el ID de la playlist a editar:");
+        String idPlaylist = s.nextLine();
+        try {
+            playlistService.validarExistenciaPlaylist(idPlaylist);
+        } catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        System.out.println("Ingrese el nuevo nombre de la playlist:");
+        String nuevoNombre = s.nextLine();
+
+        System.out.println("¿Desea agregar contenidos a la playlist? (s/n):");
+        String respuesta = s.nextLine();
+
+        if (respuesta.equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Ingrese el ID del contenido a agregar:");
+                String idContenido = s.nextLine();
+                try {
+                    contenidoService.validarExistencia(idContenido);
+                } catch (ContenidoNoEncontradoException e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido));
+
+                System.out.println("¿Desea agregar otro contenido? (s/n):");
+                respuesta = s.nextLine();
+            } while (respuesta.equalsIgnoreCase("s"));
+
+        }
+        System.out.println("¿Desea eliminar contenidos de la playlist? (s/n):");
+        respuesta = s.nextLine();
+        if (respuesta.equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Ingrese el ID del contenido a eliminar:");
+                String idContenido = s.nextLine();
+                try {
+                    contenidoService.validarExistencia(idContenido);
+                } catch (ContenidoNoEncontradoException e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                eliminarDePlaylist(s, usuario.getId(), contenidoService.consulta(idContenido));
+
+                System.out.println("¿Desea eliminar otro contenido? (s/n):");
+                respuesta = s.nextLine();
+            } while (respuesta.equalsIgnoreCase("s"));
+
+        }
+
     }
 
     private static void verPlaylists(Usuario user) throws PlaylistNoEncontradaException {
@@ -203,11 +326,12 @@ public class UsuarioController {
             switch (op) {
                 case 1 -> reproducir(contenido);
                 case 2 -> agregarAPlaylist(s, idUsuario, contenido);
-                case 3 -> agregarResenia(s, idUsuario, contenido, reseniaService);
-                case 4 -> editarResenia(s, idUsuario, reseniaService);
-                case 5 -> eliminarResenia(idUsuario, reseniaService);
-                case 6 -> verReseniaUsuario(reseniaService, idUsuario);
-                case 7 -> verReseniasDeContenido(contenido);
+                case 3 -> eliminarDePlaylist(s, idUsuario, contenido);
+                case 4 -> agregarResenia(s, idUsuario, contenido, reseniaService);
+                case 5 -> editarResenia(s, idUsuario, reseniaService);
+                case 6 -> eliminarResenia(idUsuario, reseniaService);
+                case 7 -> verReseniaUsuario(reseniaService, idUsuario);
+                case 8 -> verReseniasDeContenido(contenido);
                 case 0 -> { // ← AGREGO OPCIÓN PARA SALIR DEL SUBMENÚ
                     System.out.println("Volviendo al panel de usuario...");
                     return;
@@ -225,15 +349,7 @@ public class UsuarioController {
     }
 
     private static void agregarAPlaylist(Scanner s, String idUsuario, Contenido contenido) {
-        Usuario user;
-        try {
-            user = usuarioService.consulta(idUsuario);
-        }
-        catch (UsuarioNoEncontradoException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
-
+        Usuario user = usuarioService.consulta(idUsuario);
         // verificar si el usuario tiene playlists activas
         try {
             playlistService.validarPlaylistActivas(user);
@@ -243,7 +359,8 @@ public class UsuarioController {
             return;
         }
 
-        System.out.println("Seleccione la playlist a la que desea agregar el contenido:");
+        verPlaylists(user);
+        System.out.println("Ingrese el ID de la playlist a la que desea agregar el contenido:");
         String idPlaylist = s.nextLine();
         // verificar si la playlist existe y está activa
         try {
@@ -254,16 +371,52 @@ public class UsuarioController {
             return;
         }
 
-        Playlist playlistSeleccionada = user.getPlaylists().stream()
-                .filter(p -> p.getId().equals(idPlaylist) && p.isEstado())
-                .findFirst()
-                .orElse(null);
+        Playlist playlistSeleccionada = playlistService.consulta(idPlaylist);
+        if (playlistService.validarContenidoEnPlaylist(playlistSeleccionada, contenido)) {
+            System.err.println("El contenido no sse encuentra en la playlist seleccionada.");
+            return;
+        }
 
+        // agrega el contenido a la playlist
         playlistSeleccionada.getContenidos().put(contenido.getId(), contenido);
+        playlistService.modificar(playlistSeleccionada);
+
         System.out.println("Contenido agregado a la playlist " + playlistSeleccionada.getNombre());
-
-
     }
+
+    private static void eliminarDePlaylist(Scanner s, String idUsuario, Contenido contenido) {
+        Usuario user = usuarioService.consulta(idUsuario);
+        try {
+            playlistService.validarPlaylistActivas(user);
+        }
+        catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        System.out.println("Seleccione la playlist de la que desea eliminar el contenido:");
+        String idPlaylist = s.nextLine();
+        // verificar si la playlist existe y está activa
+        try {
+            playlistService.validarExistenciaPlaylist(idPlaylist);
+        }
+        catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        //verificar si el contenido está en la playlist seleccionada
+        Playlist playlistSeleccionada = playlistService.consulta(idPlaylist);
+        if (!playlistService.validarContenidoEnPlaylist(playlistSeleccionada, contenido)) {
+            System.err.println("El contenido no sse encuentra en la playlist seleccionada.");
+            return;
+        }
+
+        // elimina el contenido de la playlist con baja lógica
+        playlistSeleccionada.getContenidos().get(contenido.getId()).setEstado(false);
+        playlistService.modificar(playlistSeleccionada);
+    }
+
 
     // ============================================================
     // RESEÑAS

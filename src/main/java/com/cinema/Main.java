@@ -12,7 +12,16 @@ public class Main {
 
         while (true) {
 
-            System.out.println("UTN Cinema");
+            String ascii = """
+                 ██████ ██ ███    ██ ███████ ███    ███  █████        ██    ██ ████████ ███    ██ 
+                ██      ██ ████   ██ ██      ████  ████ ██   ██       ██    ██    ██    ████   ██ 
+                ██      ██ ██ ██  ██ █████   ██ ████ ██ ███████ █████ ██    ██    ██    ██ ██  ██ 
+                ██      ██ ██  ██ ██ ██      ██  ██  ██ ██   ██       ██    ██    ██    ██  ██ ██ 
+                 ██████ ██ ██   ████ ███████ ██      ██ ██   ██        ██████     ██    ██   ████ 
+
+                                                                                                  """;
+
+            System.out.println(ascii);
             System.out.println("1- Iniciar Sesión");
             System.out.println("2- Registrar Usuario");
             System.out.println("3- Salir");

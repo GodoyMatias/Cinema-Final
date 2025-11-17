@@ -44,20 +44,4 @@ public class RegisterController {
         }
     }
 
-    /*
-    public static boolean registrar(Usuario u, GestorUsuariosJson g) {
-
-        if (u == null || u.getEmail() == null) return false;
-        HashSet<Usuario> lista = g.archivoALista();
-        String target = u.getEmail().trim().toLowerCase();
-        for (Usuario x : lista) {
-            if (x.getEmail() != null && x.getEmail().trim().toLowerCase().equals(target)) {
-                return false; // ya existe
-            }
-        }
-        // Añadir y persistir
-
-        return usuarioService.alta(u);
-    }
-    */
 }
