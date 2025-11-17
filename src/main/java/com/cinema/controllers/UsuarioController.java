@@ -21,7 +21,7 @@ public class UsuarioController {
     private static final UsuarioService usuarioService = new UsuarioService();
     private static final ContenidoService contenidoService = new ContenidoService();
     private static final ReseniaService reseniaService = new ReseniaService();
-    private  static final PlaylistService playlistService = new PlaylistService();
+    private  static PlaylistService playlistService = new PlaylistService();
 
     // ============================================================
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
@@ -30,6 +30,7 @@ public class UsuarioController {
     public static void usuarioPanel(Usuario user) {
         UsuarioService usuarioService = new UsuarioService();
         ContenidoService contendioService = new ContenidoService();
+        playlistService = new PlaylistService(user.getId());
 
 
         Scanner s = new Scanner(System.in);
@@ -134,6 +135,7 @@ public class UsuarioController {
 
         if (respuesta.equalsIgnoreCase("s")) {
             do {
+                System.out.println(contenidoService.listar());
                 System.out.println("Ingrese el ID del contenido a agregar:");
                 String idContenido = s.nextLine();
                 try {
@@ -142,7 +144,7 @@ public class UsuarioController {
                     System.err.println(e.getMessage());
                     return;
                 }
-                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido));
+                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido), nuevaPlaylist.getId());
 
                 System.out.println("¿Desea agregar otro contenido? (s/n):");
                 respuesta = s.nextLine();
@@ -163,7 +165,7 @@ public class UsuarioController {
         System.out.println("Ingrese el ID de la playlist a eliminar:");
         String idPlaylist = s.nextLine();
         try {
-            playlistService.validarExistenciaPlaylist(idPlaylist);
+            playlistService.validarExistenciaPlaylist(idPlaylist, usuario);
         }
         catch (PlaylistNoEncontradaException e) {
             System.err.println(e.getMessage());
@@ -184,7 +186,7 @@ public class UsuarioController {
         System.out.println("Ingrese el ID de la playlist a editar:");
         String idPlaylist = s.nextLine();
         try {
-            playlistService.validarExistenciaPlaylist(idPlaylist);
+            playlistService.validarExistenciaPlaylist(idPlaylist, usuario);
         } catch (PlaylistNoEncontradaException e) {
             System.err.println(e.getMessage());
             return;
@@ -206,7 +208,7 @@ public class UsuarioController {
                     System.err.println(e.getMessage());
                     return;
                 }
-                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido));
+                agregarAPlaylist(s, usuario.getId(), contenidoService.consulta(idContenido), idPlaylist);
 
                 System.out.println("¿Desea agregar otro contenido? (s/n):");
                 respuesta = s.nextLine();
@@ -325,7 +327,7 @@ public class UsuarioController {
 
             switch (op) {
                 case 1 -> reproducir(contenido);
-                case 2 -> agregarAPlaylist(s, idUsuario, contenido);
+                case 2 -> agregarAPlaylist(s, idUsuario, contenido, null);
                 case 3 -> eliminarDePlaylist(s, idUsuario, contenido);
                 case 4 -> agregarResenia(s, idUsuario, contenido, reseniaService);
                 case 5 -> editarResenia(s, idUsuario, reseniaService);
@@ -348,7 +350,7 @@ public class UsuarioController {
         System.out.println("Reproduciendo " + contenido.getTitulo() + " ▶");
     }
 
-    private static void agregarAPlaylist(Scanner s, String idUsuario, Contenido contenido) {
+    private static void agregarAPlaylist(Scanner s, String idUsuario, Contenido contenido, String idPlaylist) {
         Usuario user = usuarioService.consulta(idUsuario);
         // verificar si el usuario tiene playlists activas
         try {
@@ -360,18 +362,21 @@ public class UsuarioController {
         }
 
         verPlaylists(user);
-        System.out.println("Ingrese el ID de la playlist a la que desea agregar el contenido:");
-        String idPlaylist = s.nextLine();
+        if(idPlaylist == null){
+            verPlaylists(user);
+            System.out.println("Ingrese el id de la playlist a la que desea agregar contenido");
+            idPlaylist = s.nextLine();
+        }
         // verificar si la playlist existe y está activa
         try {
-            playlistService.validarExistenciaPlaylist(idPlaylist);
+            playlistService.validarExistenciaPlaylist(idPlaylist, user);
         }
         catch (PlaylistNoEncontradaException e) {
             System.err.println(e.getMessage());
             return;
         }
-
-        Playlist playlistSeleccionada = playlistService.consulta(idPlaylist);
+        PlaylistService playlistService1 = new PlaylistService(user.getId());
+        Playlist playlistSeleccionada = playlistService1.consulta(idPlaylist);
         if (playlistService.validarContenidoEnPlaylist(playlistSeleccionada, contenido)) {
             System.err.println("El contenido no sse encuentra en la playlist seleccionada.");
             return;
@@ -398,7 +403,7 @@ public class UsuarioController {
         String idPlaylist = s.nextLine();
         // verificar si la playlist existe y está activa
         try {
-            playlistService.validarExistenciaPlaylist(idPlaylist);
+            playlistService.validarExistenciaPlaylist(idPlaylist, user);
         }
         catch (PlaylistNoEncontradaException e) {
             System.err.println(e.getMessage());

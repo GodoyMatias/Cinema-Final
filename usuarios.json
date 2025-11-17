@@ -43,6 +43,56 @@
     },
     {
         "estado": true,
+        "playlists": [{
+            "estado": true,
+            "contenidos": [{
+                "estado": false,
+                "temporadas": 99,
+                "director": "dir01",
+                "genero": "ACCION",
+                "titulo": "Serie 01",
+                "episodios": 21,
+                "resenias": [
+                    {
+                        "calificacion": 1,
+                        "estado": true,
+                        "id": "b85d8755-7bc2-423c-aaae-aa4ac2676f11",
+                        "comentario": "muy mala",
+                        "usuarioId": "519a1a2f-9ee9-4efe-9388-c64d472c08ec",
+                        "contenidoId": "3587bafd-06cd-4f45-bd38-1a42e6d103fe"
+                    },
+                    {
+                        "calificacion": 5,
+                        "estado": false,
+                        "id": "6607d919-bc9b-4c54-93a3-18a7a8e4d5a3",
+                        "comentario": "una locura",
+                        "usuarioId": "997f6f03-9696-4175-8aea-2c7d7932ac06",
+                        "contenidoId": "3587bafd-06cd-4f45-bd38-1a42e6d103fe"
+                    },
+                    {
+                        "calificacion": 5,
+                        "estado": true,
+                        "id": "3fb774da-e3ca-4cfa-b31a-70b52d0fcc55",
+                        "comentario": "excelente",
+                        "usuarioId": "997f6f03-9696-4175-8aea-2c7d7932ac06",
+                        "contenidoId": "3587bafd-06cd-4f45-bd38-1a42e6d103fe"
+                    }
+                ],
+                "id": "3587bafd-06cd-4f45-bd38-1a42e6d103fe",
+                "anio": 1
+            }],
+            "idUsuario": "a27f1b83-57b2-429a-a422-ea83ef93b629",
+            "id": "bf25d298-928f-4e7c-8d90-5619afda74ce",
+            "nombre": "favs"
+        }],
+        "contrasena": "123",
+        "id": "a27f1b83-57b2-429a-a422-ea83ef93b629",
+        "nombre": "tizi",
+        "email": "tizi@gmail.com",
+        "rol": "BASE"
+    },
+    {
+        "estado": true,
         "playlists": null,
         "contrasena": "123",
         "id": "35d3eb16-132b-4afa-9dc8-fe9f5b1d6d9d",

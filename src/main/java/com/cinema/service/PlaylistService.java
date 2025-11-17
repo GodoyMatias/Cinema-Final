@@ -8,6 +8,7 @@ import com.cinema.interfaces.ABMCL;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.playlist.Playlist;
 import com.cinema.models.usuarios.Usuario;
+import com.cinema.utils.Colores;
 
 import java.util.*;
 
@@ -67,10 +68,15 @@ public class PlaylistService implements ABMCL<Playlist> {
 
     @Override
     public Playlist consulta(String id) {
-        return playlists.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        try{
+            return playlists.stream()
+                    .filter(p -> p.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // ============================================================
@@ -140,7 +146,8 @@ public class PlaylistService implements ABMCL<Playlist> {
     }
 
 
-    public void validarExistenciaPlaylist(String idPlaylist) throws PlaylistNoEncontradaException {
+    public void validarExistenciaPlaylist(String idPlaylist, Usuario usuario) throws PlaylistNoEncontradaException {
+        HashSet<Playlist> playlists = usuario.getPlaylists();
         boolean existe = playlists.stream()
                 .anyMatch(p -> p.getId().equals(idPlaylist) && p.isEstado());
 
@@ -150,7 +157,12 @@ public class PlaylistService implements ABMCL<Playlist> {
     }
 
     public boolean validarContenidoEnPlaylist(Playlist playlist, Contenido contenido) {
-        return playlist.getContenidos().containsKey(contenido.getId());
+        try {
+            return playlist.getContenidos().containsKey(contenido.getId());
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
