@@ -2,6 +2,17 @@
     {
         "estado": true,
         "tipo": "PELICULA",
+        "director": "Director piola",
+        "genero": "CIENCIA_FICCION",
+        "titulo": "Nueva peliucla mundial",
+        "duracion": 200,
+        "resenias": [],
+        "id": "82cda6ea-c1bd-4e4b-96da-ef6590325b48",
+        "anio": 2020
+    },
+    {
+        "estado": true,
+        "tipo": "PELICULA",
         "director": "dir02",
         "genero": "ANIMACION",
         "titulo": "matrix 02",

@@ -32,7 +32,9 @@ public class Pelicula extends Contenido{
 
     @Override
     public String toString() {
-        return  "    id=  " + id + '\n' +
+        return
+                "--------------------------------" + '\n' +
+                "    id=  " + id + '\n' +
                 "    tipo= " + tipo +
                 "    titulo= " + titulo + '\'' +
                 "    genero= " + genero +

@@ -35,7 +35,7 @@ public class LoginController {
             }
 
         } else {
-            System.out.println("Login failed: invalid email or password.");
+            System.err.println("Login failed: invalid email or password.");
             }
     }
 

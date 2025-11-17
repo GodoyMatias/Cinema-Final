@@ -1,15 +1,14 @@
 package com.cinema.models.usuarios;
 import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.models.contenido.Contenido;
-import com.cinema.service.ContendioService;
+import com.cinema.service.ContenidoService;
 import com.cinema.service.UsuarioService;
 
-import java.util.Collection;
 import java.util.Set;
 
 public class Administrador extends Usuario  {
     UsuarioService usuarioService = new UsuarioService();
-    ContendioService contendioService = new ContendioService();
+    ContenidoService contendioService = new ContenidoService();
     public Administrador() {
     }
 

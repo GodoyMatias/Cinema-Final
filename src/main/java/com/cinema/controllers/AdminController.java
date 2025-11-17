@@ -1,7 +1,5 @@
 package com.cinema.controllers;
 
-import com.cinema.data.GestorContenidosJSON;
-import com.cinema.data.GestorUsuariosJson;
 import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.exceptions.UsuarioNoEncontradoException;
@@ -9,7 +7,7 @@ import com.cinema.models.contenido.*;
 import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
-import com.cinema.service.ContendioService;
+import com.cinema.service.ContenidoService;
 import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
 
@@ -17,7 +15,7 @@ import java.util.Scanner;
 
 public class AdminController {
     private static final UsuarioService usuarioService = new UsuarioService();
-    private static final ContendioService contenidoService = new ContendioService();
+    private static final ContenidoService contenidoService = new ContenidoService();
 
     // ============================================================
     // PANEL PRINCIPAL

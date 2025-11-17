@@ -5,44 +5,25 @@ import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
 import com.cinema.models.usuarios.Usuario;
-import com.cinema.service.ContendioService;
+import com.cinema.service.ContenidoService;
 import com.cinema.service.ReseniaService;
 import com.cinema.service.UsuarioService;
+import com.cinema.utils.Colores;
 import com.cinema.utils.ConsoleUtils;
 
 import java.util.Scanner;
 
 public class UsuarioController {
     private static final UsuarioService usuarioService = new UsuarioService();
-    private static final ContendioService contenidoService = new ContendioService();
+    private static final ContenidoService contenidoService = new ContenidoService();
 
     // ============================================================
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
     // ============================================================
 
-//    public static void usuarioPanel(Usuario user) {
-//        UsuarioService usuarioService = new UsuarioService();
-//        ContendioService contendioService = new ContendioService();
-//
-//        mostrarEncabezadoUsuario(user);
-//        mostrarMenuUsuario();
-//
-//        Scanner s = new Scanner(System.in);
-//        int opcion = leerEntero(s);
-//
-//        switch (opcion) {
-//            case 1 -> mostrarPerfil(user);
-//            case 2 -> editarPerfil(s, user, usuarioService);
-//            case 3 -> eliminarPerfil(user, usuarioService);
-//            case 4 -> opcionesDeContenido(s, contendioService, user.getId());
-//            case 5 -> verPlaylists();
-//            default -> System.out.println("Opción inválida");
-//        }
-//    }
-
     public static void usuarioPanel(Usuario user) {
         UsuarioService usuarioService = new UsuarioService();
-        ContendioService contendioService = new ContendioService();
+        ContenidoService contendioService = new ContenidoService();
 
         Scanner s = new Scanner(System.in);
 
@@ -102,6 +83,7 @@ public class UsuarioController {
                 3- Agregar reseña
                 4- Editar reseña
                 5- Eliminar reseña
+                0- Volver al panel de usuario
                 Seleccione una opción:
                 """);
     }
@@ -159,14 +141,14 @@ public class UsuarioController {
     // CONTENIDO
     // ============================================================
 
-    private static void verContenidoDisponible(ContendioService servicio) {
+    private static void verContenidoDisponible(ContenidoService servicio) {
         System.out.println("Contenido Disponible:");
         servicio.listar().stream()
                 .filter(Contenido::isEstado)
                 .forEach(System.out::println);
     }
 
-    private static Contenido seleccionarContenido(Scanner s, ContendioService servicio) {
+    private static Contenido seleccionarContenido(Scanner s, ContenidoService servicio) {
         verContenidoDisponible(servicio);
 
         System.out.println("Ingrese el ID del contenido que desea ver:");
@@ -187,32 +169,37 @@ public class UsuarioController {
         return contenido;
     }
 
-    private static void opcionesDeContenido(Scanner s, ContendioService servicio, String idUsuario) {
-        Contenido contenido = seleccionarContenido(s, servicio);
-        if (contenido == null) {
-            System.out.println("Contenido no encontrado.");
-            return;
-        }
-        ReseniaService reseniaService = new ReseniaService(contenido.getId());
+    private static void opcionesDeContenido(Scanner s, ContenidoService servicio, String idUsuario) {
+        while (true) {
+            Contenido contenido = seleccionarContenido(s, servicio);
+            if (contenido == null) {
+                System.out.println("Contenido no encontrado.");
+                return;
+            }
 
-        mostrarMenuContenido();
-        int op = leerEntero(s);
+            ReseniaService reseniaService = new ReseniaService(contenido.getId());
 
-        switch (op) {
+            mostrarMenuContenido();
+            int op = leerEntero(s);
 
-            case 1 -> reproducir(contenido);
-
-            case 2 -> agregarAPlaylist();
-
-            case 3 -> agregarResenia(s, idUsuario, contenido);
-
-            case 4 -> editarResenia(s, idUsuario, reseniaService);
-
-            case 5 -> eliminarResenia(idUsuario, reseniaService);
-
-            default -> System.out.println("Opción inválida");
+            switch (op) {
+                case 1 -> reproducir(contenido);
+                case 2 -> agregarAPlaylist();
+                case 3 -> agregarResenia(s, idUsuario, contenido);
+                case 4 -> editarResenia(s, idUsuario, reseniaService);
+                case 5 -> eliminarResenia(idUsuario, reseniaService);
+                case 0 -> { // ← AGREGO OPCIÓN PARA SALIR DEL SUBMENÚ
+                    System.out.println("Volviendo al panel de usuario...");
+                    return;
+                }
+                default -> System.out.println("Opción inválida");
+            }
+            System.out.println(Colores.ROJO + "*************************************************" + Colores.RESET);
+            System.out.println("\nPresione Enter para continuar...");
+            s.nextLine();
         }
     }
+
 
     private static void reproducir(Contenido contenido) {
         System.out.println("Reproduciendo " + contenido.getTitulo() + " ▶");

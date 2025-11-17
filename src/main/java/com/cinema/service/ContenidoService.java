@@ -8,12 +8,12 @@ import com.cinema.models.contenido.Contenido;
 import java.util.Collection;
 import java.util.Map;
 
-public class ContendioService implements ABMCL<Contenido> {
+public class ContenidoService implements ABMCL<Contenido> {
 
     private final Map<String, Contenido> contenidos;
     private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
 
-    public ContendioService() {
+    public ContenidoService() {
         this.contenidos = gestorContenidosJSON.archivoALista();
     }
 
