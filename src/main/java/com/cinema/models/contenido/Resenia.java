@@ -96,13 +96,13 @@ public class Resenia {
 
     @Override
     public String toString() {
-        return '\n'+"Resenia{" +
-                "id=" + id +
-                " idUsuario=" + idUsuario +
-                " idContenido=" + idContenido +
-                " estrellas=" + estrellas +
-                " comentario=" + comentario +
-                " estado=" + estado +
-                '}' + '\n';
+        return
+                "--------------------------------" + '\n' +
+                        "    id= " + id + "\n" +
+                        "    Usuario=" + idUsuario +
+                        "    estrellas=" + estrellas +
+                        "    comentario=" + comentario +
+                        "    estado=" + estado +
+                        "--------------------------------" + '\n';
     }
 }

@@ -13,6 +13,7 @@ public class Usuario {
     private String password;
     private String email;
     private Rol rol;
+    private
 
     public Usuario() {
         this.id = UUID.randomUUID().toString();
