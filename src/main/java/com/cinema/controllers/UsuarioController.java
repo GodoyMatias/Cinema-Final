@@ -188,7 +188,7 @@ public class UsuarioController {
             switch (op) {
                 case 1 -> reproducir(contenido);
                 case 2 -> agregarAPlaylist();
-                case 3 -> agregarResenia(s, idUsuario, contenido);
+                case 3 -> agregarResenia(s, idUsuario, contenido, reseniaService);
                 case 4 -> editarResenia(s, idUsuario, reseniaService);
                 case 5 -> eliminarResenia(idUsuario, reseniaService);
                 case 6 -> verReseniaUsuario(reseniaService, idUsuario);
@@ -217,9 +217,8 @@ public class UsuarioController {
     // RESEÑAS
     // ============================================================
 
-    private static void agregarResenia(Scanner s, String idUsuario, Contenido contenido) {
+    private static void agregarResenia(Scanner s, String idUsuario, Contenido contenido, ReseniaService reseniaService) {
         Resenia reseniaActiva = reseniaService.buscarPorUsuario(idUsuario);
-        System.out.println(reseniaActiva.isEstado());
         if (reseniaActiva.isEstado()) {
             System.err.println("El usuario ya ha dejado su reseña en este contenido. No puede agregar otra.");
             return;
