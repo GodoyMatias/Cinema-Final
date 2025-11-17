@@ -1,8 +1,10 @@
 package com.cinema.models.usuarios;
 
+import com.cinema.models.playlist.Playlist;
 import com.cinema.utils.Colores;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,7 +15,7 @@ public class Usuario {
     private String password;
     private String email;
     private Rol rol;
-    private
+    private HashSet<Playlist> playlists;
 
     public Usuario() {
         this.id = UUID.randomUUID().toString();
@@ -76,6 +78,10 @@ public class Usuario {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+    public HashSet<Playlist> getPlaylists() { return playlists; }
+
+    public void setPlaylists(HashSet<Playlist> playlists) { this.playlists = playlists; }
 
     @Override
     public boolean equals(Object o) {
