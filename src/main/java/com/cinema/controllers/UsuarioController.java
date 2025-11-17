@@ -1,5 +1,6 @@
 package com.cinema.controllers;
 
+import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
 import com.cinema.models.usuarios.Usuario;
@@ -134,6 +135,13 @@ public class UsuarioController {
 
         System.out.println("Ingrese el nuevo email:");
         String nuevoEmail = s.nextLine();
+        try {
+            usuarioService.verificarEmail(nuevoEmail);
+        }
+        catch (EmailNoValidoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
 
         System.out.println("Ingrese la nueva contraseña:");
         String nuevaContrasena = s.nextLine();

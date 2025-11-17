@@ -2,6 +2,7 @@ package com.cinema.service;
 
 import com.cinema.data.GestorUsuariosJson;
 import com.cinema.exceptions.EmailNoValidoException;
+import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.interfaces.ABMCL;
 import com.cinema.models.usuarios.Usuario;
 
@@ -49,13 +50,16 @@ public class UsuarioService implements ABMCL<Usuario> {
     // ============================================================
 
     @Override
-    public Usuario consulta(String id) {
+    public Usuario consulta(String id) throws UsuarioNoEncontradoException {
         usuarios = gestoraUsuariosJson.archivoALista();
-        System.out.println("Leer usuario con ID: " + id);
-        return usuarios.stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+
+        for (Usuario u : usuarios) {
+            if (u.getId().equals(id)) {
+                return u;
+            }
+        }
+
+        throw new UsuarioNoEncontradoException("Usuario con ID " + id + " no encontrado.");
     }
 
     // ============================================================
@@ -65,7 +69,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     @Override
     public boolean modificar(Usuario usuarioActualizado) {
         usuarios = gestoraUsuariosJson.archivoALista();
-        Usuario usuarioExistente = buscarPorId(usuarioActualizado.getId());
+        Usuario usuarioExistente = consulta(usuarioActualizado.getId());
 
         if (usuarioExistente == null) {
             return false;
@@ -74,9 +78,16 @@ public class UsuarioService implements ABMCL<Usuario> {
         usuarioExistente.setNombre(usuarioActualizado.getNombre());
         usuarioExistente.setPassword(usuarioActualizado.getPassword());
         usuarioExistente.setEmail(usuarioActualizado.getEmail());
+        try {
+            verificarEmail(usuarioActualizado.getEmail());
+        } catch (EmailNoValidoException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
         usuarioExistente.setRol(usuarioActualizado.getRol());
         usuarioExistente.setEstado(usuarioActualizado.getEstado());
 
+        usuarios.add(usuarioExistente);
         gestoraUsuariosJson.listaToArchivo(usuarios);
         System.out.println("Usuario actualizado: " + usuarioActualizado.getNombre());
 
@@ -90,7 +101,7 @@ public class UsuarioService implements ABMCL<Usuario> {
     @Override
     public boolean baja(String id) {
         usuarios = gestoraUsuariosJson.archivoALista();
-        Usuario usuario = buscarPorId(id);
+        Usuario usuario = consulta(id);
 
         if (usuario == null) {
             return false;
@@ -111,18 +122,6 @@ public class UsuarioService implements ABMCL<Usuario> {
     public Set<Usuario> listar() {
         usuarios = gestoraUsuariosJson.archivoALista();
         return usuarios;
-    }
-
-    // ============================================================
-    // MÉTODO AUXILIAR
-    // ============================================================
-
-    private Usuario buscarPorId(String id) {
-        usuarios = gestoraUsuariosJson.archivoALista();
-        return usuarios.stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst()
-                .orElse(null);
     }
 
 }

@@ -2,15 +2,19 @@ package com.cinema.controllers;
 
 import com.cinema.data.GestorContenidosJSON;
 import com.cinema.data.GestorUsuariosJson;
+import com.cinema.exceptions.EmailNoValidoException;
+import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.models.contenido.*;
 import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
+import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
 
 import java.util.Scanner;
 
 public class AdminController {
+    private static final UsuarioService usuarioService = new UsuarioService();
 
     // ============================================================
     // PANEL PRINCIPAL
@@ -132,7 +136,9 @@ public class AdminController {
     private static void crearAdministrador(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Crear Administrador seleccionado" + Colores.RESET);
         Usuario newAdmin = crearUsuarioDesdeInput(s, Rol.ADMINISTRADOR);
-        administrador.crearUsuario(newAdmin);
+        if (newAdmin != null) {
+            administrador.crearUsuario(newAdmin);
+        }
     }
 
     // ============================================================
@@ -142,7 +148,9 @@ public class AdminController {
     public static void crearUsuario(Scanner s, Administrador administrador) {
         System.out.println(Colores.MAGENTA + "Crear Usuario seleccionado" + Colores.RESET);
         Usuario newUser = crearUsuarioDesdeInput(s, Rol.BASE);
-        administrador.crearUsuario(newUser);
+        if (newUser != null) {
+            administrador.crearUsuario(newUser);
+        }
     }
 
     private static Usuario crearUsuarioDesdeInput(Scanner s, Rol rol) {
@@ -150,6 +158,12 @@ public class AdminController {
         String nombre = s.nextLine();
         System.out.println("Email: ");
         String email = s.nextLine();
+        try {
+            usuarioService.verificarEmail(email);
+        } catch (EmailNoValidoException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
         System.out.println("Password: ");
         String password = s.nextLine();
 
@@ -166,14 +180,24 @@ public class AdminController {
         administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario a modificar:");
         String id = s.nextLine();
+        try {
+            usuarioService.consulta(id);
+        }
+        catch (UsuarioNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
 
         System.out.println("Ingrese el nuevo rol del usuario (1- ADMINISTRADOR, 2- BASE):");
         int rolInput = leerEntero(s);
         Rol nuevoRol = (rolInput == 1) ? Rol.ADMINISTRADOR : Rol.BASE;
         Usuario usuarioModificado = crearUsuarioDesdeInput(s, nuevoRol);
-        usuarioModificado.setId(id);
 
-        administrador.actualizarUsuario(usuarioModificado);
+        if (usuarioModificado != null) {
+            usuarioModificado.setId(id);
+            administrador.actualizarUsuario(usuarioModificado);
+        }
     }
 
     public static void eliminarUsuario(Scanner s, Administrador administrador) {
@@ -182,6 +206,13 @@ public class AdminController {
         administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario a baja:");
         String id = leerString(s);
+        try {
+            usuarioService.consulta(id);
+        }
+        catch (UsuarioNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
         administrador.eliminarUsuario(id);
     }
 
@@ -191,6 +222,13 @@ public class AdminController {
         administrador.listarUsuarios().forEach(System.out::println);
         System.out.println("Ingrese el id del usuario:");
         String id = leerString(s);
+        try {
+            usuarioService.consulta(id);
+        }
+        catch (UsuarioNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
         System.out.println(administrador.leerUsuario(id));
     }
 
