@@ -13,6 +13,11 @@ public class Resenia {
     private boolean estado;
 
     // Constructor vacío
+
+    public Resenia(boolean estado) {
+        this.estado = estado;
+    }
+
     public Resenia() {
         this.id = UUID.randomUUID().toString();
         this.estado = true;

@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class UsuarioController {
     private static final UsuarioService usuarioService = new UsuarioService();
     private static final ContenidoService contenidoService = new ContenidoService();
+    private static final ReseniaService reseniaService = new ReseniaService();
 
     // ============================================================
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
@@ -83,6 +84,8 @@ public class UsuarioController {
                 3- Agregar reseña
                 4- Editar reseña
                 5- Eliminar reseña
+                6- Ver mi reseña
+                7- Ver todas las reseñas
                 0- Volver al panel de usuario
                 Seleccione una opción:
                 """);
@@ -188,13 +191,14 @@ public class UsuarioController {
                 case 3 -> agregarResenia(s, idUsuario, contenido);
                 case 4 -> editarResenia(s, idUsuario, reseniaService);
                 case 5 -> eliminarResenia(idUsuario, reseniaService);
+                case 6 -> verReseniaUsuario(reseniaService, idUsuario);
+                case 7 -> verReseniasDeContenido(contenido);
                 case 0 -> { // ← AGREGO OPCIÓN PARA SALIR DEL SUBMENÚ
                     System.out.println("Volviendo al panel de usuario...");
                     return;
                 }
                 default -> System.out.println("Opción inválida");
             }
-            System.out.println(Colores.ROJO + "*************************************************" + Colores.RESET);
             System.out.println("\nPresione Enter para continuar...");
             s.nextLine();
         }
@@ -214,11 +218,23 @@ public class UsuarioController {
     // ============================================================
 
     private static void agregarResenia(Scanner s, String idUsuario, Contenido contenido) {
+        Resenia reseniaActiva = reseniaService.buscarPorUsuario(idUsuario);
+        System.out.println(reseniaActiva.isEstado());
+        if (reseniaActiva.isEstado()) {
+            System.err.println("El usuario ya ha dejado su reseña en este contenido. No puede agregar otra.");
+            return;
+        }
+
         System.out.println("Agregar reseña seleccionado");
 
         System.out.println("Ingrese la cantidad de estrellas:");
         int estrellas = leerEntero(s);
-
+        try {
+            reseniaService.validarEstrellas(estrellas);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
         System.out.println("Ingrese su comentario:");
         String comentario = s.nextLine();
 
@@ -240,6 +256,12 @@ public class UsuarioController {
 
         System.out.println("Ingrese la nueva cantidad de estrellas:");
         int estrellas = leerEntero(s);
+        try {
+            reseniaService.validarEstrellas(estrellas);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
 
         System.out.println("Ingrese su nuevo comentario:");
         String comentario = s.nextLine();
@@ -261,8 +283,8 @@ public class UsuarioController {
 
         Resenia reseniaExistente = reseniaService.buscarPorUsuario(idUsuario);
 
-        if (reseniaExistente == null) {
-            System.err.println("No puedes baja una reseña que no has creado.");
+        if (!reseniaExistente.isEstado()) {
+            System.err.println("El usuario no ha dejado su reseña en este contenido. No se puede eliminar.");
             return;
         }
 
@@ -272,6 +294,24 @@ public class UsuarioController {
             System.out.println("Reseña eliminada correctamente.");
         } else {
             System.err.println("No se pudo baja la reseña.");
+        }
+    }
+
+    public static void verReseniaUsuario(ReseniaService reseniaService, String idUsuario) {
+        Resenia resenia = reseniaService.buscarPorUsuario(idUsuario);
+        if (resenia != null && resenia.isEstado()) {
+            System.out.println("Tu reseña:");
+            System.out.println(resenia);
+        } else {
+            System.err.println("No has dejado una reseña para este contenido. No hay nada que mostrar.");
+        }
+    }
+
+    public static void verReseniasDeContenido(Contenido contenido) {
+        System.out.println(Colores.AZUL + "Reseñas para " + contenido.getTitulo() + ":" + Colores.RESET);
+        ReseniaService reseniaService = new ReseniaService(contenido.getId());
+        for (Resenia r : reseniaService.listar()) {
+            System.out.println(r);
         }
     }
 

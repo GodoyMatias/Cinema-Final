@@ -5,16 +5,19 @@ import com.cinema.interfaces.ABMCL;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class ReseniaService implements ABMCL<Resenia> {
 
     private final List<Resenia> resenias;
     private final Map<String, Contenido> contenidos;
     private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
+
+
+    public ReseniaService() {
+        this.contenidos = gestorContenidosJSON.archivoALista();
+        this.resenias = new LinkedList<>();
+    }
 
     public ReseniaService(String idContenido) {
         this.contenidos = gestorContenidosJSON.archivoALista();
@@ -50,10 +53,12 @@ public class ReseniaService implements ABMCL<Resenia> {
     public Resenia buscarPorUsuario(String idUsuario) {
         for (Resenia r : resenias) {
             if (r.getIdUsuario().equals(idUsuario)) {
-                return r;
+                if (r.isEstado()){
+                    return r;
+                }
             }
         }
-        return null;
+        return new Resenia(false);
     }
 
     // ============================================================
@@ -115,47 +120,14 @@ public class ReseniaService implements ABMCL<Resenia> {
     public Collection<Resenia> listar() {
         return resenias;
     }
+
+    // ============================================================
+    // AUXILIARES
+    // ============================================================
+
+    public void validarEstrellas(int estrellas) throws IllegalArgumentException {
+        if (estrellas < 1 || estrellas > 5) {
+            throw new IllegalArgumentException("La calificación debe estar entre 1 y 5 estrellas.");
+        }
+    }
 }
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
- ------- ME FUI A COMER -------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
