@@ -116,3 +116,46 @@ public class ReseniaService implements ABMCL<Resenia> {
         return resenias;
     }
 }
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ------- ME FUI A COMER -------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */

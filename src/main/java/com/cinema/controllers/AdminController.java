@@ -2,12 +2,14 @@ package com.cinema.controllers;
 
 import com.cinema.data.GestorContenidosJSON;
 import com.cinema.data.GestorUsuariosJson;
+import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.models.contenido.*;
 import com.cinema.models.usuarios.Administrador;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
+import com.cinema.service.ContendioService;
 import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
 
@@ -15,6 +17,7 @@ import java.util.Scanner;
 
 public class AdminController {
     private static final UsuarioService usuarioService = new UsuarioService();
+    private static final ContendioService contenidoService = new ContendioService();
 
     // ============================================================
     // PANEL PRINCIPAL
@@ -323,6 +326,12 @@ public class AdminController {
         System.out.println("Ingrese el id del contenido a modificar:");
 
         String id = leerString(s);
+        try {
+            contenidoService.validarExistencia(id);
+        } catch (ContenidoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
 
         System.out.println("Título:");
         String titulo = s.nextLine();
@@ -364,6 +373,13 @@ public class AdminController {
         administrador.listarContenidos();
         System.out.println("Ingrese el id del contenido:");
         String id = leerString(s);
+        try {
+            contenidoService.validarExistencia(id);
+        } catch (ContenidoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
         System.out.println(Colores.VERDE + "Contenido eliminado exitosamente." + Colores.RESET);
         System.out.println( Colores.VERDE + administrador.leerContenido(id).getTitulo() + " ha sido eliminado." + Colores.RESET);
         administrador.eliminarContenido(id);
@@ -373,6 +389,13 @@ public class AdminController {
         System.out.println(Colores.MAGENTA + "Buscar Contenido seleccionado" + Colores.RESET);
         System.out.println("Ingrese el id:");
         String id = leerString(s);
+        try {
+            contenidoService.validarExistencia(id);
+        } catch (ContenidoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
         System.out.println(administrador.leerContenido(id));
     }
 }

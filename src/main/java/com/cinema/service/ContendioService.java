@@ -89,7 +89,7 @@ public class ContendioService implements ABMCL<Contenido> {
     // MÉTODOS AUXILIARES
     // ============================================================
 
-    private void validarExistencia(String id) throws ContenidoNoEncontradoException {
+    public void validarExistencia(String id) throws ContenidoNoEncontradoException {
         if (!contenidos.containsKey(id)) {
             throw new ContenidoNoEncontradoException("El contenido con ID " + id + " no existe.");
         }

@@ -1,5 +1,6 @@
 package com.cinema.controllers;
 
+import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
@@ -12,6 +13,8 @@ import com.cinema.utils.ConsoleUtils;
 import java.util.Scanner;
 
 public class UsuarioController {
+    private static final UsuarioService usuarioService = new UsuarioService();
+    private static final ContendioService contenidoService = new ContendioService();
 
     // ============================================================
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
@@ -167,11 +170,18 @@ public class UsuarioController {
         verContenidoDisponible(servicio);
 
         System.out.println("Ingrese el ID del contenido que desea ver:");
-        String contenidoId = s.nextLine();
+        String id = s.nextLine();
+        try {
+            contenidoService.validarExistencia(id);
+        }
+        catch (ContenidoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
 
         ConsoleUtils.fakeClear();
 
-        Contenido contenido = servicio.consulta(contenidoId);
+        Contenido contenido = servicio.consulta(id);
         System.out.println(contenido);
 
         return contenido;
