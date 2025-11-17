@@ -1,6 +1,5 @@
 package com.cinema.controllers;
 
-import com.cinema.data.GestorUsuariosJson;
 import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
@@ -8,7 +7,6 @@ import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
 import com.cinema.utils.ConsoleUtils;
 
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class RegisterController {

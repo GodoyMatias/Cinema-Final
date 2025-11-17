@@ -1,47 +1,147 @@
 package com.cinema.service;
 
-import com.cinema.data.GestorUsuariosJson;
+import com.cinema.data.GestorUsuarioJSON;
+import com.cinema.exceptions.PlaylistNoEncontradaException;
+import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.interfaces.ABMCL;
-import com.cinema.models.contenido.Contenido;
 import com.cinema.models.playlist.Playlist;
 import com.cinema.models.usuarios.Usuario;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class PlaylistService implements ABMCL<Playlist> {
-    private Playlist playlist;
+
+    private final HashSet<Usuario> usuarios;   // igual que pediste
+    private final HashSet<Playlist> playlists;     // referencia directa a las playlists del usuario
+    private final GestorUsuarioJSON gestorUsuarioJSON = new GestorUsuarioJSON();
+
+    private Usuario usuario; // usuario dueño de las playlists
+
+    // ============================================================
+    // CONSTRUCTORES
+    // ============================================================
 
     public PlaylistService() {
+        this.usuarios = gestorUsuarioJSON.archivoALista();
+        this.playlists = new HashSet<>();
     }
 
+    public PlaylistService(String idUsuario) throws UsuarioNoEncontradoException {
+        this.usuarios = gestorUsuarioJSON.archivoALista();
+        this.usuario = buscarUsuarioPorId(idUsuario);
+
+        if (this.usuario == null) {
+            throw new UsuarioNoEncontradoException("Usuario con ID " + idUsuario + " no encontrado.");
+        }
+
+        this.playlists = usuario.getPlaylists() != null
+                ? usuario.getPlaylists()
+                : new HashSet<>();
+    }
+
+    // ============================================================
+    // PERSISTENCIA (idéntico patrón que ReseniaService)
+    // ============================================================
+
+    private void persistencia() {
+        usuario.setPlaylists(playlists);
+        gestorUsuarioJSON.listaToArchivo(usuarios);
+    }
+
+    // ============================================================
+    // CREAR
+    // ============================================================
 
     @Override
-    public boolean alta(Playlist c) {
-        playlist = c;
-
-        return false;
+    public boolean alta(Playlist playlist) {
+        boolean added = playlists.add(playlist);
+        if (added) persistencia();
+        return added;
     }
 
-    @Override
-    public boolean baja(String id) {
-        return false;
-    }
-
-    @Override
-    public boolean modificar(Playlist c) {
-        return false;
-    }
+    // ============================================================
+    // LEER
+    // ============================================================
 
     @Override
     public Playlist consulta(String id) {
-        return null;
+        return playlists.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
+
+    // ============================================================
+    // ACTUALIZAR
+    // ============================================================
+
+    @Override
+    public boolean modificar(Playlist nueva) {
+        for (Playlist existente : playlists) {
+            if (existente.getId().equals(nueva.getId())) {
+
+                existente.setNombre(nueva.getNombre());
+                existente.setContenidos(nueva.getContenidos());
+                existente.setEstado(nueva.isEstado());
+
+                persistencia();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ============================================================
+    // ELIMINAR (borrado lógico)
+    // ============================================================
+
+    @Override
+    public boolean baja(String id) {
+        for (Playlist p : playlists) {
+            if (p.getId().equals(id)) {
+                p.setEstado(false);
+                persistencia();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ============================================================
+    // LISTAR
+    // ============================================================
 
     @Override
     public Collection<Playlist> listar() {
-        return List.of();
+        return playlists;
     }
+
+    // ============================================================
+    // AUXILIARES
+    // ============================================================
+
+    private Usuario buscarUsuarioPorId(String idUsuario) {
+        for (Usuario u : usuarios) {
+            if (u.getId().equals(idUsuario)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public void validarPlaylistActivas(Usuario usuario) throws PlaylistNoEncontradaException {
+        if (usuario.getPlaylists().stream().noneMatch(Playlist::isEstado)) {
+            throw  new PlaylistNoEncontradaException("No tienes playlists activas. No hay nada que mostrar.");
+        }
+    }
+
+    public void validarExistenciaPlaylist(String id) throws PlaylistNoEncontradaException {
+        boolean existe = playlists.stream()
+                .anyMatch(p -> p.getId().equals(id) && p.isEstado());
+
+        if (!existe) {
+            throw new PlaylistNoEncontradaException("La playlist con ID " + id + " no existe o está desactivada.");
+        }
+    }
+
 }

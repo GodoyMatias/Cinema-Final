@@ -19,7 +19,7 @@ public class GestorReseniaJSON {
             jsonObject.put("calificacion", resenia.getEstrellas());
             jsonObject.put("comentario", resenia.getComentario());
             jsonObject.put("estado", resenia.isEstado());
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
@@ -31,7 +31,7 @@ public class GestorReseniaJSON {
             for (Resenia resenia : resenias) {
                 jsonArray.put(serializar(resenia));
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonArray;
@@ -47,7 +47,7 @@ public class GestorReseniaJSON {
             resenia.setEstrellas(jsonObject.getInt("calificacion"));
             resenia.setComentario(new StringBuilder(jsonObject.getString("comentario")));
             resenia.setEstado(jsonObject.getBoolean("estado"));
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return resenia;

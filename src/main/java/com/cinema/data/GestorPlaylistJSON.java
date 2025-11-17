@@ -2,13 +2,14 @@ package com.cinema.data;
 import com.cinema.models.playlist.Playlist;
 import com.cinema.persistence.OperacionesLectoEscritura;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.util.HashSet;
 
 
 public class GestorPlaylistJSON {
-    static GestorContenidosJSON gestorContenidoJSON = new GestorContenidosJSON();
+    static GestorContenidoJSON gestorContenidoJSON = new GestorContenidoJSON();
     private static final String DEFAULT_FILE_PLAYLIST = "playlists.json";
 
     public static JSONObject serializar(Playlist playlist) {
@@ -20,7 +21,7 @@ public class GestorPlaylistJSON {
             jsonObject.put("estado", playlist.isEstado());
             jsonObject.put("contenidos", gestorContenidoJSON.serializarLista(playlist.getContenidos()));
             // Note: contenidos are not serialized here
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
@@ -32,7 +33,7 @@ public class GestorPlaylistJSON {
             for (Playlist p : playlists) {
                 jsonArray.put(serializar(p));
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonArray;
@@ -51,7 +52,7 @@ public class GestorPlaylistJSON {
             playlist.setNombre(jsonObject.getString("nombre"));
             playlist.setEstado(jsonObject.getBoolean("estado"));
             playlist.setContenidos(gestorContenidoJSON.deserializarLista(jsonObject.getJSONArray("contenidos")));
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return playlist;
@@ -64,7 +65,7 @@ public class GestorPlaylistJSON {
                 Playlist p = deserializar(jsonArray.getJSONObject(i));
                 playlists.add(p);
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return playlists;
@@ -78,7 +79,7 @@ public class GestorPlaylistJSON {
                 JSONArray jsonArray = new JSONArray(jsonTokener);
                 playlists = deserializarLista(jsonArray);
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return playlists;

@@ -1,6 +1,6 @@
 package com.cinema.service;
 
-import com.cinema.data.GestorContenidosJSON;
+import com.cinema.data.GestorContenidoJSON;
 import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.interfaces.ABMCL;
 import com.cinema.models.contenido.Contenido;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class ContenidoService implements ABMCL<Contenido> {
 
     private final Map<String, Contenido> contenidos;
-    private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
+    private final GestorContenidoJSON gestorContenidosJSON = new GestorContenidoJSON();
 
     public ContenidoService() {
         this.contenidos = gestorContenidosJSON.archivoALista();

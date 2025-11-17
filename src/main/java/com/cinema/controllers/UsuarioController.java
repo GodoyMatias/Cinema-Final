@@ -2,10 +2,14 @@ package com.cinema.controllers;
 
 import com.cinema.exceptions.ContenidoNoEncontradoException;
 import com.cinema.exceptions.EmailNoValidoException;
+import com.cinema.exceptions.PlaylistNoEncontradaException;
+import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
+import com.cinema.models.playlist.Playlist;
 import com.cinema.models.usuarios.Usuario;
 import com.cinema.service.ContenidoService;
+import com.cinema.service.PlaylistService;
 import com.cinema.service.ReseniaService;
 import com.cinema.service.UsuarioService;
 import com.cinema.utils.Colores;
@@ -17,6 +21,7 @@ public class UsuarioController {
     private static final UsuarioService usuarioService = new UsuarioService();
     private static final ContenidoService contenidoService = new ContenidoService();
     private static final ReseniaService reseniaService = new ReseniaService();
+    private  static final PlaylistService playlistService = new PlaylistService();
 
     // ============================================================
     // MÉTODO PRINCIPAL DEL PANEL DE USUARIO
@@ -25,6 +30,7 @@ public class UsuarioController {
     public static void usuarioPanel(Usuario user) {
         UsuarioService usuarioService = new UsuarioService();
         ContenidoService contendioService = new ContenidoService();
+
 
         Scanner s = new Scanner(System.in);
 
@@ -42,7 +48,7 @@ public class UsuarioController {
                     return; // si borró el perfil, salimos del panel
                 }
                 case 4 -> opcionesDeContenido(s, contendioService, user.getId());
-                case 5 -> verPlaylists();
+                case 5 -> verPlaylists(user);
                 case 0 -> {
                     System.out.println("Saliendo del panel...");
                     return; // rompe el while y vuelve al menú anterior
@@ -70,7 +76,7 @@ public class UsuarioController {
                 2- Editar Perfil
                 3- Eliminar Perfil
                 4- Ver Contenido Disponible
-                5- Ver Playlists -----------------------(Funcionalidad a implementar)------------------------------
+                5- Ver Playlists
                 0- Salir
                 Seleccione una opción:
                 """);
@@ -106,9 +112,18 @@ public class UsuarioController {
         System.out.println("Perfil eliminado. Lo sentimos verte ir, " + user.getNombre());
     }
 
-    private static void verPlaylists() {
-        System.out.println("Ver Playlists seleccionado");
-        System.out.println("Mostrando tus playlists... (funcionalidad en desarrollo)");
+    private static void verPlaylists(Usuario user) throws PlaylistNoEncontradaException {
+        System.out.println("Playlists del usuario");
+        // Verificamos si el usuario tiene playlist activas
+        try {
+            playlistService.validarPlaylistActivas(user);
+        } catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        user.getPlaylists().forEach(playlist -> System.out.println(Colores.AZUL + playlist + Colores.RESET));
+
     }
 
     // ============================================================
@@ -187,7 +202,7 @@ public class UsuarioController {
 
             switch (op) {
                 case 1 -> reproducir(contenido);
-                case 2 -> agregarAPlaylist();
+                case 2 -> agregarAPlaylist(s, idUsuario, contenido);
                 case 3 -> agregarResenia(s, idUsuario, contenido, reseniaService);
                 case 4 -> editarResenia(s, idUsuario, reseniaService);
                 case 5 -> eliminarResenia(idUsuario, reseniaService);
@@ -209,8 +224,45 @@ public class UsuarioController {
         System.out.println("Reproduciendo " + contenido.getTitulo() + " ▶");
     }
 
-    private static void agregarAPlaylist() {
-        System.out.println("Agregar a Playlist seleccionado (funcionalidad en desarrollo)");
+    private static void agregarAPlaylist(Scanner s, String idUsuario, Contenido contenido) {
+        Usuario user;
+        try {
+            user = usuarioService.consulta(idUsuario);
+        }
+        catch (UsuarioNoEncontradoException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        // verificar si el usuario tiene playlists activas
+        try {
+            playlistService.validarPlaylistActivas(user);
+        }
+        catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        System.out.println("Seleccione la playlist a la que desea agregar el contenido:");
+        String idPlaylist = s.nextLine();
+        // verificar si la playlist existe y está activa
+        try {
+            playlistService.validarExistenciaPlaylist(idPlaylist);
+        }
+        catch (PlaylistNoEncontradaException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        Playlist playlistSeleccionada = user.getPlaylists().stream()
+                .filter(p -> p.getId().equals(idPlaylist) && p.isEstado())
+                .findFirst()
+                .orElse(null);
+
+        playlistSeleccionada.getContenidos().put(contenido.getId(), contenido);
+        System.out.println("Contenido agregado a la playlist " + playlistSeleccionada.getNombre());
+
+
     }
 
     // ============================================================

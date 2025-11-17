@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class GestorUsuariosJson {
+public class GestorUsuarioJSON {
 
     private static final String DEFAULT_FILE = "usuarios.json";
+
+    // Instancia del gestor de playlists para (de)serializar listas de playlists dentro del Usuario
+    private static GestorPlaylistJSON gestorPlaylistJSON = new GestorPlaylistJSON();
 
     // Método genérico para aceptar cualquier colección de usuarios
     public <C extends Collection<Usuario>> void listaToArchivo(C lista) {
@@ -31,7 +34,10 @@ public class GestorUsuariosJson {
             jsonObject.put("email", u.getEmail());
             jsonObject.put("contrasena", u.getPassword());
             jsonObject.put("estado", u.getEstado());
-            jsonObject.put("rol", u.getRol() != null ? u.getRol() : JSONObject.NULL);
+            // serializar el rol como nombre (String) para que Rol.valueOf funcione al deserializar
+            jsonObject.put("rol", u.getRol() != null ? u.getRol().name() : JSONObject.NULL);
+            // Serializar playlists del usuario (si existen)
+            jsonObject.put("playlists", u.getPlaylists() != null ? gestorPlaylistJSON.serializarLista(u.getPlaylists()) : JSONObject.NULL);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,6 +88,16 @@ public class GestorUsuariosJson {
                     // rol desconocido, dejar null
                 }
             }
+
+            // Deserializar playlists si están presentes
+            if (jsonObject.has("playlists") && !jsonObject.isNull("playlists")) {
+                try {
+                    u.setPlaylists(gestorPlaylistJSON.deserializarLista(jsonObject.getJSONArray("playlists")));
+                } catch (Exception e) {
+                    // si hay un error al deserializar playlists, dejar como vacía
+                    e.printStackTrace();
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,4 +120,3 @@ public class GestorUsuariosJson {
     }
 
 }
-

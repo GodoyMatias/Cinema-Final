@@ -1,6 +1,6 @@
 package com.cinema.controllers;
 
-import com.cinema.data.GestorUsuariosJson;
+import com.cinema.data.GestorUsuarioJSON;
 import com.cinema.models.usuarios.Rol;
 import com.cinema.models.usuarios.Usuario;
 import com.cinema.utils.Colores;
@@ -21,7 +21,7 @@ public class LoginController {
         String email = s.nextLine();
         System.out.println("Password: ");
         String password = s.nextLine();
-        GestorUsuariosJson g = new GestorUsuariosJson();
+        GestorUsuarioJSON g = new GestorUsuarioJSON();
         Usuario user = login(email, password, g);
 
 
@@ -39,7 +39,7 @@ public class LoginController {
             }
     }
 
-    public static Usuario login(String email, String password, GestorUsuariosJson g) {
+    public static Usuario login(String email, String password, GestorUsuarioJSON g) {
         if (email == null || password == null) return null;
         String targetEmail = email.trim().toLowerCase();
         String targetPassword = password; // considerar hashing en producción

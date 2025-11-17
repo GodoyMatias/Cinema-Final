@@ -1,12 +1,14 @@
 package com.cinema.models.playlist;
 
 import com.cinema.models.contenido.Contenido;
+import com.cinema.utils.Colores;
 
 import java.util.*;
 
 public class Playlist {
 
     private String id;
+    private String idUsuario;
     private String nombre;
     private Map<String, Contenido> contenidos;
     private boolean estado;
@@ -32,39 +34,35 @@ public class Playlist {
         this.id = id;
     }
 
+    public String getIdUsuario() { return idUsuario; }
+
+    public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
+
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
     public Map<String, Contenido> getContenidos() {
         return contenidos;
     }
 
-    public void setContenidos(Map<String, Contenido> contenidos) {
-        this.contenidos = contenidos;
-    }
+    public void setContenidos(Map<String, Contenido> contenidos) { this.contenidos = contenidos; }
 
-    public boolean isEstado() {
-        return estado;
-    }
+    public boolean isEstado() { return estado; }
 
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+    public void setEstado(boolean estado) { this.estado = estado; }
 
 
     @Override
     public String toString() {
-        return "Playlist{" +
-                "id='" + id + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", contenidos=" + contenidos.size() +
-                ", estado=" + estado +
-                '}';
+        return "--------------------------------" + '\n' +
+                "    id= " + id + "\n" +
+                "    Nombre=" + nombre +
+                "    contenidos=" + contenidos.values() +
+                "    estado=" + (estado ? Colores.VERDE + true + Colores.RESET : Colores.ROJO + false + Colores.RESET) +
+                "--------------------------------" + '\n';
     }
 
     @Override

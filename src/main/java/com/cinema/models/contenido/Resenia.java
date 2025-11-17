@@ -1,5 +1,7 @@
 package com.cinema.models.contenido;
 
+import com.cinema.utils.Colores;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -102,7 +104,7 @@ public class Resenia {
                         "    Usuario=" + idUsuario +
                         "    estrellas=" + estrellas +
                         "    comentario=" + comentario +
-                        "    estado=" + estado +
+                        "    estado=" + (estado ? Colores.VERDE + true + Colores.RESET : Colores.ROJO + false + Colores.RESET) +
                         "--------------------------------" + '\n';
     }
 }

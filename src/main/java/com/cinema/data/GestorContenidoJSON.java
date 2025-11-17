@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GestorContenidosJSON {
+public class GestorContenidoJSON {
 
     private static final String DEFAULT_FILE_CONTENIDO = "contenidos.json";
 

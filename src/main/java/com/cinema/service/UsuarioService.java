@@ -1,6 +1,6 @@
 package com.cinema.service;
 
-import com.cinema.data.GestorUsuariosJson;
+import com.cinema.data.GestorUsuarioJSON;
 import com.cinema.exceptions.EmailNoValidoException;
 import com.cinema.exceptions.UsuarioNoEncontradoException;
 import com.cinema.interfaces.ABMCL;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class UsuarioService implements ABMCL<Usuario> {
 
     private HashSet<Usuario> usuarios;
-    private final GestorUsuariosJson gestoraUsuariosJson = new GestorUsuariosJson();
+    private final GestorUsuarioJSON gestoraUsuariosJson = new GestorUsuarioJSON();
 
     public UsuarioService() {
         this.usuarios = gestoraUsuariosJson.archivoALista();

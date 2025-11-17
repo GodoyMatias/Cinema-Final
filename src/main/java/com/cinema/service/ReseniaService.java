@@ -1,6 +1,6 @@
 package com.cinema.service;
 
-import com.cinema.data.GestorContenidosJSON;
+import com.cinema.data.GestorContenidoJSON;
 import com.cinema.interfaces.ABMCL;
 import com.cinema.models.contenido.Contenido;
 import com.cinema.models.contenido.Resenia;
@@ -11,7 +11,7 @@ public class ReseniaService implements ABMCL<Resenia> {
 
     private final List<Resenia> resenias;
     private final Map<String, Contenido> contenidos;
-    private final GestorContenidosJSON gestorContenidosJSON = new GestorContenidosJSON();
+    private final GestorContenidoJSON gestorContenidosJSON = new GestorContenidoJSON();
 
 
     public ReseniaService() {
