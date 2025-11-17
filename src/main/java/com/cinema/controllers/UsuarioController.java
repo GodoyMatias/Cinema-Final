@@ -170,8 +170,8 @@ public class UsuarioController {
     }
 
     private static void opcionesDeContenido(Scanner s, ContenidoService servicio, String idUsuario) {
-        while (true) {
             Contenido contenido = seleccionarContenido(s, servicio);
+        while (true) {
             if (contenido == null) {
                 System.out.println("Contenido no encontrado.");
                 return;

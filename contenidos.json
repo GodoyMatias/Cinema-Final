@@ -50,7 +50,14 @@
         "genero": "ACCION",
         "titulo": "Serie 01",
         "episodios": 21,
-        "resenias": [],
+        "resenias": [{
+            "calificacion": 5,
+            "estado": true,
+            "id": "76fc4e63-f1d0-432a-8805-3f03c6a8b13e",
+            "comentario": "perfecta ahora si",
+            "usuarioId": "997f6f03-9696-4175-8aea-2c7d7932ac06",
+            "contenidoId": "3587bafd-06cd-4f45-bd38-1a42e6d103fe"
+        }],
         "id": "3587bafd-06cd-4f45-bd38-1a42e6d103fe",
         "anio": 1
     }
