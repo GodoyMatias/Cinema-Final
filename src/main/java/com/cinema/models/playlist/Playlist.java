@@ -2,28 +2,25 @@ package com.cinema.models.playlist;
 
 import com.cinema.models.contenido.Contenido;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Playlist {
 
     private String id;
     private String nombre;
-    private HashSet<Contenido> contenidos;
+    private Map<String, Contenido> contenidos;
     private boolean estado;
 
     public Playlist(String nombre) {
         this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
-        this.contenidos = new HashSet<>();
+        this.contenidos = new HashMap<>();
         this.estado = true;
     }
 
     public Playlist() {
         this.id = UUID.randomUUID().toString();
-        this.contenidos = new HashSet<>();
+        this.contenidos = new HashMap<>();
         this.estado = true;
     }
 
@@ -43,11 +40,11 @@ public class Playlist {
         this.nombre = nombre;
     }
 
-    public HashSet<Contenido> getContenidos() {
+    public Map<String, Contenido> getContenidos() {
         return contenidos;
     }
 
-    public void setContenidos(HashSet<Contenido> contenidos) {
+    public void setContenidos(Map<String, Contenido> contenidos) {
         this.contenidos = contenidos;
     }
 

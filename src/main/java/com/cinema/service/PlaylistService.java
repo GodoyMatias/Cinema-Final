@@ -2,19 +2,26 @@ package com.cinema.service;
 
 import com.cinema.data.GestorUsuariosJson;
 import com.cinema.interfaces.ABMCL;
+import com.cinema.models.contenido.Contenido;
 import com.cinema.models.playlist.Playlist;
 import com.cinema.models.usuarios.Usuario;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class PlaylistService implements ABMCL<Playlist> {
-    private final GestorUsuariosJson gestorUsuariosJson;
+    private Playlist playlist;
+
+    public PlaylistService() {
+    }
 
 
     @Override
     public boolean alta(Playlist c) {
+        playlist = c;
+
         return false;
     }
 

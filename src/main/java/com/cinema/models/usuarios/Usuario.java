@@ -29,6 +29,7 @@ public class Usuario {
         this.password = password;
         this.email = email;
         this.rol = rol;
+        this.playlists = new HashSet<>();
     }
 
     public String getId() {
